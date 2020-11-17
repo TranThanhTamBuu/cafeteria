@@ -12,8 +12,8 @@ public class Combo extends Food {
 		this.amount = new ArrayList<>();
 	}
 
-	public Food addDish(Dish dish, int amount) {
-		this.array_dish.add(dish);
+	public Food addFood(Food food, int amount) {
+		this.array_dish.add(food);
 		this.amount.add(amount);
 		return this;
 	}
