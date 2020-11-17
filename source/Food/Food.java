@@ -1,6 +1,6 @@
 package source.Food;
 
-public abstract class Food {
+public class Food {
 	protected String name, type;
 	protected Float discount;
 	protected Integer price;
