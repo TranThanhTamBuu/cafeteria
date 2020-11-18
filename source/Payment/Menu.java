@@ -17,23 +17,23 @@ public class Menu {
 		return instance;
 	}
 
-	public Menu createFood(String name, String type, Float discount, Integer price) {
-		this.menu.add(new Food(name, type, discount, price));
+	public Menu createDish(String name, String type, Float discount, Integer price) {
+		this.menu.add(new Dish(name, type, discount, price));
 		return this;
 	}
 
 	public Menu createCombo() {
-		// TODO: implement this function after design database
+		// TODO: implement this function after designing database
 		return this;
 	}
 
 	public Menu modifyFood(int index) {
-		// TODO: implement this function after design database
+		// TODO: implement this function after designing database
 		return this;
 	}
 
 	public Menu modifyCombo(int index) {
-		// TODO: implement this function after design database
+		// TODO: implement this function after designing database
 		return this;
 	}
 

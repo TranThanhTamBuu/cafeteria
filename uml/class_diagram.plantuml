@@ -1,0 +1,144 @@
+@startuml class_diagram
+
+abstract Food {
+    # name: String
+    # type: String
+    # discount: float
+    # price: int
+
+    + modifyName(String name): void
+    + modifyType(String type): void
+    + modifyDiscount(float discount): void
+    + modifyPrice(int price): void
+    + getName(): String
+    + getType(): String
+    + getDiscount(): float
+    + getPrice(): int
+    + cost(): int
+}
+
+class Combo {
+    - array_dish: Dish[]
+    - amount: int[]
+
+    + addDish(Dish dish, int amount): void
+    + removeDish(int index): void
+    + modifyAmount(int index): void
+}
+
+class Menu << Singleton >> {
+    - menu: Menu
+    - list: Food[]
+
+    - Menu()
+    + getMenuInstance(): Menu
+    + createFood(): void
+    + createCombo(): void
+    + modifyDiscount(int index, float discount): void
+    + modifyFood(int index): void
+    + modifyCombo(int index): void
+    + modifyPrice(int index, int float): void
+    + getFood(int index): Food
+}
+
+class Order {
+    - list: Food[]
+    - amount: int[]
+    - date_time: String
+    - note: String
+
+    + addOrder(): void
+    + removeOrder(): void
+    + modifyOrder(): void
+    + modifyNote(String note): void
+    + payOrder(): void
+}
+
+class Revenue << Singleton >> {
+    - revenue: Revenue
+    - date_time: String[]
+    - type: String[]
+    - name: String[]
+    - amount: int[]
+    - revenue: int[]
+
+    - Revenue()
+    + getInstanceRevenue(): Revenue
+    + deleteRevenue(): void
+    + totalRevenue(String date): int
+}
+
+class OperatorCost << Singleton >> {
+    - operator_cost: OperatorCost
+    - date_time: String[]
+    - type: String[]
+    - name: String[]
+    - cost: int[]
+
+    - OperatorCost()
+    + getInstanceOperatorCost(): OperatorCost
+    + addOperatorCost(String date_time, String type, String name, int cost): void
+    + deleteOperatorCost(int index): void
+    + saveOperatorCost(String path): void
+    + modifyDateTime(int index, String date_time): void
+    + modifyType(int index, String type): void
+    + modifyName(int index, String name): void
+    + modifyCost(int index, int cost): void
+    + totalOperatorCost(String date): int
+}
+
+class GoodsCost << Singleton >> {
+    - goods_cost: GoodsCost
+    - date_time: String[]
+    - type: String[]
+    - name: String[]
+    - amount: int[]
+    - unit: String[]
+    - cost: int[]
+
+    - GoodsCost()
+    + getGoodsCostInstance(): GoodsCost
+    + addGoodsCost(String date_time, String type, String name, int amount, String unit, int cost): void
+    + deleteGoodsCost(int index): void
+    + saveGoodsCost(String path): void
+    + modifyDateTime(int index, String date_time): void
+    + modifyType(int index, String type): void
+    + modifyName(int index, String name): void
+    + modifyAmount(int index, int cost): void
+    + modifyUnit(int index, String unit): void
+    + modifyCost(int index, int cost): void
+    + totalGoodsCost(String date): int
+}
+
+class Income << Singleton >> {
+    - income: Income
+
+    - Income()
+    + getInstanceIncome(): Income
+    + calcIncome(String date): int
+}
+
+
+Combo --|> Food: extends
+Dish --|> Food: extends
+Dish  "1..*" --o "1..*" Combo
+Order "1..*" o-- "1..*" Food
+Menu "1" o-- "1..*" Food
+Revenue --> Income
+OperatorCost --> Income
+GoodsCost --> Income
+
+class GUI{
+
+}
+
+Order "1..*" --o "1" GUI
+Menu "1" --o "1" GUI
+OperatorCost "1" --o "1" GUI
+GoodsCost "1" --o "1" GUI
+Revenue "1" --o "1" GUI
+Income "1" --o "1" GUI
+
+
+
+@enduml

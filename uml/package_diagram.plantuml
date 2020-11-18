@@ -1,0 +1,28 @@
+@startuml package_diagram
+
+class GUI
+
+package project.menu_order {
+    Order "1..*" o-- "1..*" project.dish_combo.Food
+    Menu "1" o-- "1..*" project.dish_combo.Food
+    Menu "1" --o "1" .GUI
+}
+
+package project.dish_combo {
+    Dish --|> Food: extends
+    Combo --|> Food: extends
+    Dish  "1..*" --o "1..*" Combo
+}
+
+package project.revenue_management {
+    Revenue --> Income
+    OperatorCost --> Income
+    GoodsCost --> Income
+    Order "1..*" --o "1" .GUI
+    OperatorCost "1" --o "1" .GUI
+    GoodsCost "1" --o "1" .GUI
+    Revenue "1" --o "1" .GUI
+    Income "1" --o "1" .GUI
+}
+
+@enduml
