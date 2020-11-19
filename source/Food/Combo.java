@@ -3,7 +3,7 @@ package source.Food;
 import java.util.ArrayList;
 
 public class Combo extends Food {
-	ArrayList<Food> array_dish;
+	ArrayList<Dish> array_dish;
 	ArrayList<Integer> amount;
 
 	public Combo(String name, String type, Float discount, Integer price) {
@@ -12,8 +12,8 @@ public class Combo extends Food {
 		this.amount = new ArrayList<>();
 	}
 
-	public Food addFood(Food food, int amount) {
-		this.array_dish.add(food);
+	public Food addDish(Dish dish, int amount) {
+		this.array_dish.add(dish);
 		this.amount.add(amount);
 		return this;
 	}
@@ -28,4 +28,5 @@ public class Combo extends Food {
 		this.amount.set(index, amount);
 		return this;
 	}
+
 }

@@ -22,28 +22,8 @@ public class Menu {
 		return this;
 	}
 
-	public Menu createCombo() {
-		// TODO: implement this function after designing database
-		return this;
-	}
-
-	public Menu modifyFood(int index) {
-		// TODO: implement this function after designing database
-		return this;
-	}
-
-	public Menu modifyCombo(int index) {
-		// TODO: implement this function after designing database
-		return this;
-	}
-
-	public Menu modifyPrice(int index, Integer price) {
-		menu.get(index).modifyPrice(price);
-		return this;
-	}
-
-	public Menu modifyDiscount(int index, Float discount) {
-		menu.get(index).modifyDiscount(discount);
+	public Menu createCombo(String name, String type, Float discount, Integer price) {
+		this.menu.add(new Combo(name, type, discount, price));
 		return this;
 	}
 
@@ -57,6 +37,7 @@ public class Menu {
 	}
 
 	public Food getFood(int index) {
-		return menu.get(index);
+		return getFood(index);
 	}
+
 }
