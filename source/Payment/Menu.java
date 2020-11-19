@@ -39,5 +39,4 @@ public class Menu {
 	public Food getFood(int index) {
 		return getFood(index);
 	}
-
 }
