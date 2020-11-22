@@ -7,13 +7,13 @@ import source.Food.Food;
 
 public class Order {
     private ArrayList<Food> list;
-    private ArrayList<Integer> amount;
+    private ArrayList<Integer> quantity;
     private LocalDateTime date_time;
     private String note;
 
     public Order() {
         this.list = new ArrayList<>();
-        this.amount = new ArrayList<>();
+        this.quantity = new ArrayList<>();
         this.date_time = LocalDateTime.now();
         this.note = "";
     }
@@ -21,35 +21,35 @@ public class Order {
     public Order addOrder(Food food) {
         for (Food f : list) {
             if (f == food) {
-                increaseAmount(this.list.indexOf(f));
+                increaseQuantity(this.list.indexOf(f));
                 return this;
             }
         }
 
         this.list.add(food);
-        this.amount.add(1);
+        this.quantity.add(1);
 
         return this;
     }
 
     public Order removeOrder(int index) {
         this.list.remove(index);
-        this.amount.remove(index);
+        this.quantity.remove(index);
         return this;
     }
 
-    public Order increaseAmount(int index) {
-        this.amount.set(index, this.amount.get(index) + 1);
+    public Order increaseQuantity(int index) {
+        this.quantity.set(index, this.quantity.get(index) + 1);
         return this;
     }
 
-    public Order decreaseAmount(int index) {
-        int n = this.amount.get(index);
+    public Order decreaseQuantity(int index) {
+        int n = this.quantity.get(index);
 
         if (n - 1 == 0)
             removeOrder(index);
         else
-            this.amount.set(index, n - 1);
+            this.quantity.set(index, n - 1);
 
         return this;
     }
@@ -59,11 +59,11 @@ public class Order {
         return this;
     }
 
-    public long calcOrder() {
-        long sum = 0;
+    public Long calcOrder() {
+        Long sum = 0L;
 
         for (Food f : list) {
-            sum += (long) f.getPrice() * f.getDiscount();
+            sum += f.cost();
         }
 
         return sum;
@@ -72,4 +72,5 @@ public class Order {
     public void writeOrder() {
         // TODO: implement this function after designing database
     }
+
 }

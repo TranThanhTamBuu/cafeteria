@@ -1,15 +1,15 @@
 package source.Food;
 
 public class Dish extends Food {
-    String specification;
+    private String specific_type;
 
-    public Dish(String name, String type, Float discount, Integer price) {
-        super(name, type, discount, price);
-        this.specification = "";
+    public Dish(Integer id, String name, String specific_type, Float discount, Integer price) {
+        super(id, name, specific_type, discount, price);
+        this.specific_type = "";
     }
 
-    public Dish modifySpecification(String specification) {
-        this.specification = specification;
+    public Dish modifySpecification(String specific_type) {
+        this.specific_type = specific_type;
         return this;
     }
 

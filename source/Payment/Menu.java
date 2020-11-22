@@ -17,19 +17,19 @@ public class Menu {
 		return instance;
 	}
 
-	public Menu createDish(String name, String type, Float discount, Integer price) {
-		this.menu.add(new Dish(name, type, discount, price));
+	public Menu createDish(Integer id, String name, String type, Float discount, Integer price) {
+		this.menu.add(new Dish(id, name, type, discount, price));
 		return this;
 	}
 
-	public Menu createCombo(String name, String type, Float discount, Integer price) {
-		this.menu.add(new Combo(name, type, discount, price));
+	public Menu createCombo(Integer id, String name, String type, Float discount, Integer price) {
+		this.menu.add(new Combo(id, name, type, discount, price));
 		return this;
 	}
 
-	public Menu modifyDiscount(String type, Float discount) {
+	public Menu modifyDiscount(String category, Float discount) {
 		for (Food f : menu) {
-			if (f.getType() == type)
+			if (f.getCategory() == category)
 				f.modifyDiscount(discount);
 		}
 

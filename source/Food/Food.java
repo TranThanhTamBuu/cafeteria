@@ -1,13 +1,15 @@
 package source.Food;
 
 public abstract class Food {
-	protected String name, type;
+	protected Integer id;
+	protected String name, category;
 	protected Float discount;
 	protected Integer price;
 
-	public Food(String name, String type, Float discount, Integer price) {
+	public Food(Integer id, String name, String category, Float discount, Integer price) {
+		this.id = id;
 		this.name = name;
-		this.type = type;
+		this.category = category;
 		this.discount = discount;
 		this.price = price;
 	}
@@ -17,8 +19,8 @@ public abstract class Food {
 		return this;
 	}
 
-	public Food modifyType(String type) {
-		this.type = type;
+	public Food modifyCategory(String category) {
+		this.category = category;
 		return this;
 	}
 
@@ -44,8 +46,11 @@ public abstract class Food {
 		return price;
 	}
 
-	public String getType() {
-		return type;
+	public String getCategory() {
+		return category;
 	}
 
+	public Long cost() {
+		return (long) ((long) price - (price * discount));
+	}
 }

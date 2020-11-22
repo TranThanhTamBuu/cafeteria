@@ -1,57 +1,56 @@
 @startuml class_diagram
 
 abstract Food {
+    # id: Integer
     # name: String
-    # type: String
-    # discount: float
-    # price: int
+    # category: String
+    # discount: Float
+    # price: Integer
 
-    + modifyName(String name): void
-    + modifyType(String type): void
-    + modifyDiscount(float discount): void
-    + modifyPrice(int price): void
+    + modifyName(String name): Food
+    + modifyCategory(String category): Food
+    + modifyDiscount(Float discount): Food
+    + modifyPrice(Integer price): Food
     + getName(): String
     + getType(): String
-    + getDiscount(): float
-    + getPrice(): int
-    + cost(): int
+    + getDiscount(): Float
+    + getPrice(): Integer
+    + cost(): Long
 }
 
 class Combo {
-    - array_dish: Dish[]
-    - amount: int[]
+    - array_dish: ArrayList<Dish>
+    - quantity: ArrayList<Integer>
 
-    + addDish(Dish dish, int amount): void
-    + removeDish(int index): void
-    + modifyAmount(int index): void
+    + addDish(Dish dish, int amount): Combo
+    + removeDish(int index): Combo
+    + modifyAmount(int index): Combo
 }
 
 class Menu << Singleton >> {
-    - menu: Menu
-    - list: Food[]
+    - instance: Menu
+    - list: ArrayList<Food>
 
     - Menu()
-    + getMenuInstance(): Menu
-    + createFood(): void
-    + createCombo(): void
-    + modifyDiscount(int index, float discount): void
-    + modifyFood(int index): void
-    + modifyCombo(int index): void
-    + modifyPrice(int index, int float): void
+    + getInstance(): Menu
+    + createDish(): Menu
+    + createCombo(): Menu
+    + modifyDiscount(String category, Float discount): Menu
     + getFood(int index): Food
 }
 
 class Order {
-    - list: Food[]
-    - amount: int[]
-    - date_time: String
+    - list: ArrayList<Food>
+    - quantity: ArrayList<Food>
+    - date_time: LocalDateTime
     - note: String
 
-    + addOrder(): void
-    + removeOrder(): void
-    + modifyOrder(): void
-    + modifyNote(String note): void
-    + payOrder(): void
+    + addOrder(Food food): Order
+    + removeOrder(int index): Order
+    + increaseQuantity(int index): Order
+    + decreaseQuantity(int index): Order
+    + modifyNote(String note): Order
+    + calcOrder(): Long
 }
 
 class Revenue << Singleton >> {
@@ -118,6 +117,9 @@ class Income << Singleton >> {
     + calcIncome(String date): int
 }
 
+class Dish {
+    - specification
+}
 
 Combo --|> Food: extends
 Dish --|> Food: extends

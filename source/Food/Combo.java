@@ -4,28 +4,28 @@ import java.util.ArrayList;
 
 public class Combo extends Food {
 	ArrayList<Dish> array_dish;
-	ArrayList<Integer> amount;
+	ArrayList<Integer> quantity;
 
-	public Combo(String name, String type, Float discount, Integer price) {
-		super(name, type, discount, price);
+	public Combo(Integer id, String name, String type, Float discount, Integer price) {
+		super(id, name, type, discount, price);
 		this.array_dish = new ArrayList<>();
-		this.amount = new ArrayList<>();
+		this.quantity = new ArrayList<>();
 	}
 
-	public Food addDish(Dish dish, int amount) {
+	public Combo addDish(Dish dish, int amount) {
 		this.array_dish.add(dish);
-		this.amount.add(amount);
+		this.quantity.add(amount);
 		return this;
 	}
 
-	public Food removeDish(int index) {
+	public Combo removeDish(int index) {
 		this.array_dish.remove(index);
-		this.amount.remove(index);
+		this.quantity.get(index);
 		return this;
 	}
 
-	public Food modifyAmount(int index, int amount) {
-		this.amount.set(index, amount);
+	public Combo modifyAmount(int index, int amount) {
+		this.quantity.set(index, amount);
 		return this;
 	}
 
