@@ -9,5 +9,6 @@ public class ManagementCost {
     }
 
     public void writeCost(Cost newCost) {
+        return;
     }
 }
