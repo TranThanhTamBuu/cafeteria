@@ -1,29 +1,44 @@
 package source.Management;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Cost {
-    protected String typeId;
-    protected String name;
+    protected Integer id;
+    protected Character type;
+    protected LocalDate date;
+    protected String description;
+    protected Integer quantity;
     protected Integer unitId;
-    protected Integer costAmount;
-    protected Date date;
+    protected Integer totalAmount;
 
-    public Cost(String typeId, String name, Integer unitId, Integer costAmount, Date date) {
-        this.typeId = typeId;
-        this.name = name;
-        this.unitId = unitId;
-        this.costAmount = costAmount;
+    public Cost(Integer id, Character type, LocalDate date, String description, Integer quantity, Integer unitId,
+            Integer totalAmount) {
+        this.id = id;
+        this.type = type;
         this.date = date;
+        this.description = description;
+        this.quantity = quantity;
+        this.unitId = unitId;
+        this.totalAmount = totalAmount;
     }
 
-    public Cost modifyTypeId(String typeId) {
-        this.typeId = typeId;
+    public Cost modifyType(Character type) {
+        this.type = type;
         return this;
     }
-    
-    public Cost modifyName(String name) {
-        this.name = name;
+
+    public Cost modifyDate(LocalDate date) {
+        this.date = date;
+        return this;
+    }
+
+    public Cost modifyDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public Cost modifyQuantity(Integer quantity) {
+        this.quantity = quantity;
         return this;
     }
 
@@ -32,33 +47,36 @@ public class Cost {
         return this;
     }
 
-    public Cost modifyCostAmount(Integer costAmount) {
-        this.costAmount = costAmount;
+    public Cost modifyCostAmount(Integer totalAmount) {
+        this.totalAmount = totalAmount;
         return this;
     }
 
-    public Cost modifyDate(Date date) {
-        this.date = date;
-        return this;
+    public Integer getId() {
+        return this.id;
     }
 
-    public String getTypeId() {
-        return this.typeId;
+    public Character getType() {
+        return this.type;
     }
 
-    public String getName() {
-        return this.name;
+    public LocalDate getDate() {
+        return this.date;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public Integer getQuantity() {
+        return this.quantity;
     }
 
     public Integer getUnitId() {
         return this.unitId;
     }
 
-    public Integer getCostAmount() {
-        return this.costAmount;
-    }
-
-    public Date getDate() {
-        return this.date;
+    public Integer getTotalAmount() {
+        return this.totalAmount;
     }
 }
