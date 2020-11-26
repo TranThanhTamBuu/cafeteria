@@ -2,25 +2,24 @@
 
 class GUI
 
-package project.menu_order {
-    Order "1..*" o-- "1..*" project.dish_combo.Food
-    Menu "1" o-- "1..*" project.dish_combo.Food
+package source.Payment {
+    Order "1..*" o-- "1..*" source.Food.Food
+    Menu "1" o-- "1..*" source.Food.Food
     Menu "1" --o "1" .GUI
 }
 
-package project.dish_combo {
+package source.Food {
     Dish --|> Food: extends
     Combo --|> Food: extends
-    Dish  "1..*" --o "1..*" Combo
+    Dish  "1..*" -o "1..*" Combo
 }
 
-package project.revenue_management {
+package source.Management {
+    Unit "1" -* "1..*" Cost
     Revenue --> Income
-    OperatorCost --> Income
-    GoodsCost --> Income
+    Cost --> Income
     Order "1..*" --o "1" .GUI
-    OperatorCost "1" --o "1" .GUI
-    GoodsCost "1" --o "1" .GUI
+    Cost "1" --o "1" .GUI
     Revenue "1" --o "1" .GUI
     Income "1" --o "1" .GUI
 }

@@ -67,48 +67,6 @@ class Revenue << Singleton >> {
     + totalRevenue(String date): int
 }
 
-class OperatorCost << Singleton >> {
-    - operator_cost: OperatorCost
-    - date_time: String[]
-    - type: String[]
-    - name: String[]
-    - cost: int[]
-
-    - OperatorCost()
-    + getInstanceOperatorCost(): OperatorCost
-    + addOperatorCost(String date_time, String type, String name, int cost): void
-    + deleteOperatorCost(int index): void
-    + saveOperatorCost(String path): void
-    + modifyDateTime(int index, String date_time): void
-    + modifyType(int index, String type): void
-    + modifyName(int index, String name): void
-    + modifyCost(int index, int cost): void
-    + totalOperatorCost(String date): int
-}
-
-class GoodsCost << Singleton >> {
-    - goods_cost: GoodsCost
-    - date_time: String[]
-    - type: String[]
-    - name: String[]
-    - amount: int[]
-    - unit: String[]
-    - cost: int[]
-
-    - GoodsCost()
-    + getGoodsCostInstance(): GoodsCost
-    + addGoodsCost(String date_time, String type, String name, int amount, String unit, int cost): void
-    + deleteGoodsCost(int index): void
-    + saveGoodsCost(String path): void
-    + modifyDateTime(int index, String date_time): void
-    + modifyType(int index, String type): void
-    + modifyName(int index, String name): void
-    + modifyAmount(int index, int cost): void
-    + modifyUnit(int index, String unit): void
-    + modifyCost(int index, int cost): void
-    + totalGoodsCost(String date): int
-}
-
 class Income << Singleton >> {
     - income: Income
 
@@ -117,27 +75,67 @@ class Income << Singleton >> {
     + calcIncome(String date): int
 }
 
+class Cost {
+    # id: Integer
+    # type: Character
+    # date: LocalDate
+    # quantity: Float
+    # unitId: Integer
+    # totalAmount: Integer
+
+    + modifyType(Character type): Cost
+    + modifyDate(LocalDate date): Cost
+    + modifyDescription(String description): Cost
+    + modifyQuantity(Float quantity): Cost
+    + modifyUnit(Integer unitID): Cost
+    + modifyCostAmount(Integer totalAmount): Cost
+    + getID(): Integer
+    + getType(): Character
+    + getDate(): LocalDate
+    + getDescription(): String
+    + getQuantity(): Float
+    + getUnitID(): Integer
+    + getTotalAmount(): Integer
+}
+
+class ManagementCost << Singleton >> {
+    - ManagementCost()
+    + getInstance(): ManagementCost
+    + readCost(): ArrayList<Cost>
+    + writeCost(Cost newCost): void
+}
+
+class Unit {
+    # id: Integer
+    # name: String
+
+    + modifyName(String name): UnitID
+    + getID(): Integer
+    + getName(): String
+}
+
 class Dish {
     - specification
 }
 
+
 Combo --|> Food: extends
 Dish --|> Food: extends
-Dish  "1..*" --o "1..*" Combo
-Order "1..*" o-- "1..*" Food
-Menu "1" o-- "1..*" Food
+Dish  "1..*" -o "1..*" Combo
+Order "1..*" o- "1..*" Food
+Food "1..*" --o "1" Menu
 Revenue --> Income
-OperatorCost --> Income
-GoodsCost --> Income
+ManagementCost --> Income
 
 class GUI{
 
 }
 
-Order "1..*" --o "1" GUI
+Unit "1" -* "1..*" Cost
+Cost "1..*" --* "1" ManagementCost
+Order "1..*" -o "1" GUI
 Menu "1" --o "1" GUI
-OperatorCost "1" --o "1" GUI
-GoodsCost "1" --o "1" GUI
+ManagementCost "1" --o "1" GUI
 Revenue "1" --o "1" GUI
 Income "1" --o "1" GUI
 
