@@ -7,11 +7,11 @@ public class Cost {
     protected Character type;
     protected LocalDate date;
     protected String description;
-    protected Integer quantity;
+    protected Float quantity;
     protected Integer unitId;
     protected Integer totalAmount;
 
-    public Cost(Integer id, Character type, LocalDate date, String description, Integer quantity, Integer unitId,
+    public Cost(Integer id, Character type, LocalDate date, String description, Float quantity, Integer unitId,
             Integer totalAmount) {
         this.id = id;
         this.type = type;
@@ -37,7 +37,7 @@ public class Cost {
         return this;
     }
 
-    public Cost modifyQuantity(Integer quantity) {
+    public Cost modifyQuantity(Float quantity) {
         this.quantity = quantity;
         return this;
     }
@@ -68,7 +68,7 @@ public class Cost {
         return this.description;
     }
 
-    public Integer getQuantity() {
+    public Float getQuantity() {
         return this.quantity;
     }
 
