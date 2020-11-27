@@ -1,11 +1,17 @@
 package source.Payment;
 
+import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import source.Database.Database;
 import source.Food.Food;
 
 public class Order {
+    public static enum ReadBy {
+        DAY, MONTH, YEAR
+    }
+
     private ArrayList<Food> list;
     private ArrayList<Integer> quantity;
     private LocalDateTime date_time;

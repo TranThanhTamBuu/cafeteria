@@ -13,4 +13,8 @@ public class Dish extends Food {
         return this;
     }
 
+    public String toString() {
+        return String.format("%s | %s\n", this.id, this.name);
+    }
+
 }

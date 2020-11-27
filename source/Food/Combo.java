@@ -1,6 +1,8 @@
 package source.Food;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class Combo extends Food {
 	ArrayList<Dish> array_dish;
@@ -29,4 +31,7 @@ public class Combo extends Food {
 		return this;
 	}
 
+	public String toString() {
+		return "Combo ID: " + this.id + "\n" + Arrays.toString(this.array_dish.toArray());
+	}
 }

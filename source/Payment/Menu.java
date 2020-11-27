@@ -1,6 +1,9 @@
 package source.Payment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 import source.Food.*;
 
@@ -38,5 +41,35 @@ public class Menu {
 
 	public Food getFood(int index) {
 		return getFood(index);
+	}
+
+	public <T> T FindGenFood(int ID) {
+		int foundIdx = Collections.binarySearch(this.menu, new Dish(ID, "", "", 0f, 0), new Comparator<Food>() {
+
+			@Override
+			public int compare(Food o1, Food o2) {
+				// TODO Auto-generated method stub
+				if (o1.GetID() < o2.GetID()) {
+					return -1;
+				} else if (o1.GetID() > o2.GetID()) {
+					return 1;
+				}
+				return 0;
+			}
+
+		});
+
+		if (foundIdx < 0) {
+			return null;
+		}
+		return (T) this.menu.get(foundIdx);
+	}
+
+	public <T extends Food> void AddAllGenFood(ArrayList<T> foods) {
+		this.menu.addAll(foods);
+	}
+
+	public void PrintMenu() {
+		System.out.println(Arrays.toString(this.menu.toArray()));
 	}
 }

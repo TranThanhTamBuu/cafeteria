@@ -53,4 +53,8 @@ public abstract class Food {
 	public Long cost() {
 		return (long) ((long) price - (price * discount));
 	}
+
+	public int GetID() {
+		return this.id;
+	}
 }

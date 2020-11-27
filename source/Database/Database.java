@@ -10,6 +10,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+
+import source.Food.Combo;
+import source.Food.Dish;
+import source.Payment.Menu;
 
 public class Database {
     private static final Database instance = new Database();
@@ -101,6 +106,59 @@ public class Database {
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }
+    }
+
+    public ArrayList<Dish> ReadAllDishes() {
+        String query = "select * from menu where type = 'D'";
+        Statement stmt;
+        ArrayList<Dish> dishes = new ArrayList<>();
+        try {
+            stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                dishes.add(new Dish(rs.getInt(Field.Menu.ID.GetIdx()), rs.getString(Field.Menu.Name.GetIdx()),
+                        rs.getString(Field.Menu.SpecificTypeID.GetIdx()), rs.getFloat(Field.Menu.Discount.GetIdx()),
+                        rs.getInt(Field.Menu.Price.GetIdx())));
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            return dishes;
+        }
+    }
+
+    public ArrayList<Combo> ReadAllCombos() {
+        Statement stmt;
+        Statement stmt1;
+        ArrayList<Combo> combos = new ArrayList<>();
+        try {
+            stmt = this.conn.createStatement();
+            stmt1 = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from menu where type = 'C'");
+
+            while (rs.next()) {
+                Combo curCb = new Combo(rs.getInt(Field.Menu.ID.GetIdx()), rs.getString(Field.Menu.Name.GetIdx()),
+                        rs.getString(Field.Menu.SpecificTypeID.GetIdx()), rs.getFloat(Field.Menu.Discount.GetIdx()),
+                        rs.getInt(Field.Menu.Price.GetIdx()));
+                combos.add(curCb);
+
+                ResultSet rs1 = stmt1
+                        .executeQuery(String.format("select * from combo c where c.comboid = %s", curCb.GetID()));
+
+                while (rs1.next()) {
+                    curCb.addDish(Menu.getInstance().FindGenFood(rs1.getInt(Field.Combo.DishID.GetIdx())),
+                            rs1.getInt(Field.Combo.Quantity.GetIdx()));
+                }
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            return combos;
         }
     }
 }
