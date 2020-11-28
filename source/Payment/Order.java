@@ -12,40 +12,45 @@ public class Order {
         DAY, MONTH, YEAR
     }
 
-    private ArrayList<Food> list;
+    private int id;
+    private ArrayList<Integer> list_foodID;
     private ArrayList<Integer> quantity;
     private LocalDateTime date_time;
     private String note;
 
-    public Order() {
-        this.list = new ArrayList<>();
+    public Order(int id, LocalDateTime date_time, String note) {
+        this.list_foodID = new ArrayList<>();
         this.quantity = new ArrayList<>();
-        this.date_time = LocalDateTime.now();
-        this.note = "";
+        this.date_time = date_time;
+        this.note = note;
     }
 
-    public Order addOrder(Food food) {
-        for (Food f : list) {
-            if (f == food) {
-                increaseQuantity(this.list.indexOf(f));
+    public int GetID() {
+        return this.id;
+    }
+
+    public Order addFood(Integer foodID, int quantity) {
+        for (Integer fID : list_foodID) {
+            if (fID == foodID) {
+                increaseQuantity(this.list_foodID.indexOf(fID), quantity);
                 return this;
             }
         }
 
-        this.list.add(food);
+        this.list_foodID.add(foodID);
         this.quantity.add(1);
 
         return this;
     }
 
-    public Order removeOrder(int index) {
-        this.list.remove(index);
+    public Order removeFood(int index) {
+        this.list_foodID.remove(index);
         this.quantity.remove(index);
         return this;
     }
 
-    public Order increaseQuantity(int index) {
-        this.quantity.set(index, this.quantity.get(index) + 1);
+    public Order increaseQuantity(int index, int quantity) {
+        this.quantity.set(index, this.quantity.get(index) + quantity);
         return this;
     }
 
@@ -53,7 +58,7 @@ public class Order {
         int n = this.quantity.get(index);
 
         if (n - 1 == 0)
-            removeOrder(index);
+            removeFood(index);
         else
             this.quantity.set(index, n - 1);
 
@@ -65,15 +70,15 @@ public class Order {
         return this;
     }
 
-    public Long calcOrder() {
-        Long sum = 0L;
+    // public Long calcOrder() {
+    // Long sum = 0L;
 
-        for (Food f : list) {
-            sum += f.cost();
-        }
+    // for (Food f : list_foodID) {
+    // sum += f.cost();
+    // }
 
-        return sum;
-    }
+    // return sum;
+    // }
 
     public void writeOrder() {
         // TODO: implement this function after designing database

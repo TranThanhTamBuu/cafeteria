@@ -10,13 +10,22 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import source.Food.Combo;
 import source.Food.Dish;
+import source.Management.Cost;
 import source.Payment.Menu;
+import source.Payment.Order;
 
 public class Database {
+    public static enum ReadBy {
+        DAY, MONTH, YEAR
+    }
+
     private static final Database instance = new Database();
 
     private String DB_NAME = "db_cftr";
@@ -127,13 +136,14 @@ public class Database {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
+            stmt.close();
             return dishes;
         }
     }
 
     public ArrayList<Combo> ReadAllCombos() {
-        Statement stmt;
-        Statement stmt1;
+        Statement stmt = null;
+        Statement stmt1 = null;
         ArrayList<Combo> combos = new ArrayList<>();
         try {
             stmt = this.conn.createStatement();
@@ -150,15 +160,129 @@ public class Database {
                         .executeQuery(String.format("select * from combo c where c.comboid = %s", curCb.GetID()));
 
                 while (rs1.next()) {
-                    curCb.addDish(Menu.getInstance().FindGenFood(rs1.getInt(Field.Combo.DishID.GetIdx())),
-                            rs1.getInt(Field.Combo.Quantity.GetIdx()));
+                    curCb.addDish(rs1.getInt(Field.Combo.DishID.GetIdx()), rs1.getInt(Field.Combo.Quantity.GetIdx()));
                 }
             }
+
+            stmt.close();
+            stmt1.close();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } finally {
-            return combos;
         }
+        return combos;
+    }
+
+    public ArrayList<Order> ReadOrderBy(ReadBy readBy, LocalDateTime date) {
+        ArrayList<Order> orders = new ArrayList<Order>();
+
+        try {
+            Statement stmt = conn.createStatement();
+            Statement stmt1 = conn.createStatement();
+
+            String query = "";
+
+            switch (readBy) {
+                case DAY: {
+                    query = String.format("select * from payment where convert(datepayment, date) = '%s-%s-%s'",
+                            date.getYear(), date.getMonthValue(), date.getDayOfMonth());
+
+                    break;
+                }
+                case MONTH: {
+                    query = String.format(
+                            "select * from payment where month(convert(datepayment, date)) = %s and year(convert(datepayment, date)) = %s",
+                            date.getMonthValue(), date.getYear());
+
+                    break;
+                }
+
+                case YEAR: {
+                    query = String.format("select * from payment where year(convert(datepayment, date)) = %s",
+                            date.getYear());
+
+                    break;
+                }
+            }
+
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                Order curOr = new Order(rs.getInt(Field.Payment.ID.GetIdx()),
+                        rs.getObject(Field.Payment.DateTime.GetIdx(), LocalDateTime.class),
+                        rs.getString(Field.Payment.Note.GetIdx()));
+                orders.add(curOr);
+
+                ResultSet rs1 = stmt1.executeQuery(
+                        String.format("select * from specificpayment where paymentid = %s", curOr.GetID()));
+
+                while (rs1.next()) {
+                    curOr.addFood(rs.getInt(Field.SpecificPayment.FoodID.GetIdx()),
+                            rs.getInt(Field.SpecificPayment.Quantity.GetIdx()));
+                }
+            }
+
+            stmt.close();
+            stmt1.close();
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return orders;
+    }
+
+    public ArrayList<Cost> ReadCostBy(ReadBy readBy, LocalDateTime date) {
+        ArrayList<Cost> costs = new ArrayList<Cost>();
+
+        try {
+            Statement stmt = conn.createStatement();
+            Statement stmt1 = conn.createStatement();
+
+            String query = "";
+
+            switch (readBy) {
+                case DAY: {
+                    query = String.format("select * from payment where convert(datepayment, date) = '%s-%s-%s'",
+                            date.getYear(), date.getMonthValue(), date.getDayOfMonth());
+
+                    break;
+                }
+                case MONTH: {
+                    query = String.format(
+                            "select * from payment where month(convert(datepayment, date)) = %s and year(convert(datepayment, date)) = %s",
+                            date.getMonthValue(), date.getYear());
+
+                    break;
+                }
+
+                case YEAR: {
+                    query = String.format("select * from payment where year(convert(datepayment, date)) = %s",
+                            date.getYear());
+
+                    break;
+                }
+            }
+
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                Cost curCost = new Cost(rs.getInt(Field.Cost.ID.GetIdx()),
+                        rs.getString(Field.Cost.Type.GetIdx()).charAt(0),
+                        rs.getObject(Field.Cost.Date.GetIdx(), LocalDate.class),
+                        rs.getString(Field.Cost.Description.GetIdx()), rs.getFloat(Field.Cost.Quantity.GetIdx()),
+                        rs.getInt(Field.Cost.UnitID.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx()));
+
+                costs.add(curCost);
+            }
+
+            stmt.close();
+            stmt1.close();
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return costs;
     }
 }
