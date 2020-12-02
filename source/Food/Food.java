@@ -1,6 +1,6 @@
 package source.Food;
 
-public abstract class Food {
+public abstract class Food implements Comparable<Food> {
 	protected Integer id;
 	protected String name, category;
 	protected Float discount;
@@ -56,5 +56,12 @@ public abstract class Food {
 
 	public int GetID() {
 		return this.id;
+	}	
+
+	@Override
+	public int compareTo(Food o) {
+		if (this.id < o.id) return -1;
+		else if (this.id > o.id) return 1;
+		return 0;
 	}
 }

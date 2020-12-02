@@ -7,10 +7,7 @@ import java.util.ArrayList;
 import source.Database.Database;
 import source.Food.Food;
 
-public class Order {
-    public static enum ReadBy {
-        DAY, MONTH, YEAR
-    }
+public class Order {    
 
     private int id;
     private ArrayList<Integer> list_foodID;

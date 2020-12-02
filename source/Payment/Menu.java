@@ -57,7 +57,7 @@ public class Menu {
 				return 0;
 			}
 
-		});
+		});		
 
 		if (foundIdx < 0) {
 			return null;
@@ -71,5 +71,9 @@ public class Menu {
 
 	public void PrintMenu() {
 		System.out.println(Arrays.toString(this.menu.toArray()));
+	}
+
+	public void Sort() {
+		Collections.sort(this.menu);
 	}
 }

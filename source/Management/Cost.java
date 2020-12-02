@@ -3,6 +3,9 @@ package source.Management;
 import java.time.LocalDate;
 
 public class Cost {
+    
+
+
     protected Integer id;
     protected Character type;
     protected LocalDate date;
