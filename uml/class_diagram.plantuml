@@ -1,5 +1,7 @@
 @startuml class_diagram
 
+left to right direction
+
 abstract Food {
     # id: Integer
     # name: String
@@ -19,12 +21,13 @@ abstract Food {
 }
 
 class Combo {
-    - array_dish: ArrayList<Dish>
+    - array_dishID: ArrayList<Integer>
     - quantity: ArrayList<Integer>
 
-    + addDish(Dish dish, int amount): Combo
+    + addDish(int dishID, int amount): Combo
     + removeDish(int index): Combo
     + modifyAmount(int index): Combo
+    + toString(): String
 }
 
 class Menu << Singleton >> {
@@ -37,15 +40,21 @@ class Menu << Singleton >> {
     + createCombo(): Menu
     + modifyDiscount(String category, Float discount): Menu
     + getFood(int index): Food
+    + findGenFood: T
+    + addAllGenFood(ArrayList<T extends Food> foods): void
+    + PrintMenu(): void
 }
 
 class Order {
-    - list: ArrayList<Food>
+    - id: int
+    - list_foodID: ArrayList<Food>
     - quantity: ArrayList<Food>
     - date_time: LocalDateTime
     - note: String
 
-    + addOrder(Food food): Order
+
+    + addFood(Integer foodID, int quantity) Order
+    + fetID(): int
     + removeOrder(int index): Order
     + increaseQuantity(int index): Order
     + decreaseQuantity(int index): Order
@@ -118,7 +127,34 @@ class Dish {
     - specification
 }
 
+class Database << Singleton >> {
+    - Database()
+    - initData():
+    + initDatabase(): void
+    + getConnection(): Connection
+    + closeConnection(): void
+    + readAllDishes(): ArrayList<Dish>
+    + readAllCombo(): ArrayList<Combo>
+    + readOrderBy(ReadBy readBy, LocalDateTime date): ArrayList<Order>
+    + readCostBy(ReadBy readBy, LocalDateTime date): ArrayList<Cost>
+}
 
+class Field {
+    + Menu: static enum
+    + Category: static enum
+    + SpecificType: static enum
+    + Combo: static enum
+    + Payment: static enum
+    + SpecificPayment: static enum
+    + Cost: static enum
+    + Unit: static enum
+}
+
+Database "1" -o "1..*" Cost
+Database "1" ---o "1..*" Revenue
+Database "1" -o "1..*" Combo
+Database "1" --o "1..*" Dish
+Field "1" -* "1..*" Database
 Combo --|> Food: extends
 Dish --|> Food: extends
 Dish  "1..*" -o "1..*" Combo
