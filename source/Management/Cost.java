@@ -3,16 +3,13 @@ package source.Management;
 import java.time.LocalDate;
 
 public class Cost {
-    
-
-
-    protected Integer id;
-    protected Character type;
-    protected LocalDate date;
-    protected String description;
-    protected Float quantity;
-    protected Integer unitId;
-    protected Integer totalAmount;
+    private Integer id;
+    private Character type;
+    private LocalDate date;
+    private String description;
+    private Float quantity;
+    private Integer unitId;
+    private Integer totalAmount;
 
     public Cost(Integer id, Character type, LocalDate date, String description, Float quantity, Integer unitId,
             Integer totalAmount) {

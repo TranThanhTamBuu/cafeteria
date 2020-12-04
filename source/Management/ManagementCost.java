@@ -1,6 +1,6 @@
 package source.Management;
 
-import java.util.ArrayList;
+import source.Database.Database;
 
 public class ManagementCost {
     private static final ManagementCost instance = new ManagementCost();
@@ -12,12 +12,8 @@ public class ManagementCost {
         return instance;
     }
 
-    public ArrayList<Cost> readCost() {
-        ArrayList<Cost> listCost = new ArrayList<Cost>();
-        return listCost;
-    }
-
     public void writeCost(Cost newCost) {
-        return;
+        Database db = Database.getInstance();
+        db.WriteCost(newCost);
     }
 }

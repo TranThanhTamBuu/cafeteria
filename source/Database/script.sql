@@ -48,10 +48,11 @@ CREATE TABLE Payment
 
 CREATE TABLE SpecificPayment
 (
-	PaymentID int PRIMARY KEY,
+	PaymentID int,
     FoodID tinyint,
     Quantity tinyint,
     
+    PRIMARY KEY (PaymentID, FoodID),
     FOREIGN KEY (PaymentID) REFERENCES Payment(ID),
     FOREIGN KEY (FoodID) REFERENCES Menu(ID)
 );

@@ -2,7 +2,7 @@ package source.Food;
 
 public abstract class Food implements Comparable<Food> {
 	protected Integer id;
-	protected String name, category;
+	protected String name, category, specific_type;
 	protected Float discount;
 	protected Integer price;
 
@@ -21,6 +21,11 @@ public abstract class Food implements Comparable<Food> {
 
 	public Food modifyCategory(String category) {
 		this.category = category;
+		return this;
+	}
+
+	public Food modifySpecification(String specific_type) {
+		this.specific_type = specific_type;
 		return this;
 	}
 
@@ -50,18 +55,24 @@ public abstract class Food implements Comparable<Food> {
 		return category;
 	}
 
+	public String getSpecificType() {
+		return this.specific_type;
+	}
+
 	public Long cost() {
 		return (long) ((long) price - (price * discount));
 	}
 
 	public int GetID() {
 		return this.id;
-	}	
+	}
 
 	@Override
 	public int compareTo(Food o) {
-		if (this.id < o.id) return -1;
-		else if (this.id > o.id) return 1;
+		if (this.id < o.id)
+			return -1;
+		else if (this.id > o.id)
+			return 1;
 		return 0;
 	}
 }

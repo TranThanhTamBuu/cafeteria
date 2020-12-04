@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import source.Database.Database;
 import source.Food.Food;
 
-public class Order {    
+public class Order {
 
     private int id;
     private ArrayList<Integer> list_foodID;
@@ -16,6 +16,7 @@ public class Order {
     private String note;
 
     public Order(int id, LocalDateTime date_time, String note) {
+        this.id = id;
         this.list_foodID = new ArrayList<>();
         this.quantity = new ArrayList<>();
         this.date_time = date_time;
@@ -24,6 +25,22 @@ public class Order {
 
     public int GetID() {
         return this.id;
+    }
+
+    public ArrayList<Integer> getListFoodID() {
+        return this.list_foodID;
+    }
+
+    public ArrayList<Integer> getListQuantity() {
+        return this.quantity;
+    }
+
+    public LocalDateTime getListDateTime() {
+        return this.date_time;
+    }
+
+    public String getNote() {
+        return this.note;
     }
 
     public Order addFood(Integer foodID, int quantity) {
@@ -78,7 +95,8 @@ public class Order {
     // }
 
     public void writeOrder() {
-        // TODO: implement this function after designing database
+        Database db = Database.getInstance();
+        db.WriteOrder(this);
     }
 
 }

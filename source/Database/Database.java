@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.security.Identity;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -131,14 +132,12 @@ public class Database {
                         rs.getString(Field.Menu.SpecificTypeID.GetIdx()), rs.getFloat(Field.Menu.Discount.GetIdx()),
                         rs.getInt(Field.Menu.Price.GetIdx())));
             }
-
+            stmt.close();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } finally {
-            stmt.close();
-            return dishes;
         }
+        return dishes;
     }
 
     public ArrayList<Combo> ReadAllCombos() {
@@ -284,5 +283,148 @@ public class Database {
             e.printStackTrace();
         }
         return costs;
+    }
+
+    public void WriteOrder(Order order) {
+        Statement stmt = null;
+        Statement stmt1 = null;
+        try {
+            stmt = this.conn.createStatement();
+            stmt1 = this.conn.createStatement();
+            stmt.executeUpdate(String.format("INSERT INTO Payment VALUES (null, '%s', '%s', null)",
+                    order.getListDateTime(), order.getNote()));
+            int id = order.GetID();
+            ArrayList<Integer> list_foodID = order.getListFoodID();
+            ArrayList<Integer> quantity = order.getListQuantity();
+            for (int i = 0; i < list_foodID.size(); i++) {
+                stmt1.executeUpdate(String.format("INSERT INTO SpecificPayment VALUES (%d, '%d', '%d')", id,
+                        list_foodID.get(i), quantity.get(i)));
+            }
+            stmt.close();
+            stmt1.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void WriteCost(Cost cost) {
+        Statement stmt = null;
+        try {
+            stmt = this.conn.createStatement();
+            stmt.executeUpdate(String.format("INSERT INTO Cost VALUES (null, '%s', '%s', '%s', %.2f, %d, %d)",
+                    cost.getType(), cost.getDate(), cost.getDescription(), cost.getQuantity(), cost.getUnitId(),
+                    cost.getTotalAmount()));
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void WriteDish(Dish dish) {
+        Statement stmt = null;
+        try {
+            stmt = this.conn.createStatement();
+            stmt.executeUpdate(String.format("INSERT INTO Menu VALUES (null, 'D', %d, %d, '%s', %d, %.2f)",
+                    dish.getCategory(), dish.getSpecificType(), dish.getName(), dish.getPrice(), dish.getDiscount()));
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void WriteCombo(Combo combo) {
+        Statement stmt = null;
+        Statement stmt1 = null;
+        try {
+            stmt = this.conn.createStatement();
+            stmt1 = this.conn.createStatement();
+            stmt.executeUpdate(
+                    String.format("INSERT INTO Menu VALUES (null, 'C', %d, %d, '%s', %d, %.2f)", combo.getCategory(),
+                            combo.getSpecificType(), combo.getName(), combo.getPrice(), combo.getDiscount()));
+            int id = combo.GetID();
+            ArrayList<Integer> array_dishID = combo.getArrayDishID();
+            ArrayList<Integer> quantity = combo.getArrayQuantity();
+            for (int i = 0; i < array_dishID.size(); i++) {
+                stmt1.executeUpdate(String.format("INSERT INTO SpecificPayment VALUES (%d, '%d', '%d')", id,
+                        array_dishID.get(i), quantity.get(i)));
+            }
+            stmt.close();
+            stmt1.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void DeleteCost(int id) {
+        Statement stmt = null;
+        try {
+            stmt = this.conn.createStatement();
+            stmt.executeUpdate(String.format("DELETE FROM Cost WHERE ID = %d", id));
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void DeleteOrder(int id) {
+        Statement stmt = null;
+        Statement stmt1 = null;
+        try {
+            stmt = this.conn.createStatement();
+            stmt1 = this.conn.createStatement();
+            stmt.executeUpdate(String.format("DELETE FROM SpecificPayment WHERE ID = %d", id));
+            stmt1.executeUpdate(String.format("DELETE FROM Payment WHERE ID = %d", id));
+            stmt.close();
+            stmt1.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void EditCost(int id, String attribute_name, String value) {
+        Statement stmt = null;
+        try {
+            if (attribute_name == "Type" || attribute_name == "Description" || attribute_name == "Quantity"
+                    || attribute_name == "UnitID" || attribute_name == "TotalAmount" || attribute_name == "DateCost") {
+                stmt = this.conn.createStatement();
+                stmt.executeUpdate(String.format("UPDATE Cost SET %s = '%s' WHERE ID = %d", attribute_name, value, id));
+                stmt.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void EditDish(int id, String attribute_name, String value) {
+        Statement stmt = null;
+        try {
+            if (attribute_name == "CategoryID" || attribute_name == "SpecificTypeID" || attribute_name == "Name"
+                    || attribute_name == "Price" || attribute_name == "Discount") {
+                stmt = this.conn.createStatement();
+                stmt.executeUpdate(String.format("UPDATE Menu SET %s = '%s' WHERE ID = %d AND Type = 'D",
+                        attribute_name, value, id));
+                stmt.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void EditCombo(int id, String attribute_name, String value) {
+        Statement stmt = null;
+        try {
+            stmt = this.conn.createStatement();
+            if (attribute_name == "Quantity") {
+                stmt.executeUpdate(
+                        String.format("UPDATE Combo SET %s = '%s' WHERE ID = %d", attribute_name, value, id));
+            }
+            if (attribute_name == "Name" || attribute_name == "Price" || attribute_name == "Discount") {
+                stmt.executeUpdate(String.format("UPDATE Menu SET %s = '%s' WHERE ID = %d AND Type = 'C'",
+                        attribute_name, value, id));
+            }
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

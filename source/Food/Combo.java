@@ -34,4 +34,12 @@ public class Combo extends Food {
 	public String toString() {
 		return "Combo ID: " + this.id + "\n" + Arrays.toString(this.array_dishID.toArray());
 	}
+
+	public ArrayList<Integer> getArrayDishID() {
+		return this.array_dishID;
+	}
+
+	public ArrayList<Integer> getArrayQuantity() {
+		return this.quantity;
+	}
 }
