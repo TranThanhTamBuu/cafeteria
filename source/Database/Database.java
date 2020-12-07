@@ -104,7 +104,7 @@ public class Database {
             return rs;
 
         ScriptRunner sr = new ScriptRunner(this.conn, false, false);
-        sr.runScript(new BufferedReader(new FileReader("source\\Database\\script.sql")));
+        sr.runScript(new BufferedReader(new FileReader("..\\source\\Database\\script.sql")));
 
         stmt.close();
         return rs;
