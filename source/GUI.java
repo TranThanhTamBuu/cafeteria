@@ -87,6 +87,7 @@ public class GUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jMenu1 = new javax.swing.JMenu();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         Left = new jPanelGradient();
         btn_menu = new javax.swing.JPanel();
         ind_menu = new javax.swing.JPanel();
@@ -147,13 +148,38 @@ public class GUI extends javax.swing.JFrame {
         text_cash_search = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         sp_cash = new javax.swing.JScrollPane();
-        tbl_cash = new javax.swing.JTable();
+        tbl_cash = new javax.swing.JTable()
+        {
+            @Override
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+                // Only called if there are rows present
+                JComponent c = (JComponent) super.prepareRenderer(renderer, row, column);
+                // Use custom rendering to overcome background color bug in Nimbus
+                if (!isRowSelected(row)) {
+                    c.setBackground((row % 2 != 0) ? new Color(254,218,196,50) : Color.WHITE);
+                    c.setOpaque(true);
+                }
+                return c;
+            }
+        };
         jPanel12 = new jPanelGradient();
         jPanel13 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         sp_order = new javax.swing.JScrollPane();
-        tbl_order = new javax.swing.JTable();
+        tbl_order = new javax.swing.JTable(){
+            @Override
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+                // Only called if there are rows present
+                JComponent c = (JComponent) super.prepareRenderer(renderer, row, column);
+                // Use custom rendering to overcome background color bug in Nimbus
+                if (!isRowSelected(row)) {
+                    c.setBackground((row % 2 != 0) ? new Color(254,218,196,50) : Color.WHITE);
+                    c.setOpaque(true);
+                }
+                return c;
+            }
+        };
         jPanel15 = new jPanelGradient();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -333,6 +359,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel6.setBackground(new java.awt.Color(255, 157, 128));
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel6.setText("Cost Management");
         jLabel6.setPreferredSize(new java.awt.Dimension(122, 30));
         jLabel6.setRequestFocusEnabled(false);
@@ -1037,7 +1064,7 @@ public class GUI extends javax.swing.JFrame {
         tbl_cash.setIntercellSpacing(new java.awt.Dimension(0, 0));
         tbl_cash.setPreferredSize(new java.awt.Dimension(600, 450));
         tbl_cash.setRowHeight(25);
-        tbl_cash.setSelectionBackground(new java.awt.Color(240, 240, 240));
+        tbl_cash.setSelectionBackground(new java.awt.Color(254, 218, 196));
         tbl_cash.setShowGrid(true);
         tbl_cash.getTableHeader().setReorderingAllowed(false);
         sp_cash.setViewportView(tbl_cash);
@@ -1061,11 +1088,11 @@ public class GUI extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addContainerGap(49, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sp_cash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addGap(31, 31, 31))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1073,7 +1100,8 @@ public class GUI extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(sp_cash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel13.setBackground(new java.awt.Color(255, 255, 255));
@@ -1116,7 +1144,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
         tbl_order.setRowHeight(25);
-        tbl_order.setSelectionBackground(new java.awt.Color(240, 240, 240));
+        tbl_order.setSelectionBackground(new java.awt.Color(254, 218, 196));
         tbl_order.getTableHeader().setReorderingAllowed(false);
         sp_order.setViewportView(tbl_order);
 
@@ -1697,6 +1725,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel btn_return;
     private javax.swing.JPanel btn_revenue;
     private javax.swing.JLabel btn_subtract;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel icon_exit;
     private javax.swing.JPanel ind_cash;
     private javax.swing.JPanel ind_cost;
