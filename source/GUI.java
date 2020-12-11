@@ -205,8 +205,14 @@ public class GUI extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setUndecorated(true);
+        setOpacity(0);
         setResizable(false);
         setSize(new java.awt.Dimension(1280, 720));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         Left.setBackground(new java.awt.Color(255, 157, 128));
         Left.setPreferredSize(new java.awt.Dimension(240, 665));
@@ -1594,6 +1600,20 @@ public class GUI extends javax.swing.JFrame {
         btnResetHover(btn_charge);
         btn_charge.setForeground(new Color(19,155,91));
     }//GEN-LAST:event_btn_chargeMouseExited
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        for(double i = 0.0; i<= 1; i=i+0.1){
+            String val = i + "";
+            float f = Float.valueOf(val);
+            this.setOpacity(f);
+            try{
+                Thread.sleep(25);
+            }
+            catch (Exception e){
+                
+            }
+        }
+    }//GEN-LAST:event_formWindowOpened
   
    
     class jPanelGradient extends JPanel{
