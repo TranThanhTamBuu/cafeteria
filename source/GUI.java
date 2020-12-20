@@ -76,6 +76,10 @@ public class GUI extends javax.swing.JFrame {
             }
 
         });
+    
+    boolean cost_edit = false;
+    boolean clicked_tgl_cost_type = false;
+    
     /**
      * Creates new form GUI
      */
@@ -88,9 +92,14 @@ public class GUI extends javax.swing.JFrame {
         styleTable(tbl_order, sp_order);
         styleTable(tbl_menu, sp_menu);
         styleTable(tbl_detail, sp_detail);
+        styleTable(tbl_cost, sp_cost);
         
-        setEditBarVisible(false);
-        setEditableDetail(false);
+        setMenuEditBarVisible(false);
+        setMenuEditableDetail(false);
+        
+        setCostEditableDetail(false);
+        pnl_cost_edit.setVisible(false);
+        
         
         /*
            for ( Window w : Window.getWindows() ) {
@@ -168,7 +177,7 @@ public class GUI extends javax.swing.JFrame {
         text_menu_quantity = new javax.swing.JTextField();
         jPanel21 = new javax.swing.JPanel();
         btn_menu_add = new javax.swing.JLabel();
-        pnl_add_edit_del = new javax.swing.JPanel();
+        pnl_menu_add_edit_del = new javax.swing.JPanel();
         btn_menu_create = new javax.swing.JLabel();
         btn_menu_del = new javax.swing.JLabel();
         btn_menu_edit = new javax.swing.JLabel();
@@ -230,6 +239,52 @@ public class GUI extends javax.swing.JFrame {
         btn_menu_save = new javax.swing.JLabel();
         pn_financial = new javax.swing.JPanel();
         pn_cost = new javax.swing.JPanel();
+        jPanel20 = new javax.swing.JPanel();
+        pnl_cost_add_edit_del = new javax.swing.JPanel();
+        btn_cost_create = new javax.swing.JLabel();
+        btn_cost_del = new javax.swing.JLabel();
+        btn_cost_edit = new javax.swing.JLabel();
+        jPanel31 = new javax.swing.JPanel();
+        sp_cost = new javax.swing.JScrollPane();
+        tbl_cost = new javax.swing.JTable()
+        {
+            @Override
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+                // Only called if there are rows present
+                JComponent c = (JComponent) super.prepareRenderer(renderer, row, column);
+                // Use custom rendering to overcome background color bug in Nimbus
+                if (!isRowSelected(row)) {
+                    c.setBackground((row % 2 != 0) ? new Color(254,218,196,50) : Color.WHITE);
+                    c.setOpaque(true);
+                }
+                return c;
+            }
+        };
+        jPanel32 = new jPanelGradient();
+        jPanel33 = new javax.swing.JPanel();
+        jPanel34 = new javax.swing.JPanel();
+        jPanel35 = new jPanelGradient();
+        jLabel22 = new javax.swing.JLabel();
+        text_cost_search = new javax.swing.JTextField();
+        jPanel36 = new javax.swing.JPanel();
+        jPanel37 = new javax.swing.JPanel();
+        jPanel38 = new javax.swing.JPanel();
+        jLabel30 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
+        text_cost_date = new javax.swing.JTextField();
+        text_cost_quantity = new javax.swing.JTextField();
+        text_cost_unit = new javax.swing.JTextField();
+        text_cost_total = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        text_cost_description = new javax.swing.JEditorPane();
+        tgl_cost_type = new javax.swing.JLabel();
+        pnl_cost_edit = new javax.swing.JPanel();
+        btn_cost_cancel = new javax.swing.JLabel();
+        btn_cost_save = new javax.swing.JLabel();
         pn_cash = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -284,8 +339,6 @@ public class GUI extends javax.swing.JFrame {
             }
         };
         jPanel15 = new jPanelGradient();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jPanel16 = new javax.swing.JPanel();
         btn_cash_cancel = new javax.swing.JLabel();
         btn_cash_return = new javax.swing.JLabel();
@@ -294,6 +347,8 @@ public class GUI extends javax.swing.JFrame {
         text_total = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         btn_cash_charge = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        text_menu_notes = new javax.swing.JEditorPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -999,7 +1054,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGap(0, 0, 0))
         );
 
-        pnl_add_edit_del.setBackground(new java.awt.Color(255, 255, 255));
+        pnl_menu_add_edit_del.setBackground(new java.awt.Color(255, 255, 255));
 
         btn_menu_create.setBackground(new java.awt.Color(19, 155, 91));
         btn_menu_create.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1053,19 +1108,19 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout pnl_add_edit_delLayout = new javax.swing.GroupLayout(pnl_add_edit_del);
-        pnl_add_edit_del.setLayout(pnl_add_edit_delLayout);
-        pnl_add_edit_delLayout.setHorizontalGroup(
-            pnl_add_edit_delLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnl_add_edit_delLayout.createSequentialGroup()
+        javax.swing.GroupLayout pnl_menu_add_edit_delLayout = new javax.swing.GroupLayout(pnl_menu_add_edit_del);
+        pnl_menu_add_edit_del.setLayout(pnl_menu_add_edit_delLayout);
+        pnl_menu_add_edit_delLayout.setHorizontalGroup(
+            pnl_menu_add_edit_delLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_menu_add_edit_delLayout.createSequentialGroup()
                 .addComponent(btn_menu_create, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addComponent(btn_menu_edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addComponent(btn_menu_del, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        pnl_add_edit_delLayout.setVerticalGroup(
-            pnl_add_edit_delLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pnl_menu_add_edit_delLayout.setVerticalGroup(
+            pnl_menu_add_edit_delLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(btn_menu_create, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(btn_menu_edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(btn_menu_del, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1077,7 +1132,7 @@ public class GUI extends javax.swing.JFrame {
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel19Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(pnl_add_edit_del, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnl_menu_add_edit_del, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
                 .addComponent(pnl_menu_quantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
@@ -1087,7 +1142,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnl_add_edit_del, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnl_menu_add_edit_del, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pnl_menu_quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(60, 60, 60))
         );
@@ -1209,10 +1264,19 @@ public class GUI extends javax.swing.JFrame {
 
         text_menu_search.setBackground(new java.awt.Color(255, 248, 243));
         text_menu_search.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        text_menu_search.setForeground(new java.awt.Color(255, 157, 128));
         text_menu_search.setText("Search");
         text_menu_search.setBorder(null);
         text_menu_search.setOpaque(false);
         text_menu_search.setPreferredSize(new java.awt.Dimension(60, 38));
+        text_menu_search.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                text_menu_searchFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                text_menu_searchFocusLost(evt);
+            }
+        });
         text_menu_search.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 text_menu_searchActionPerformed(evt);
@@ -1614,7 +1678,7 @@ public class GUI extends javax.swing.JFrame {
         pn_menuLayout.setVerticalGroup(
             pn_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_menuLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
                 .addGroup(pn_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_menuLayout.createSequentialGroup()
@@ -1634,7 +1698,7 @@ public class GUI extends javax.swing.JFrame {
         pn_financial.setLayout(pn_financialLayout);
         pn_financialLayout.setHorizontalGroup(
             pn_financialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1040, Short.MAX_VALUE)
+            .addGap(0, 1046, Short.MAX_VALUE)
         );
         pn_financialLayout.setVerticalGroup(
             pn_financialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1643,22 +1707,585 @@ public class GUI extends javax.swing.JFrame {
 
         CenterLayout.add(pn_financial, "card5");
 
+        pn_cost.setBackground(new java.awt.Color(255, 255, 255));
         pn_cost.setPreferredSize(new java.awt.Dimension(1040, 675));
+
+        jPanel20.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel20.setPreferredSize(new java.awt.Dimension(680, 65));
+
+        pnl_cost_add_edit_del.setBackground(new java.awt.Color(255, 255, 255));
+
+        btn_cost_create.setBackground(new java.awt.Color(19, 155, 91));
+        btn_cost_create.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btn_cost_create.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_add_book_25px.png"))); // NOI18N
+        btn_cost_create.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(19, 155, 91), 3, true));
+        btn_cost_create.setPreferredSize(new java.awt.Dimension(50, 40));
+        btn_cost_create.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_cost_createMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_cost_createMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_cost_createMouseExited(evt);
+            }
+        });
+
+        btn_cost_del.setBackground(new java.awt.Color(232, 17, 35));
+        btn_cost_del.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        btn_cost_del.setForeground(new java.awt.Color(232, 17, 35));
+        btn_cost_del.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btn_cost_del.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_trash_25px.png"))); // NOI18N
+        btn_cost_del.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(232, 17, 35), 3, true));
+        btn_cost_del.setPreferredSize(new java.awt.Dimension(50, 40));
+        btn_cost_del.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_cost_delMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_cost_delMouseExited(evt);
+            }
+        });
+
+        btn_cost_edit.setBackground(new java.awt.Color(240, 173, 78));
+        btn_cost_edit.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        btn_cost_edit.setForeground(new java.awt.Color(240, 173, 78));
+        btn_cost_edit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btn_cost_edit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_create_25px.png"))); // NOI18N
+        btn_cost_edit.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 173, 78), 3, true));
+        btn_cost_edit.setPreferredSize(new java.awt.Dimension(50, 40));
+        btn_cost_edit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_cost_editMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_cost_editMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_cost_editMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnl_cost_add_edit_delLayout = new javax.swing.GroupLayout(pnl_cost_add_edit_del);
+        pnl_cost_add_edit_del.setLayout(pnl_cost_add_edit_delLayout);
+        pnl_cost_add_edit_delLayout.setHorizontalGroup(
+            pnl_cost_add_edit_delLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_cost_add_edit_delLayout.createSequentialGroup()
+                .addComponent(btn_cost_create, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addComponent(btn_cost_edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addComponent(btn_cost_del, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        pnl_cost_add_edit_delLayout.setVerticalGroup(
+            pnl_cost_add_edit_delLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btn_cost_create, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(btn_cost_edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(btn_cost_del, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
+        jPanel20.setLayout(jPanel20Layout);
+        jPanel20Layout.setHorizontalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel20Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(pnl_cost_add_edit_del, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(475, Short.MAX_VALUE))
+        );
+        jPanel20Layout.setVerticalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel20Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(pnl_cost_add_edit_del, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
+        );
+
+        jPanel31.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel31.setPreferredSize(new java.awt.Dimension(680, 510));
+
+        sp_cost.setBackground(new java.awt.Color(255, 255, 255));
+        sp_cost.setBorder(null);
+        sp_cost.setForeground(new java.awt.Color(255, 255, 255));
+        sp_cost.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        sp_cost.setPreferredSize(new java.awt.Dimension(630, 483));
+        sp_cost.setVerifyInputWhenFocusTarget(false);
+
+        tbl_cost.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tbl_cost.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Type", "Date", "Description", "Quantity", "Unit", "Total Amount"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbl_cost.setGridColor(new java.awt.Color(240, 240, 240));
+        tbl_cost.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        tbl_cost.setPreferredSize(new java.awt.Dimension(630, 450));
+        tbl_cost.setRowHeight(25);
+        tbl_cost.setSelectionBackground(new java.awt.Color(254, 218, 196));
+        tbl_cost.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbl_cost.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbl_cost.setShowGrid(true);
+        tbl_cost.getTableHeader().setReorderingAllowed(false);
+        sp_cost.setViewportView(tbl_cost);
+
+        jPanel32.setBackground(new java.awt.Color(255, 157, 128));
+        jPanel32.setPreferredSize(new java.awt.Dimension(630, 5));
+
+        javax.swing.GroupLayout jPanel32Layout = new javax.swing.GroupLayout(jPanel32);
+        jPanel32.setLayout(jPanel32Layout);
+        jPanel32Layout.setHorizontalGroup(
+            jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 630, Short.MAX_VALUE)
+        );
+        jPanel32Layout.setVerticalGroup(
+            jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel31Layout = new javax.swing.GroupLayout(jPanel31);
+        jPanel31.setLayout(jPanel31Layout);
+        jPanel31Layout.setHorizontalGroup(
+            jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel31Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sp_cost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25))
+        );
+        jPanel31Layout.setVerticalGroup(
+            jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel31Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(sp_cost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jPanel33.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel33.setPreferredSize(new java.awt.Dimension(680, 90));
+        jPanel33.setRequestFocusEnabled(false);
+
+        jPanel34.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel34.setPreferredSize(new java.awt.Dimension(510, 45));
+
+        jPanel35.setBackground(new java.awt.Color(255, 157, 128));
+        jPanel35.setPreferredSize(new java.awt.Dimension(460, 5));
+
+        javax.swing.GroupLayout jPanel35Layout = new javax.swing.GroupLayout(jPanel35);
+        jPanel35.setLayout(jPanel35Layout);
+        jPanel35Layout.setHorizontalGroup(
+            jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 460, Short.MAX_VALUE)
+        );
+        jPanel35Layout.setVerticalGroup(
+            jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_search_35px_2.png"))); // NOI18N
+        jLabel22.setPreferredSize(new java.awt.Dimension(50, 45));
+
+        text_cost_search.setBackground(new java.awt.Color(255, 248, 243));
+        text_cost_search.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        text_cost_search.setForeground(new java.awt.Color(255, 157, 128));
+        text_cost_search.setText("Search");
+        text_cost_search.setBorder(null);
+        text_cost_search.setOpaque(false);
+        text_cost_search.setPreferredSize(new java.awt.Dimension(60, 38));
+        text_cost_search.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                text_cost_searchFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                text_cost_searchFocusLost(evt);
+            }
+        });
+        text_cost_search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                text_cost_searchActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel34Layout = new javax.swing.GroupLayout(jPanel34);
+        jPanel34.setLayout(jPanel34Layout);
+        jPanel34Layout.setHorizontalGroup(
+            jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel34Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel34Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(text_cost_search, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(34, 34, 34))
+        );
+        jPanel34Layout.setVerticalGroup(
+            jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel34Layout.createSequentialGroup()
+                .addComponent(text_cost_search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        javax.swing.GroupLayout jPanel33Layout = new javax.swing.GroupLayout(jPanel33);
+        jPanel33.setLayout(jPanel33Layout);
+        jPanel33Layout.setHorizontalGroup(
+            jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel33Layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(jPanel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel33Layout.setVerticalGroup(
+            jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel33Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jPanel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
+        );
+
+        jPanel36.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel36.setPreferredSize(new java.awt.Dimension(360, 665));
+
+        jPanel37.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel37.setPreferredSize(new java.awt.Dimension(335, 620));
+
+        jPanel38.setBackground(new java.awt.Color(255, 248, 243));
+        jPanel38.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 157, 128), 2, true), "DETAILS", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 36), new java.awt.Color(255, 157, 128))); // NOI18N
+        jPanel38.setOpaque(false);
+        jPanel38.setPreferredSize(new java.awt.Dimension(141, 510));
+
+        jLabel30.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel30.setForeground(new java.awt.Color(255, 157, 128));
+        jLabel30.setText("Type");
+
+        jLabel32.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel32.setForeground(new java.awt.Color(255, 157, 128));
+        jLabel32.setText("Date");
+
+        jLabel33.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel33.setForeground(new java.awt.Color(255, 157, 128));
+        jLabel33.setText("Description");
+
+        jLabel34.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel34.setForeground(new java.awt.Color(255, 157, 128));
+        jLabel34.setText("Quantity");
+
+        jLabel35.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel35.setForeground(new java.awt.Color(255, 157, 128));
+        jLabel35.setText("Unit");
+
+        jLabel37.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel37.setForeground(new java.awt.Color(255, 157, 128));
+        jLabel37.setText("Total");
+
+        text_cost_date.setBackground(new java.awt.Color(255, 248, 243));
+        text_cost_date.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        text_cost_date.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 157, 128)));
+        text_cost_date.setOpaque(false);
+        text_cost_date.setPreferredSize(new java.awt.Dimension(1, 25));
+        text_cost_date.setSelectionColor(new java.awt.Color(254, 218, 196));
+        text_cost_date.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                text_cost_dateFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                text_cost_dateFocusLost(evt);
+            }
+        });
+        text_cost_date.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                text_cost_dateActionPerformed(evt);
+            }
+        });
+
+        text_cost_quantity.setBackground(new java.awt.Color(255, 248, 243));
+        text_cost_quantity.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        text_cost_quantity.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 157, 128)));
+        text_cost_quantity.setOpaque(false);
+        text_cost_quantity.setPreferredSize(new java.awt.Dimension(1, 25));
+        text_cost_quantity.setSelectionColor(new java.awt.Color(254, 218, 196));
+        text_cost_quantity.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                text_cost_quantityFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                text_cost_quantityFocusLost(evt);
+            }
+        });
+
+        text_cost_unit.setBackground(new java.awt.Color(255, 248, 243));
+        text_cost_unit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        text_cost_unit.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 157, 128)));
+        text_cost_unit.setOpaque(false);
+        text_cost_unit.setPreferredSize(new java.awt.Dimension(1, 25));
+        text_cost_unit.setSelectionColor(new java.awt.Color(254, 218, 196));
+        text_cost_unit.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                text_cost_unitFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                text_cost_unitFocusLost(evt);
+            }
+        });
+
+        text_cost_total.setBackground(new java.awt.Color(255, 248, 243));
+        text_cost_total.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        text_cost_total.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 157, 128)));
+        text_cost_total.setOpaque(false);
+        text_cost_total.setPreferredSize(new java.awt.Dimension(1, 25));
+        text_cost_total.setSelectionColor(new java.awt.Color(254, 218, 196));
+        text_cost_total.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                text_cost_totalFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                text_cost_totalFocusLost(evt);
+            }
+        });
+
+        jScrollPane1.setBackground(new java.awt.Color(255, 248, 243));
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 5, new java.awt.Color(255, 157, 128)));
+
+        text_cost_description.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        text_cost_description.setMinimumSize(new java.awt.Dimension(300, 20));
+        text_cost_description.setSelectionColor(new java.awt.Color(254, 218, 196));
+        text_cost_description.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                text_cost_descriptionFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                text_cost_descriptionFocusLost(evt);
+            }
+        });
+        jScrollPane1.setViewportView(text_cost_description);
+
+        tgl_cost_type.setBackground(new java.awt.Color(255, 157, 128));
+        tgl_cost_type.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        tgl_cost_type.setForeground(new java.awt.Color(255, 157, 128));
+        tgl_cost_type.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tgl_cost_type.setText("Operation");
+        tgl_cost_type.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 157, 128), 1, true));
+        tgl_cost_type.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tgl_cost_typeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tgl_cost_typeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                tgl_cost_typeMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel38Layout = new javax.swing.GroupLayout(jPanel38);
+        jPanel38.setLayout(jPanel38Layout);
+        jPanel38Layout.setHorizontalGroup(
+            jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel38Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(jPanel38Layout.createSequentialGroup()
+                        .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel34)
+                            .addComponent(jLabel33)
+                            .addComponent(jLabel32)
+                            .addComponent(jLabel35)
+                            .addComponent(jLabel37)
+                            .addComponent(jLabel30))
+                        .addGap(8, 8, 8)
+                        .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(text_cost_total, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(text_cost_date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(text_cost_quantity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(text_cost_unit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tgl_cost_type, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        jPanel38Layout.setVerticalGroup(
+            jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel38Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tgl_cost_type, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(text_cost_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(text_cost_quantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(text_cost_unit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(text_cost_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        pnl_cost_edit.setBackground(new java.awt.Color(255, 255, 255));
+
+        btn_cost_cancel.setBackground(new java.awt.Color(232, 17, 35));
+        btn_cost_cancel.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        btn_cost_cancel.setForeground(new java.awt.Color(232, 17, 35));
+        btn_cost_cancel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btn_cost_cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_delete_25px.png"))); // NOI18N
+        btn_cost_cancel.setText("CANCEL");
+        btn_cost_cancel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(232, 17, 35), 3, true));
+        btn_cost_cancel.setPreferredSize(new java.awt.Dimension(160, 40));
+        btn_cost_cancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_cost_cancelMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_cost_cancelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_cost_cancelMouseExited(evt);
+            }
+        });
+
+        btn_cost_save.setBackground(new java.awt.Color(19, 155, 91));
+        btn_cost_save.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        btn_cost_save.setForeground(new java.awt.Color(19, 155, 91));
+        btn_cost_save.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btn_cost_save.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_save_25px.png"))); // NOI18N
+        btn_cost_save.setText("SAVE");
+        btn_cost_save.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(19, 155, 91), 3, true));
+        btn_cost_save.setPreferredSize(new java.awt.Dimension(160, 40));
+        btn_cost_save.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_cost_saveMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_cost_saveMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_cost_saveMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnl_cost_editLayout = new javax.swing.GroupLayout(pnl_cost_edit);
+        pnl_cost_edit.setLayout(pnl_cost_editLayout);
+        pnl_cost_editLayout.setHorizontalGroup(
+            pnl_cost_editLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_cost_editLayout.createSequentialGroup()
+                .addComponent(btn_cost_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(btn_cost_save, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        pnl_cost_editLayout.setVerticalGroup(
+            pnl_cost_editLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_cost_editLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(btn_cost_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_cost_save, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        javax.swing.GroupLayout jPanel37Layout = new javax.swing.GroupLayout(jPanel37);
+        jPanel37.setLayout(jPanel37Layout);
+        jPanel37Layout.setHorizontalGroup(
+            jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel38, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
+            .addGroup(jPanel37Layout.createSequentialGroup()
+                .addComponent(pnl_cost_edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel37Layout.setVerticalGroup(
+            jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel37Layout.createSequentialGroup()
+                .addGap(113, 113, 113)
+                .addComponent(jPanel38, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(pnl_cost_edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(123, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel36Layout = new javax.swing.GroupLayout(jPanel36);
+        jPanel36.setLayout(jPanel36Layout);
+        jPanel36Layout.setHorizontalGroup(
+            jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel37, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel36Layout.setVerticalGroup(
+            jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel37, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout pn_costLayout = new javax.swing.GroupLayout(pn_cost);
         pn_cost.setLayout(pn_costLayout);
         pn_costLayout.setHorizontalGroup(
             pn_costLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1040, Short.MAX_VALUE)
+            .addGroup(pn_costLayout.createSequentialGroup()
+                .addGroup(pn_costLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pn_costLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel31, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel33, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(0, 0, 0)
+                .addComponent(jPanel36, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
         pn_costLayout.setVerticalGroup(
             pn_costLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 665, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_costLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(pn_costLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pn_costLayout.createSequentialGroup()
+                        .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(jPanel31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel36, javax.swing.GroupLayout.PREFERRED_SIZE, 682, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         CenterLayout.add(pn_cost, "card4");
 
-        pn_cash.setBackground(new java.awt.Color(255, 255, 255));
+        pn_cash.setBackground(new java.awt.Color(255, 248, 243));
         pn_cash.setPreferredSize(new java.awt.Dimension(1040, 665));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -1666,7 +2293,7 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(242, 245, 252));
         jPanel4.setOpaque(false);
-        jPanel4.setPreferredSize(new java.awt.Dimension(305, 40));
+        jPanel4.setPreferredSize(new java.awt.Dimension(300, 40));
 
         btn_cash_subtract.setBackground(new java.awt.Color(255, 157, 128));
         btn_cash_subtract.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1762,7 +2389,7 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addComponent(btn_cash_plus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addGap(15, 15, 15)
                 .addComponent(btn_cash_add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -1786,7 +2413,7 @@ public class GUI extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(350, Short.MAX_VALUE)
+                .addContainerGap(355, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
@@ -1822,10 +2449,21 @@ public class GUI extends javax.swing.JFrame {
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_search_35px_2.png"))); // NOI18N
         jLabel16.setPreferredSize(new java.awt.Dimension(50, 45));
 
+        text_cash_search.setBackground(new java.awt.Color(255, 248, 243));
         text_cash_search.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        text_cash_search.setForeground(new java.awt.Color(255, 157, 128));
         text_cash_search.setText("Search");
         text_cash_search.setBorder(null);
+        text_cash_search.setOpaque(false);
         text_cash_search.setPreferredSize(new java.awt.Dimension(60, 38));
+        text_cash_search.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                text_cash_searchFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                text_cash_searchFocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -2016,18 +2654,6 @@ public class GUI extends javax.swing.JFrame {
             .addGap(0, 5, Short.MAX_VALUE)
         );
 
-        jScrollPane4.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 157, 128), 2, true), "NOTES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18), new java.awt.Color(255, 157, 128))); // NOI18N
-        jScrollPane4.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane4.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        jScrollPane4.setPreferredSize(new java.awt.Dimension(320, 90));
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setPreferredSize(new java.awt.Dimension(285, 0));
-        jTextArea1.setSelectionColor(new java.awt.Color(240, 240, 240));
-        jScrollPane4.setViewportView(jTextArea1);
-
         jPanel16.setBackground(new java.awt.Color(255, 255, 255));
         jPanel16.setPreferredSize(new java.awt.Dimension(160, 90));
 
@@ -2040,6 +2666,9 @@ public class GUI extends javax.swing.JFrame {
         btn_cash_cancel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(232, 17, 35), 3, true));
         btn_cash_cancel.setPreferredSize(new java.awt.Dimension(160, 40));
         btn_cash_cancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_cash_cancelMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_cash_cancelMouseEntered(evt);
             }
@@ -2139,6 +2768,9 @@ public class GUI extends javax.swing.JFrame {
         btn_cash_charge.setText("CHARGE");
         btn_cash_charge.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(19, 155, 91), 3, true));
         btn_cash_charge.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_cash_chargeMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_cash_chargeMouseEntered(evt);
             }
@@ -2147,12 +2779,20 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 157, 128), 2, true), "NOTES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18), new java.awt.Color(255, 157, 128))); // NOI18N
+        jScrollPane3.setPreferredSize(new java.awt.Dimension(119, 90));
+
+        text_menu_notes.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jScrollPane3.setViewportView(text_menu_notes);
+
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
+            .addComponent(btn_cash_charge, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(sp_order, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2160,9 +2800,8 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
                         .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(btn_cash_charge, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(sp_order, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 5, Short.MAX_VALUE))
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2173,7 +2812,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel14Layout.createSequentialGroup()
                         .addGap(15, 15, 15)
@@ -2213,7 +2852,7 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 681, Short.MAX_VALUE)
                         .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 681, Short.MAX_VALUE)))
                 .addGap(0, 0, 0)
-                .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE))
         );
         pn_cashLayout.setVerticalGroup(
             pn_cashLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2502,13 +3141,11 @@ public class GUI extends javax.swing.JFrame {
     private void btn_menu_editMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_menu_editMouseEntered
         btn_menu_edit.setIcon( new ImageIcon(getClass().getResource("/images/icons8_create_25px_1.png")) );
         btnHover(btn_menu_edit);
-        btn_menu_edit.setForeground(Color.WHITE);
     }//GEN-LAST:event_btn_menu_editMouseEntered
 
     private void btn_menu_editMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_menu_editMouseExited
         btn_menu_edit.setIcon( new ImageIcon(getClass().getResource("/images/icons8_create_25px.png")) );
         btnResetHover(btn_menu_edit);
-        btn_menu_edit.setForeground(new Color(253,215,142));
     }//GEN-LAST:event_btn_menu_editMouseExited
 
     private void text_menu_nameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_menu_nameFocusGained
@@ -2622,19 +3259,18 @@ public class GUI extends javax.swing.JFrame {
         tbl_detail.clearSelection();
         tbl_cash.clearSelection();
         tbl_order.clearSelection();
+        tbl_cost.clearSelection();
         
     }//GEN-LAST:event_formMouseClicked
 
     private void btn_menu_delMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_menu_delMouseEntered
         btn_menu_del.setIcon( new ImageIcon(getClass().getResource("/images/icons8_trash_25px_1.png")) );
         btnHover(btn_menu_del);
-        btn_menu_del.setForeground(Color.WHITE);
     }//GEN-LAST:event_btn_menu_delMouseEntered
 
     private void btn_menu_delMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_menu_delMouseExited
         btn_menu_del.setIcon( new ImageIcon(getClass().getResource("/images/icons8_trash_25px.png")) );
         btnResetHover(btn_menu_del);
-        btn_menu_del.setForeground(new Color(232,17,35));
     }//GEN-LAST:event_btn_menu_delMouseExited
 
     private void btn_menu_createMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_menu_createMouseEntered
@@ -2648,41 +3284,43 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_menu_createMouseExited
 
     private void btn_menu_editMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_menu_editMouseClicked
-        if(tbl_menu.getSelectedRow() != -1){
-            // gui
-            setEditBarVisible(true);
-            pnl_add_edit_del.setVisible(false);
-            setEditableDetail(true);
-            
+        if(tbl_menu.getSelectedRow() != -1){                      
             // function
+            
+            // gui
+            setMenuEditBarVisible(true);
+            pnl_menu_add_edit_del.setVisible(false);
+            setMenuEditableDetail(true);
         }
     }//GEN-LAST:event_btn_menu_editMouseClicked
 
     private void btn_menu_cancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_menu_cancelMouseClicked
-        // gui
-        pnl_add_edit_del.setVisible(true);
-        setEditBarVisible(false);
-        setEditableDetail(false);
+        // function
+        // please dont change the order
         
-        //function
+        // gui
+        setMenuEditableDetail(false);
+        pnl_menu_add_edit_del.setVisible(true);
+        setMenuEditBarVisible(false);
     }//GEN-LAST:event_btn_menu_cancelMouseClicked
 
     private void btn_menu_saveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_menu_saveMouseClicked
-        // gui
-        pnl_add_edit_del.setVisible(true);
-        setEditBarVisible(false);
-        setEditableDetail(false);
-        
         // function
+        // please dont change the order
+        
+        // gui
+        pnl_menu_add_edit_del.setVisible(true);
+        setMenuEditBarVisible(false);
+        setMenuEditableDetail(false);
     }//GEN-LAST:event_btn_menu_saveMouseClicked
 
     private void btn_menu_createMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_menu_createMouseClicked
-        // gui
-        pnl_add_edit_del.setVisible(false);
-        setEditBarVisible(true);
-        setEditableDetail(true);
-        
         // function
+        
+        // gui
+        pnl_menu_add_edit_del.setVisible(false);
+        setMenuEditBarVisible(true);
+        setMenuEditableDetail(true);
     }//GEN-LAST:event_btn_menu_createMouseClicked
 
     private void btn_menu_subtractMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_menu_subtractMouseClicked
@@ -2696,9 +3334,10 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_menu_addMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_menu_addMouseClicked
         if(tbl_menu.getSelectedRow() != -1){
-            text_menu_quantity.setText("1");
-            
             // function
+            
+            // gui
+            text_menu_quantity.setText("1");
         }
     }//GEN-LAST:event_btn_menu_addMouseClicked
 
@@ -2717,11 +3356,258 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_cash_addMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cash_addMouseClicked
         if(tbl_cash.getSelectedRow() != -1){
-            text_cash_quantity.setText("1");
-            
             // function
+            
+            // gui
+            text_cash_quantity.setText("1");
         }
     }//GEN-LAST:event_btn_cash_addMouseClicked
+
+    private void btn_cost_createMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cost_createMouseClicked
+        // function
+        
+        // gui
+        pnl_cost_add_edit_del.setVisible(false);
+        pnl_cost_edit.setVisible(true);
+        setCostEditableDetail(true);
+    }//GEN-LAST:event_btn_cost_createMouseClicked
+
+    private void btn_cost_createMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cost_createMouseEntered
+        btn_cost_create.setIcon( new ImageIcon(getClass().getResource("/images/icons8_add_book_25px_1.png")) );
+        btnHover(btn_cost_create);
+    }//GEN-LAST:event_btn_cost_createMouseEntered
+
+    private void btn_cost_createMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cost_createMouseExited
+        btn_cost_create.setIcon( new ImageIcon(getClass().getResource("/images/icons8_add_book_25px.png")) );
+        btnResetHover(btn_cost_create);
+    }//GEN-LAST:event_btn_cost_createMouseExited
+
+    private void btn_cost_delMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cost_delMouseEntered
+        btn_cost_del.setIcon( new ImageIcon(getClass().getResource("/images/icons8_trash_25px_1.png")) );
+        btnHover(btn_cost_del);
+    }//GEN-LAST:event_btn_cost_delMouseEntered
+
+    private void btn_cost_delMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cost_delMouseExited
+        btn_cost_del.setIcon( new ImageIcon(getClass().getResource("/images/icons8_trash_25px.png")) );
+        btnResetHover(btn_cost_del);
+    }//GEN-LAST:event_btn_cost_delMouseExited
+
+    private void btn_cost_editMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cost_editMouseClicked
+        if(tbl_cost.getSelectedRow() != -1){
+            // function
+            
+            // gui
+            pnl_cost_edit.setVisible(true);
+            pnl_cost_add_edit_del.setVisible(false);
+            setCostEditableDetail(true);
+        }
+    }//GEN-LAST:event_btn_cost_editMouseClicked
+
+    private void btn_cost_editMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cost_editMouseEntered
+        btn_cost_edit.setIcon( new ImageIcon(getClass().getResource("/images/icons8_create_25px_1.png")) );
+        btnHover(btn_cost_edit);
+    }//GEN-LAST:event_btn_cost_editMouseEntered
+
+    private void btn_cost_editMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cost_editMouseExited
+        btn_cost_edit.setIcon( new ImageIcon(getClass().getResource("/images/icons8_create_25px.png")) );
+        btnResetHover(btn_cost_edit);
+    }//GEN-LAST:event_btn_cost_editMouseExited
+
+    private void text_cost_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_cost_searchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_text_cost_searchActionPerformed
+
+    private void text_cost_dateFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_cost_dateFocusGained
+        text_cost_date.setOpaque(true);
+        text_cost_date.validate();
+        text_cost_date.repaint();
+    }//GEN-LAST:event_text_cost_dateFocusGained
+
+    private void text_cost_dateFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_cost_dateFocusLost
+        text_cost_date.setOpaque(false);
+        text_cost_date.validate();
+        text_cost_date.repaint();
+    }//GEN-LAST:event_text_cost_dateFocusLost
+
+    private void text_cost_quantityFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_cost_quantityFocusGained
+        text_cost_quantity.setOpaque(true);
+        text_cost_quantity.validate();
+        text_cost_quantity.repaint();
+    }//GEN-LAST:event_text_cost_quantityFocusGained
+
+    private void text_cost_quantityFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_cost_quantityFocusLost
+        text_cost_quantity.setOpaque(false);
+        text_cost_quantity.validate();
+        text_cost_quantity.repaint();
+    }//GEN-LAST:event_text_cost_quantityFocusLost
+
+    private void text_cost_unitFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_cost_unitFocusGained
+        text_cost_unit.setOpaque(true);
+        text_cost_unit.validate();
+        text_cost_unit.repaint();
+    }//GEN-LAST:event_text_cost_unitFocusGained
+
+    private void text_cost_unitFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_cost_unitFocusLost
+        text_cost_unit.setOpaque(false);
+        text_cost_unit.validate();
+        text_cost_unit.repaint();
+    }//GEN-LAST:event_text_cost_unitFocusLost
+
+    private void text_cost_totalFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_cost_totalFocusGained
+        text_cost_total.setOpaque(true);
+        text_cost_total.validate();
+        text_cost_total.repaint();
+    }//GEN-LAST:event_text_cost_totalFocusGained
+
+    private void text_cost_totalFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_cost_totalFocusLost
+        text_cost_total.setOpaque(false);
+        text_cost_total.validate();
+        text_cost_total.repaint();
+    }//GEN-LAST:event_text_cost_totalFocusLost
+
+    private void tgl_cost_typeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tgl_cost_typeMouseEntered
+        if(cost_edit){
+            tgl_cost_type.setOpaque(true);
+            tgl_cost_type.setForeground(Color.white);
+            if(tgl_cost_type.getText().equals("Operation")){
+                tgl_cost_type.setText("Goods");
+            }
+            else{
+                tgl_cost_type.setText("Operation");
+            }
+        }
+    }//GEN-LAST:event_tgl_cost_typeMouseEntered
+
+    private void btn_cost_cancelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cost_cancelMouseExited
+        btn_cost_cancel.setIcon( new ImageIcon(getClass().getResource("/images/icons8_delete_25px.png")) );
+        btnResetHover(btn_cost_cancel);
+        btn_cost_cancel.setForeground(new Color(232,17,35));
+    }//GEN-LAST:event_btn_cost_cancelMouseExited
+
+    private void btn_cost_cancelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cost_cancelMouseEntered
+        btn_cost_cancel.setIcon( new ImageIcon(getClass().getResource("/images/icons8_delete_25px_1.png")) );
+        btnHover(btn_cost_cancel);
+        btn_cost_cancel.setForeground(Color.WHITE);
+    }//GEN-LAST:event_btn_cost_cancelMouseEntered
+
+    private void btn_cost_cancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cost_cancelMouseClicked
+        // function     
+        
+        // gui
+        setCostEditableDetail(false);
+        pnl_cost_add_edit_del.setVisible(true);
+        pnl_cost_edit.setVisible(false);
+    }//GEN-LAST:event_btn_cost_cancelMouseClicked
+
+    private void btn_cost_saveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cost_saveMouseClicked
+        // function     
+        
+        // gui
+        setCostEditableDetail(false);
+        pnl_cost_add_edit_del.setVisible(true);
+        pnl_cost_edit.setVisible(false);
+    }//GEN-LAST:event_btn_cost_saveMouseClicked
+
+    private void btn_cost_saveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cost_saveMouseEntered
+        btn_cost_save.setIcon( new ImageIcon(getClass().getResource("/images/icons8_save_25px_1.png")) );
+        btnHover(btn_cost_save);
+        btn_cost_save.setForeground(Color.WHITE);
+    }//GEN-LAST:event_btn_cost_saveMouseEntered
+
+    private void btn_cost_saveMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cost_saveMouseExited
+        btn_cost_save.setIcon( new ImageIcon(getClass().getResource("/images/icons8_save_25px.png")) );
+        btnResetHover(btn_cost_save);
+        btn_cost_save.setForeground(new Color(19,155,91));
+    }//GEN-LAST:event_btn_cost_saveMouseExited
+
+    private void text_cost_dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_cost_dateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_text_cost_dateActionPerformed
+
+    private void text_cost_descriptionFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_cost_descriptionFocusGained
+        text_cost_description.setBackground(new Color(255,248,243));
+        text_cost_description.validate();
+        text_cost_description.repaint();
+    }//GEN-LAST:event_text_cost_descriptionFocusGained
+
+    private void text_cost_descriptionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_cost_descriptionFocusLost
+        text_cost_description.setBackground(Color.white);
+        text_cost_description.validate();
+        text_cost_description.repaint();
+    }//GEN-LAST:event_text_cost_descriptionFocusLost
+
+    private void tgl_cost_typeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tgl_cost_typeMouseExited
+        if (cost_edit) {
+            tgl_cost_type.setOpaque(false);
+            tgl_cost_type.setForeground(new Color(255, 157, 128));
+            if (!clicked_tgl_cost_type) {
+                if (tgl_cost_type.getText().equals("Operation")) {
+                    tgl_cost_type.setText("Goods");
+                } else {
+                    tgl_cost_type.setText("Operation");
+                }
+            }
+            else{
+                clicked_tgl_cost_type = false;
+            }
+        }
+    }//GEN-LAST:event_tgl_cost_typeMouseExited
+
+    private void tgl_cost_typeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tgl_cost_typeMouseClicked
+        clicked_tgl_cost_type = true;
+    }//GEN-LAST:event_tgl_cost_typeMouseClicked
+
+    private void text_menu_searchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_menu_searchFocusGained
+        text_menu_search.setText("");
+        text_menu_search.setOpaque(true);
+        text_menu_search.setForeground(Color.black);
+    }//GEN-LAST:event_text_menu_searchFocusGained
+
+    private void text_menu_searchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_menu_searchFocusLost
+        text_menu_search.setText("Search");
+        text_menu_search.setOpaque(false);
+        text_menu_search.setForeground(new Color(255,157,128));
+    }//GEN-LAST:event_text_menu_searchFocusLost
+
+    private void text_cash_searchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_cash_searchFocusGained
+        text_cash_search.setText("");
+        text_cash_search.setOpaque(true);
+        text_cash_search.setForeground(Color.black);
+    }//GEN-LAST:event_text_cash_searchFocusGained
+
+    private void text_cash_searchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_cash_searchFocusLost
+        text_cash_search.setText("Search");
+        text_cash_search.setOpaque(false);
+        text_cash_search.setForeground(new Color(255,157,128));
+    }//GEN-LAST:event_text_cash_searchFocusLost
+
+    private void text_cost_searchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_cost_searchFocusGained
+        text_cost_search.setText("");
+        text_cost_search.setOpaque(true);
+        text_cost_search.setForeground(Color.black);
+    }//GEN-LAST:event_text_cost_searchFocusGained
+
+    private void text_cost_searchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_text_cost_searchFocusLost
+        text_cost_search.setText("Search");
+        text_cost_search.setOpaque(false);
+        text_cost_search.setForeground(new Color(255,157,128));
+    }//GEN-LAST:event_text_cost_searchFocusLost
+
+    private void btn_cash_chargeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cash_chargeMouseClicked
+        //function
+        // please dont change the order
+        
+        // gui
+        clearMenuOrder();
+    }//GEN-LAST:event_btn_cash_chargeMouseClicked
+
+    private void btn_cash_cancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cash_cancelMouseClicked
+        //function
+        // please dont change the order
+        
+        // gui
+        clearMenuOrder();
+    }//GEN-LAST:event_btn_cash_cancelMouseClicked
   
    
     class jPanelGradient extends JPanel{
@@ -2794,12 +3680,12 @@ public class GUI extends javax.swing.JFrame {
         sp.setBackground(new Color(255,157,128,225));
     }
     
-    void setEditBarVisible(boolean is_menu_edit){
+    void setMenuEditBarVisible(boolean is_menu_edit){
         pnl_menu_function.setVisible(is_menu_edit);
         pnl_menu_quantity.setVisible(is_menu_edit);
     }
     
-    void setEditableDetail(boolean is_menu_edit){
+    void setMenuEditableDetail(boolean is_menu_edit){
         text_menu_name.setEditable(is_menu_edit);
         text_menu_category.setEditable(is_menu_edit);
         text_menu_discount.setEditable(is_menu_edit);
@@ -2808,6 +3694,59 @@ public class GUI extends javax.swing.JFrame {
         text_menu_specification.setEditable(is_menu_edit);
         text_menu_type.setEditable(is_menu_edit);
         tbl_detail.setEnabled(is_menu_edit);
+        
+        if(!is_menu_edit){
+            clearMenuDetail();
+        }
+    }
+    
+    void clearMenuDetail(){
+        text_menu_name.setText("");
+        text_menu_category.setText("");
+        text_menu_discount.setText("");
+        text_menu_price.setText("");
+        text_menu_quantity.setText("");
+        text_menu_specification.setText("");
+        text_menu_type.setText("");
+        clearTable(tbl_detail);
+    }
+    
+    void setCostEditableDetail(boolean is_cost_edit){
+        text_cost_date.setEditable(is_cost_edit);
+        text_cost_quantity.setEditable(is_cost_edit);
+        text_cost_total.setEditable(is_cost_edit);
+        text_cost_unit.setEditable(is_cost_edit);
+        text_cost_description.setEditable(is_cost_edit);
+        cost_edit = is_cost_edit;
+        
+        if(is_cost_edit){
+            tgl_cost_type.setText("Goods");
+        }
+        else{
+            tgl_cost_type.setText("None");
+            clearCostDetail();
+        }
+    }
+    
+    void clearCostDetail(){
+        text_cost_date.setText("");
+        text_cost_quantity.setText("");
+        text_cost_total.setText("");
+        text_cost_unit.setText("");
+        text_cost_description.setText("");
+    }
+    
+    void clearMenuOrder(){
+        text_menu_notes.setText("");
+        clearTable(tbl_order);
+    }
+    
+    void clearTable(final JTable table) {
+        for (int i = 0; i < table.getRowCount(); i++) {
+            for (int j = 0; j < table.getColumnCount(); j++) {
+                table.setValueAt("", i, j);
+            }
+        }
     }
     
     /**
@@ -2863,6 +3802,11 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel btn_cash_return;
     private javax.swing.JLabel btn_cash_subtract;
     private javax.swing.JPanel btn_cost;
+    private javax.swing.JLabel btn_cost_cancel;
+    private javax.swing.JLabel btn_cost_create;
+    private javax.swing.JLabel btn_cost_del;
+    private javax.swing.JLabel btn_cost_edit;
+    private javax.swing.JLabel btn_cost_save;
     private javax.swing.JPanel btn_exit;
     private javax.swing.JPanel btn_financial;
     private javax.swing.JPanel btn_menu;
@@ -2896,6 +3840,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
@@ -2904,7 +3849,13 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -2923,6 +3874,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
@@ -2933,36 +3885,55 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel28;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel30;
+    private javax.swing.JPanel jPanel31;
+    private javax.swing.JPanel jPanel32;
+    private javax.swing.JPanel jPanel33;
+    private javax.swing.JPanel jPanel34;
+    private javax.swing.JPanel jPanel35;
+    private javax.swing.JPanel jPanel36;
+    private javax.swing.JPanel jPanel37;
+    private javax.swing.JPanel jPanel38;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPanel pn_cash;
     private javax.swing.JPanel pn_cost;
     private javax.swing.JPanel pn_financial;
     private javax.swing.JPanel pn_menu;
-    private javax.swing.JPanel pnl_add_edit_del;
+    private javax.swing.JPanel pnl_cost_add_edit_del;
+    private javax.swing.JPanel pnl_cost_edit;
+    private javax.swing.JPanel pnl_menu_add_edit_del;
     private javax.swing.JPanel pnl_menu_function;
     private javax.swing.JPanel pnl_menu_quantity;
     private javax.swing.JScrollPane sp_cash;
+    private javax.swing.JScrollPane sp_cost;
     private javax.swing.JScrollPane sp_detail;
     private javax.swing.JScrollPane sp_menu;
     private javax.swing.JScrollPane sp_order;
     private javax.swing.JTable tbl_cash;
+    private javax.swing.JTable tbl_cost;
     private javax.swing.JTable tbl_detail;
     private javax.swing.JTable tbl_menu;
     private javax.swing.JTable tbl_order;
     private javax.swing.JTextField text_cash_quantity;
     private javax.swing.JTextField text_cash_search;
+    private javax.swing.JTextField text_cost_date;
+    private javax.swing.JEditorPane text_cost_description;
+    private javax.swing.JTextField text_cost_quantity;
+    private javax.swing.JTextField text_cost_search;
+    private javax.swing.JTextField text_cost_total;
+    private javax.swing.JTextField text_cost_unit;
     private javax.swing.JLabel text_date;
     private javax.swing.JLabel text_layout_name;
     private javax.swing.JTextField text_menu_category;
     private javax.swing.JTextField text_menu_discount;
     private javax.swing.JTextField text_menu_name;
+    private javax.swing.JEditorPane text_menu_notes;
     private javax.swing.JTextField text_menu_price;
     private javax.swing.JTextField text_menu_quantity;
     private javax.swing.JTextField text_menu_search;
@@ -2972,5 +3943,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel text_orders;
     private javax.swing.JLabel text_time;
     private javax.swing.JLabel text_total;
+    private javax.swing.JLabel tgl_cost_type;
     // End of variables declaration//GEN-END:variables
 }
