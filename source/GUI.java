@@ -432,7 +432,6 @@ public class GUI extends javax.swing.JFrame {
         text_menu_notes = new javax.swing.JEditorPane();
 
         popup_income_detail.setUndecorated(true);
-        popup_income_detail.setPreferredSize(new java.awt.Dimension(480, 320));
         popup_income_detail.setType(java.awt.Window.Type.POPUP);
 
         jPanel29.setBackground(new java.awt.Color(255, 255, 255));
@@ -2256,7 +2255,7 @@ public class GUI extends javax.swing.JFrame {
         text_income.setPreferredSize(new java.awt.Dimension(285, 45));
 
         ind_income.setBackground(new java.awt.Color(240, 248, 255));
-        ind_income.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_back_35px_blue.png"))); // NOI18N
+        ind_income.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_back_40px_blue.png"))); // NOI18N
         ind_income.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 5, 0, 0, new java.awt.Color(0, 123, 255)));
         ind_income.setOpaque(true);
 
