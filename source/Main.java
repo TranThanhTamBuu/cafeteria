@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 
 import source.Database.Database;
-import source.Payment.Menu;
+//import source.Payment.Menu;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,9 +18,9 @@ public class Main {
             e.printStackTrace();
         }
 
-        Menu.getInstance().AddAllGenFood(db.ReadAllDishes());
-        Menu.getInstance().AddAllGenFood(db.ReadAllCombos());
-
-        Menu.getInstance().PrintMenu();
+//        Menu.getInstance().AddAllGenFood(db.ReadAllDishes());
+//        Menu.getInstance().AddAllGenFood(db.ReadAllCombos());
+//
+//        Menu.getInstance().PrintMenu();
     }
 }

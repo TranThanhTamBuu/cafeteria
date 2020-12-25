@@ -1815,6 +1815,9 @@
                           <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbl_menuMouseClicked"/>
+                      </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable()&#xa;{&#xa;    @Override&#xa;    public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {&#xa;        // Only called if there are rows present&#xa;        JComponent c = (JComponent) super.prepareRenderer(renderer, row, column);&#xa;        // Use custom rendering to overcome background color bug in Nimbus&#xa;        if (!isRowSelected(row)) {&#xa;            c.setBackground((row % 2 != 0) ? new Color(254,218,196,50) : Color.WHITE);&#xa;            c.setOpaque(true);&#xa;        }&#xa;        return c;&#xa;    }&#xa;}"/>
                       </AuxValues>

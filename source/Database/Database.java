@@ -192,43 +192,43 @@ public class Database {
 //        return combos;
 //    }
     
-      public boolean readComboDetail(int comboID, JTable tbl_detail) {
-          String query = "select * from combo where ";
-        Statement stmt;      
-        try {
-            stmt = this.conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-
-            
-            DefaultTableModel tbl_menu_model = (DefaultTableModel) tbl_menu.getModel(); 
-            tbl_menu_model.setRowCount(0);
-            while (rs.next()) {
-                Object[] objs = new Object[] {rs.getInt(Field.Menu.ID.GetIdx()), 
-                                                    rs.getString(Field.Menu.Name.GetIdx()),
-                                                    rs.getString(Field.Menu.CategoryName.GetIdx()),
-                                                    rs.getString(Field.Menu.Type.GetIdx()).equals("D")?"Dish":"Combo",
-                                                    rs.getString(Field.Menu.SpecificName.GetIdx()),
-                                                    rs.getInt(Field.Menu.Price.GetIdx()),
-                                                    rs.getFloat(Field.Menu.Discount.GetIdx())                
-                                                    };
-//                for (Object obj: objs) {
-//                    System.out.println(obj);
-//                }
-                
-                tbl_menu_model.addRow(objs);    
-                System.out.println("Row Count: " + tbl_menu_model.getRowCount());
-            }
-            
-//            tbl_menu.setModel(tbl_menu_model);
-            
-            stmt.close();
-            return true;
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return false;
-        }   
-      }
+//      public boolean readComboDetail(int comboID, JTable tbl_detail) {
+//          String query = "select * from combo where ";
+//        Statement stmt;      
+//        try {
+//            stmt = this.conn.createStatement();
+//            ResultSet rs = stmt.executeQuery(query);
+//
+//            
+//            DefaultTableModel tbl_menu_model = (DefaultTableModel) tbl_detail.getModel(); 
+//            tbl_menu_model.setRowCount(0);
+//            while (rs.next()) {
+//                Object[] objs = new Object[] {rs.getInt(Field.Menu.ID.GetIdx()), 
+//                                                    rs.getString(Field.Menu.Name.GetIdx()),
+//                                                    rs.getString(Field.Menu.CategoryName.GetIdx()),
+//                                                    rs.getString(Field.Menu.Type.GetIdx()).equals("D")?"Dish":"Combo",
+//                                                    rs.getString(Field.Menu.SpecificName.GetIdx()),
+//                                                    rs.getInt(Field.Menu.Price.GetIdx()),
+//                                                    rs.getFloat(Field.Menu.Discount.GetIdx())                
+//                                                    };
+////                for (Object obj: objs) {
+////                    System.out.println(obj);
+////                }
+//                
+//                tbl_menu_model.addRow(objs);    
+//                System.out.println("Row Count: " + tbl_menu_model.getRowCount());
+//            }
+//            
+////            tbl_menu.setModel(tbl_menu_model);
+//            
+//            stmt.close();
+//            return true;
+//        } catch (SQLException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//            return false;
+//        }   
+//      }
       
 //
 //    public ArrayList<Order> ReadOrderBy(ReadBy readBy, LocalDateTime date) {
