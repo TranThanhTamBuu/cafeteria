@@ -15,12 +15,15 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
-import source.Food.Combo;
-import source.Food.Dish;
-import source.Management.Cost;
-import source.Payment.Menu;
-import source.Payment.Order;
+//import source.Food.Combo;
+//import source.Food.Dish;
+//import source.Food.Food;
+//import source.Management.Cost;
+//import source.Payment.Menu;
+//import source.Payment.Order;
 
 public class Database {
     public static enum ReadBy {
@@ -119,312 +122,368 @@ public class Database {
         }
     }
 
-    public ArrayList<Dish> ReadAllDishes() {
-        String query = "select * from menu where type = 'D'";
-        Statement stmt;
-        ArrayList<Dish> dishes = new ArrayList<>();
+    public boolean ReadAllDishes(JTable tbl_menu) {
+        String query = "select * from menu mn join category cat on mn.categoryID = cat.id join specifictype sp on sp.id = mn.specifictypeID where mn.type = 'D'";
+        Statement stmt;      
         try {
             stmt = this.conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
+            
+            DefaultTableModel tbl_menu_model = (DefaultTableModel) tbl_menu.getModel(); 
+            tbl_menu_model.setRowCount(0);
             while (rs.next()) {
-                dishes.add(new Dish(rs.getInt(Field.Menu.ID.GetIdx()), rs.getString(Field.Menu.Name.GetIdx()),
-                        rs.getString(Field.Menu.SpecificTypeID.GetIdx()), rs.getFloat(Field.Menu.Discount.GetIdx()),
-                        rs.getInt(Field.Menu.Price.GetIdx())));
+                Object[] objs = new Object[] {rs.getInt(Field.Menu.ID.GetIdx()), 
+                                                    rs.getString(Field.Menu.Name.GetIdx()),
+                                                    rs.getString(Field.Menu.CategoryName.GetIdx()),
+                                                    rs.getString(Field.Menu.Type.GetIdx()).equals("D")?"Dish":"Combo",
+                                                    rs.getString(Field.Menu.SpecificName.GetIdx()),
+                                                    rs.getInt(Field.Menu.Price.GetIdx()),
+                                                    rs.getFloat(Field.Menu.Discount.GetIdx())                
+                                                    };
+//                for (Object obj: objs) {
+//                    System.out.println(obj);
+//                }
+                
+                tbl_menu_model.addRow(objs);    
+                System.out.println("Row Count: " + tbl_menu_model.getRowCount());
             }
+            
+//            tbl_menu.setModel(tbl_menu_model);
+            
             stmt.close();
+            return true;
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
-        return dishes;
+            return false;
+        }        
     }
 
-    public ArrayList<Combo> ReadAllCombos() {
-        Statement stmt = null;
-        Statement stmt1 = null;
-        ArrayList<Combo> combos = new ArrayList<>();
+//    public ArrayList<Combo> ReadAllCombos() {
+//        Statement stmt = null;
+//        Statement stmt1 = null;
+//        ArrayList<Combo> combos = new ArrayList<>();
+//        try {
+//            stmt = this.conn.createStatement();
+//            stmt1 = this.conn.createStatement();
+//            ResultSet rs = stmt.executeQuery("select * from menu where type = 'C'");
+//
+//            while (rs.next()) {
+//                Combo curCb = new Combo(rs.getInt(Field.Menu.ID.GetIdx()), rs.getString(Field.Menu.Name.GetIdx()),
+//                        rs.getString(Field.Menu.SpecificTypeID.GetIdx()), rs.getFloat(Field.Menu.Discount.GetIdx()),
+//                        rs.getInt(Field.Menu.Price.GetIdx()));
+//                combos.add(curCb);
+//
+//                ResultSet rs1 = stmt1
+//                        .executeQuery(String.format("select * from combo c where c.comboid = %s", curCb.GetID()));
+//
+//                while (rs1.next()) {
+//                    curCb.addDish(rs1.getInt(Field.Combo.DishID.GetIdx()), rs1.getInt(Field.Combo.Quantity.GetIdx()));
+//                }
+//            }
+//
+//            stmt.close();
+//            stmt1.close();
+//        } catch (SQLException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        return combos;
+//    }
+    
+      public boolean readComboDetail(int comboID, JTable tbl_detail) {
+          String query = "select * from combo where ";
+        Statement stmt;      
         try {
             stmt = this.conn.createStatement();
-            stmt1 = this.conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from menu where type = 'C'");
-
-            while (rs.next()) {
-                Combo curCb = new Combo(rs.getInt(Field.Menu.ID.GetIdx()), rs.getString(Field.Menu.Name.GetIdx()),
-                        rs.getString(Field.Menu.SpecificTypeID.GetIdx()), rs.getFloat(Field.Menu.Discount.GetIdx()),
-                        rs.getInt(Field.Menu.Price.GetIdx()));
-                combos.add(curCb);
-
-                ResultSet rs1 = stmt1
-                        .executeQuery(String.format("select * from combo c where c.comboid = %s", curCb.GetID()));
-
-                while (rs1.next()) {
-                    curCb.addDish(rs1.getInt(Field.Combo.DishID.GetIdx()), rs1.getInt(Field.Combo.Quantity.GetIdx()));
-                }
-            }
-
-            stmt.close();
-            stmt1.close();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return combos;
-    }
-
-    public ArrayList<Order> ReadOrderBy(ReadBy readBy, LocalDateTime date) {
-        ArrayList<Order> orders = new ArrayList<Order>();
-
-        try {
-            Statement stmt = conn.createStatement();
-            Statement stmt1 = conn.createStatement();
-
-            String query = "";
-
-            switch (readBy) {
-                case DAY: {
-                    query = String.format("select * from payment where convert(datepayment, date) = '%s-%s-%s'",
-                            date.getYear(), date.getMonthValue(), date.getDayOfMonth());
-
-                    break;
-                }
-                case MONTH: {
-                    query = String.format(
-                            "select * from payment where month(convert(datepayment, date)) = %s and year(convert(datepayment, date)) = %s",
-                            date.getMonthValue(), date.getYear());
-
-                    break;
-                }
-
-                case YEAR: {
-                    query = String.format("select * from payment where year(convert(datepayment, date)) = %s",
-                            date.getYear());
-
-                    break;
-                }
-            }
-
             ResultSet rs = stmt.executeQuery(query);
 
+            
+            DefaultTableModel tbl_menu_model = (DefaultTableModel) tbl_menu.getModel(); 
+            tbl_menu_model.setRowCount(0);
             while (rs.next()) {
-                Order curOr = new Order(rs.getInt(Field.Payment.ID.GetIdx()),
-                        rs.getObject(Field.Payment.DateTime.GetIdx(), LocalDateTime.class),
-                        rs.getString(Field.Payment.Note.GetIdx()));
-                orders.add(curOr);
-
-                ResultSet rs1 = stmt1.executeQuery(
-                        String.format("select * from specificpayment where paymentid = %s", curOr.GetID()));
-
-                while (rs1.next()) {
-                    curOr.addFood(rs.getInt(Field.SpecificPayment.FoodID.GetIdx()),
-                            rs.getInt(Field.SpecificPayment.Quantity.GetIdx()));
-                }
+                Object[] objs = new Object[] {rs.getInt(Field.Menu.ID.GetIdx()), 
+                                                    rs.getString(Field.Menu.Name.GetIdx()),
+                                                    rs.getString(Field.Menu.CategoryName.GetIdx()),
+                                                    rs.getString(Field.Menu.Type.GetIdx()).equals("D")?"Dish":"Combo",
+                                                    rs.getString(Field.Menu.SpecificName.GetIdx()),
+                                                    rs.getInt(Field.Menu.Price.GetIdx()),
+                                                    rs.getFloat(Field.Menu.Discount.GetIdx())                
+                                                    };
+//                for (Object obj: objs) {
+//                    System.out.println(obj);
+//                }
+                
+                tbl_menu_model.addRow(objs);    
+                System.out.println("Row Count: " + tbl_menu_model.getRowCount());
             }
-
+            
+//            tbl_menu.setModel(tbl_menu_model);
+            
             stmt.close();
-            stmt1.close();
-
+            return true;
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
-        return orders;
-    }
-
-    public ArrayList<Cost> ReadCostBy(ReadBy readBy, LocalDateTime date) {
-        ArrayList<Cost> costs = new ArrayList<Cost>();
-
-        try {
-            Statement stmt = conn.createStatement();
-            Statement stmt1 = conn.createStatement();
-
-            String query = "";
-
-            switch (readBy) {
-                case DAY: {
-                    query = String.format("select * from payment where convert(datepayment, date) = '%s-%s-%s'",
-                            date.getYear(), date.getMonthValue(), date.getDayOfMonth());
-
-                    break;
-                }
-                case MONTH: {
-                    query = String.format(
-                            "select * from payment where month(convert(datepayment, date)) = %s and year(convert(datepayment, date)) = %s",
-                            date.getMonthValue(), date.getYear());
-
-                    break;
-                }
-
-                case YEAR: {
-                    query = String.format("select * from payment where year(convert(datepayment, date)) = %s",
-                            date.getYear());
-
-                    break;
-                }
-            }
-
-            ResultSet rs = stmt.executeQuery(query);
-
-            while (rs.next()) {
-                Cost curCost = new Cost(rs.getInt(Field.Cost.ID.GetIdx()),
-                        rs.getString(Field.Cost.Type.GetIdx()).charAt(0),
-                        rs.getObject(Field.Cost.Date.GetIdx(), LocalDate.class),
-                        rs.getString(Field.Cost.Description.GetIdx()), rs.getFloat(Field.Cost.Quantity.GetIdx()),
-                        rs.getInt(Field.Cost.UnitID.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx()));
-
-                costs.add(curCost);
-            }
-
-            stmt.close();
-            stmt1.close();
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return costs;
-    }
-
-    public void WriteOrder(Order order) {
-        Statement stmt = null;
-        Statement stmt1 = null;
-        try {
-            stmt = this.conn.createStatement();
-            stmt1 = this.conn.createStatement();
-            stmt.executeUpdate(String.format("INSERT INTO Payment VALUES (null, '%s', '%s', null)",
-                    order.getListDateTime(), order.getNote()));
-            int id = order.GetID();
-            ArrayList<Integer> list_foodID = order.getListFoodID();
-            ArrayList<Integer> quantity = order.getListQuantity();
-            for (int i = 0; i < list_foodID.size(); i++) {
-                stmt1.executeUpdate(String.format("INSERT INTO SpecificPayment VALUES (%d, '%d', '%d')", id,
-                        list_foodID.get(i), quantity.get(i)));
-            }
-            stmt.close();
-            stmt1.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void WriteCost(Cost cost) {
-        Statement stmt = null;
-        try {
-            stmt = this.conn.createStatement();
-            stmt.executeUpdate(String.format("INSERT INTO Cost VALUES (null, '%s', '%s', '%s', %.2f, %d, %d)",
-                    cost.getType(), cost.getDate(), cost.getDescription(), cost.getQuantity(), cost.getUnitId(),
-                    cost.getTotalAmount()));
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void WriteDish(Dish dish) {
-        Statement stmt = null;
-        try {
-            stmt = this.conn.createStatement();
-            stmt.executeUpdate(String.format("INSERT INTO Menu VALUES (null, 'D', %d, %d, '%s', %d, %.2f)",
-                    dish.getCategory(), dish.getSpecificType(), dish.getName(), dish.getPrice(), dish.getDiscount()));
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void WriteCombo(Combo combo) {
-        Statement stmt = null;
-        Statement stmt1 = null;
-        try {
-            stmt = this.conn.createStatement();
-            stmt1 = this.conn.createStatement();
-            stmt.executeUpdate(
-                    String.format("INSERT INTO Menu VALUES (null, 'C', %d, %d, '%s', %d, %.2f)", combo.getCategory(),
-                            combo.getSpecificType(), combo.getName(), combo.getPrice(), combo.getDiscount()));
-            int id = combo.GetID();
-            ArrayList<Integer> array_dishID = combo.getArrayDishID();
-            ArrayList<Integer> quantity = combo.getArrayQuantity();
-            for (int i = 0; i < array_dishID.size(); i++) {
-                stmt1.executeUpdate(String.format("INSERT INTO SpecificPayment VALUES (%d, '%d', '%d')", id,
-                        array_dishID.get(i), quantity.get(i)));
-            }
-            stmt.close();
-            stmt1.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void DeleteCost(int id) {
-        Statement stmt = null;
-        try {
-            stmt = this.conn.createStatement();
-            stmt.executeUpdate(String.format("DELETE FROM Cost WHERE ID = %d", id));
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void DeleteOrder(int id) {
-        Statement stmt = null;
-        Statement stmt1 = null;
-        try {
-            stmt = this.conn.createStatement();
-            stmt1 = this.conn.createStatement();
-            stmt.executeUpdate(String.format("DELETE FROM SpecificPayment WHERE ID = %d", id));
-            stmt1.executeUpdate(String.format("DELETE FROM Payment WHERE ID = %d", id));
-            stmt.close();
-            stmt1.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void EditCost(int id, String attribute_name, String value) {
-        Statement stmt = null;
-        try {
-            if (attribute_name == "Type" || attribute_name == "Description" || attribute_name == "Quantity"
-                    || attribute_name == "UnitID" || attribute_name == "TotalAmount" || attribute_name == "DateCost") {
-                stmt = this.conn.createStatement();
-                stmt.executeUpdate(String.format("UPDATE Cost SET %s = '%s' WHERE ID = %d", attribute_name, value, id));
-                stmt.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void EditDish(int id, String attribute_name, String value) {
-        Statement stmt = null;
-        try {
-            if (attribute_name == "CategoryID" || attribute_name == "SpecificTypeID" || attribute_name == "Name"
-                    || attribute_name == "Price" || attribute_name == "Discount") {
-                stmt = this.conn.createStatement();
-                stmt.executeUpdate(String.format("UPDATE Menu SET %s = '%s' WHERE ID = %d AND Type = 'D",
-                        attribute_name, value, id));
-                stmt.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void EditCombo(int id, String attribute_name, String value) {
-        Statement stmt = null;
-        try {
-            stmt = this.conn.createStatement();
-            if (attribute_name == "Quantity") {
-                stmt.executeUpdate(
-                        String.format("UPDATE Combo SET %s = '%s' WHERE ID = %d", attribute_name, value, id));
-            }
-            if (attribute_name == "Name" || attribute_name == "Price" || attribute_name == "Discount") {
-                stmt.executeUpdate(String.format("UPDATE Menu SET %s = '%s' WHERE ID = %d AND Type = 'C'",
-                        attribute_name, value, id));
-            }
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+            return false;
+        }   
+      }
+      
+//
+//    public ArrayList<Order> ReadOrderBy(ReadBy readBy, LocalDateTime date) {
+//        ArrayList<Order> orders = new ArrayList<Order>();
+//
+//        try {
+//            Statement stmt = conn.createStatement();
+//            Statement stmt1 = conn.createStatement();
+//
+//            String query = "";
+//
+//            switch (readBy) {
+//                case DAY: {
+//                    query = String.format("select * from payment where convert(datepayment, date) = '%s-%s-%s'",
+//                            date.getYear(), date.getMonthValue(), date.getDayOfMonth());
+//
+//                    break;
+//                }
+//                case MONTH: {
+//                    query = String.format(
+//                            "select * from payment where month(convert(datepayment, date)) = %s and year(convert(datepayment, date)) = %s",
+//                            date.getMonthValue(), date.getYear());
+//
+//                    break;
+//                }
+//
+//                case YEAR: {
+//                    query = String.format("select * from payment where year(convert(datepayment, date)) = %s",
+//                            date.getYear());
+//
+//                    break;
+//                }
+//            }
+//
+//            ResultSet rs = stmt.executeQuery(query);
+//
+//            while (rs.next()) {
+//                Order curOr = new Order(rs.getInt(Field.Payment.ID.GetIdx()),
+//                        rs.getObject(Field.Payment.DateTime.GetIdx(), LocalDateTime.class),
+//                        rs.getString(Field.Payment.Note.GetIdx()));
+//                orders.add(curOr);
+//
+//                ResultSet rs1 = stmt1.executeQuery(
+//                        String.format("select * from specificpayment where paymentid = %s", curOr.GetID()));
+//
+//                while (rs1.next()) {
+//                    curOr.addFood(rs.getInt(Field.SpecificPayment.FoodID.GetIdx()),
+//                            rs.getInt(Field.SpecificPayment.Quantity.GetIdx()));
+//                }
+//            }
+//
+//            stmt.close();
+//            stmt1.close();
+//
+//        } catch (SQLException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        return orders;
+//    }
+//
+//    public ArrayList<Cost> ReadCostBy(ReadBy readBy, LocalDateTime date) {
+//        ArrayList<Cost> costs = new ArrayList<Cost>();
+//
+//        try {
+//            Statement stmt = conn.createStatement();
+//            Statement stmt1 = conn.createStatement();
+//
+//            String query = "";
+//
+//            switch (readBy) {
+//                case DAY: {
+//                    query = String.format("select * from payment where convert(datepayment, date) = '%s-%s-%s'",
+//                            date.getYear(), date.getMonthValue(), date.getDayOfMonth());
+//
+//                    break;
+//                }
+//                case MONTH: {
+//                    query = String.format(
+//                            "select * from payment where month(convert(datepayment, date)) = %s and year(convert(datepayment, date)) = %s",
+//                            date.getMonthValue(), date.getYear());
+//
+//                    break;
+//                }
+//
+//                case YEAR: {
+//                    query = String.format("select * from payment where year(convert(datepayment, date)) = %s",
+//                            date.getYear());
+//
+//                    break;
+//                }
+//            }
+//
+//            ResultSet rs = stmt.executeQuery(query);
+//
+//            while (rs.next()) {
+//                Cost curCost = new Cost(rs.getInt(Field.Cost.ID.GetIdx()),
+//                        rs.getString(Field.Cost.Type.GetIdx()).charAt(0),
+//                        rs.getObject(Field.Cost.Date.GetIdx(), LocalDate.class),
+//                        rs.getString(Field.Cost.Description.GetIdx()), rs.getFloat(Field.Cost.Quantity.GetIdx()),
+//                        rs.getInt(Field.Cost.UnitID.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx()));
+//
+//                costs.add(curCost);
+//            }
+//
+//            stmt.close();
+//            stmt1.close();
+//
+//        } catch (SQLException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        return costs;
+//    }
+//
+//    public void WriteOrder(Order order) {
+//        Statement stmt = null;
+//        Statement stmt1 = null;
+//        try {
+//            stmt = this.conn.createStatement();
+//            stmt1 = this.conn.createStatement();
+//            stmt.executeUpdate(String.format("INSERT INTO Payment VALUES (null, '%s', '%s', null)",
+//                    order.getListDateTime(), order.getNote()));
+//            int id = order.GetID();
+//            ArrayList<Integer> list_foodID = order.getListFoodID();
+//            ArrayList<Integer> quantity = order.getListQuantity();
+//            for (int i = 0; i < list_foodID.size(); i++) {
+//                stmt1.executeUpdate(String.format("INSERT INTO SpecificPayment VALUES (%d, '%d', '%d')", id,
+//                        list_foodID.get(i), quantity.get(i)));
+//            }
+//            stmt.close();
+//            stmt1.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public void WriteCost(Cost cost) {
+//        Statement stmt = null;
+//        try {
+//            stmt = this.conn.createStatement();
+//            stmt.executeUpdate(String.format("INSERT INTO Cost VALUES (null, '%s', '%s', '%s', %.2f, %d, %d)",
+//                    cost.getType(), cost.getDate(), cost.getDescription(), cost.getQuantity(), cost.getUnitId(),
+//                    cost.getTotalAmount()));
+//            stmt.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public void WriteDish(Dish dish) {
+//        Statement stmt = null;
+//        try {
+//            stmt = this.conn.createStatement();
+//            stmt.executeUpdate(String.format("INSERT INTO Menu VALUES (null, 'D', %d, %d, '%s', %d, %.2f)",
+//                    dish.getCategory(), dish.getSpecificType(), dish.getName(), dish.getPrice(), dish.getDiscount()));
+//            stmt.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public void WriteCombo(Combo combo) {
+//        Statement stmt = null;
+//        Statement stmt1 = null;
+//        try {
+//            stmt = this.conn.createStatement();
+//            stmt1 = this.conn.createStatement();
+//            stmt.executeUpdate(
+//                    String.format("INSERT INTO Menu VALUES (null, 'C', %d, %d, '%s', %d, %.2f)", combo.getCategory(),
+//                            combo.getSpecificType(), combo.getName(), combo.getPrice(), combo.getDiscount()));
+//            int id = combo.GetID();
+//            ArrayList<Integer> array_dishID = combo.getArrayDishID();
+//            ArrayList<Integer> quantity = combo.getArrayQuantity();
+//            for (int i = 0; i < array_dishID.size(); i++) {
+//                stmt1.executeUpdate(String.format("INSERT INTO SpecificPayment VALUES (%d, '%d', '%d')", id,
+//                        array_dishID.get(i), quantity.get(i)));
+//            }
+//            stmt.close();
+//            stmt1.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public void DeleteCost(int id) {
+//        Statement stmt = null;
+//        try {
+//            stmt = this.conn.createStatement();
+//            stmt.executeUpdate(String.format("DELETE FROM Cost WHERE ID = %d", id));
+//            stmt.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public void DeleteOrder(int id) {
+//        Statement stmt = null;
+//        Statement stmt1 = null;
+//        try {
+//            stmt = this.conn.createStatement();
+//            stmt1 = this.conn.createStatement();
+//            stmt.executeUpdate(String.format("DELETE FROM SpecificPayment WHERE ID = %d", id));
+//            stmt1.executeUpdate(String.format("DELETE FROM Payment WHERE ID = %d", id));
+//            stmt.close();
+//            stmt1.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public void EditCost(int id, String attribute_name, String value) {
+//        Statement stmt = null;
+//        try {
+//            if (attribute_name == "Type" || attribute_name == "Description" || attribute_name == "Quantity"
+//                    || attribute_name == "UnitID" || attribute_name == "TotalAmount" || attribute_name == "DateCost") {
+//                stmt = this.conn.createStatement();
+//                stmt.executeUpdate(String.format("UPDATE Cost SET %s = '%s' WHERE ID = %d", attribute_name, value, id));
+//                stmt.close();
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public void EditDish(int id, String attribute_name, String value) {
+//        Statement stmt = null;
+//        try {
+//            if (attribute_name == "CategoryID" || attribute_name == "SpecificTypeID" || attribute_name == "Name"
+//                    || attribute_name == "Price" || attribute_name == "Discount") {
+//                stmt = this.conn.createStatement();
+//                stmt.executeUpdate(String.format("UPDATE Menu SET %s = '%s' WHERE ID = %d AND Type = 'D",
+//                        attribute_name, value, id));
+//                stmt.close();
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public void EditCombo(int id, String attribute_name, String value) {
+//        Statement stmt = null;
+//        try {
+//            stmt = this.conn.createStatement();
+//            if (attribute_name == "Quantity") {
+//                stmt.executeUpdate(
+//                        String.format("UPDATE Combo SET %s = '%s' WHERE ID = %d", attribute_name, value, id));
+//            }
+//            if (attribute_name == "Name" || attribute_name == "Price" || attribute_name == "Discount") {
+//                stmt.executeUpdate(String.format("UPDATE Menu SET %s = '%s' WHERE ID = %d AND Type = 'C'",
+//                        attribute_name, value, id));
+//            }
+//            stmt.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

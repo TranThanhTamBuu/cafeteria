@@ -2,7 +2,8 @@ package source.Database;
 
 public class Field {
     public static enum Menu {
-        ID(1), Type(2), CategoryID(3), SpecificTypeID(4), Name(5), Price(6), Discount(7);
+        ID(1), Type(2), CategoryID(3), SpecificTypeID(4), 
+        Name(5), Price(6), Discount(7), CategoryName(9), SpecificName(11) ;
 
         int idx;
 
