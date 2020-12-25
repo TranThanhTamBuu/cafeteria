@@ -159,6 +159,70 @@ public class Database {
             return false;
         }        
     }
+    
+    public boolean ReadAllCosts(JTable tbl_cost) {
+        String query = "select * from cost";
+        Statement stmt;      
+        try {
+            stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            
+            DefaultTableModel tbl_cost_model = (DefaultTableModel) tbl_cost.getModel(); 
+            tbl_cost_model.setRowCount(0);
+            while (rs.next()) {
+                Object[] objs = new Object[] {rs.getInt(Field.Cost.ID.GetIdx()),
+                        rs.getString(Field.Cost.Type.GetIdx()).equals("G")?"Goods":"Operation",
+                        rs.getObject(Field.Cost.Date.GetIdx(), LocalDate.class),
+                        rs.getString(Field.Cost.Description.GetIdx()), rs.getFloat(Field.Cost.Quantity.GetIdx()),
+                        rs.getInt(Field.Cost.UnitID.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
+                tbl_cost_model.addRow(objs);
+            }
+            
+            stmt.close();
+            return true;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
+        }        
+    }
+    
+    public void WriteCost(String type, String date, String description, Float quantity,
+            Integer unitId, Integer totalAmount) {
+        Statement stmt = null;
+        try {
+            stmt = this.conn.createStatement();
+            stmt.executeUpdate(String.format("INSERT INTO Cost VALUES (null, '%s', '%s', '%s', %.2f, %d, %d)",
+                    (type == "Goods")?"G":"O", LocalDate.parse(date), description, quantity, unitId, totalAmount));
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void EditCost(int id, String type, String date, String description, Float quantity,
+            Integer unitId, Integer totalAmount) {
+        Statement stmt = null;
+        try {
+            stmt = this.conn.createStatement();
+            stmt.executeUpdate(String.format("UPDATE Cost SET Type = '%s', DateCost = '%s', Description = '%s', Quantity = %.2f, UnitID = %d, TotalAmount = %d WHERE ID = %d", 
+                    (type == "Goods")?"G":"O", LocalDate.parse(date), description, quantity, unitId, totalAmount, id));
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void DeleteCost(int id) {
+        Statement stmt = null;
+        try {
+            stmt = this.conn.createStatement();
+            stmt.executeUpdate(String.format("DELETE FROM Cost WHERE ID = %d", id));
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 //    public ArrayList<Combo> ReadAllCombos() {
 //        Statement stmt = null;

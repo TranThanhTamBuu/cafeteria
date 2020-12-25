@@ -421,8 +421,8 @@
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="btn_revenue" max="32767" attributes="0"/>
-                      <Component id="btn_purchase" max="32767" attributes="0"/>
+                      <Component id="btn_revenue" pref="184" max="32767" attributes="0"/>
+                      <Component id="btn_purchase" pref="184" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -485,7 +485,7 @@
                       <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel1" max="32767" attributes="0"/>
                       <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel2" pref="172" max="32767" attributes="0"/>
+                      <Component id="jLabel2" pref="168" max="32767" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -567,7 +567,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Component id="jLabel4" pref="172" max="32767" attributes="0"/>
+                      <Component id="jLabel4" pref="168" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -656,7 +656,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Component id="jLabel6" pref="172" max="32767" attributes="0"/>
+                      <Component id="jLabel6" pref="168" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -746,7 +746,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Component id="jLabel8" pref="172" max="32767" attributes="0"/>
+                      <Component id="jLabel8" pref="168" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -853,7 +853,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel6" alignment="0" pref="180" max="32767" attributes="0"/>
+                  <Component id="jPanel6" alignment="0" pref="184" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -986,7 +986,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel8" alignment="0" pref="180" max="32767" attributes="0"/>
+                  <Component id="jPanel8" alignment="0" pref="184" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -1807,7 +1807,6 @@
                         <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="c4" green="da" red="fe" type="rgb"/>
                         </Property>
-                        <Property name="selectionMode" type="int" value="0"/>
                         <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
                           <JTableSelectionModel selectionMode="0"/>
                         </Property>
@@ -2406,7 +2405,6 @@
                                 <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                   <Color blue="c4" green="da" red="fe" type="rgb"/>
                                 </Property>
-                                <Property name="selectionMode" type="int" value="0"/>
                                 <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
                                   <JTableSelectionModel selectionMode="0"/>
                                 </Property>
@@ -2452,7 +2450,7 @@
                                       <Component id="btn_menu_return" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="btn_menu_save" pref="169" max="32767" attributes="0"/>
+                                  <Component id="btn_menu_save" pref="168" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -2754,7 +2752,6 @@
                         <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="c4" green="da" red="fe" type="rgb"/>
                         </Property>
-                        <Property name="selectionMode" type="int" value="0"/>
                         <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
                           <JTableSelectionModel selectionMode="0"/>
                         </Property>
@@ -3030,7 +3027,7 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="0" pref="35" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="33" max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                       <Component id="jLabel63" min="-2" pref="231" max="-2" attributes="0"/>
                                       <Group type="102" attributes="0">
@@ -3492,7 +3489,7 @@
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="text_financial_month" pref="128" max="32767" attributes="0"/>
+                                  <Component id="text_financial_month" pref="124" max="32767" attributes="0"/>
                                   <Component id="text_financial_year" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
@@ -3800,6 +3797,7 @@
                         </Property>
                       </Properties>
                       <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_cost_delMouseClicked"/>
                         <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_cost_delMouseEntered"/>
                         <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_cost_delMouseExited"/>
                       </Events>
@@ -3973,7 +3971,6 @@
                         <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="c4" green="da" red="fe" type="rgb"/>
                         </Property>
-                        <Property name="selectionMode" type="int" value="0"/>
                         <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
                           <JTableSelectionModel selectionMode="0"/>
                         </Property>
@@ -3981,6 +3978,9 @@
                           <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbl_costMouseClicked"/>
+                      </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTable()&#xa;{&#xa;    @Override&#xa;    public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {&#xa;        // Only called if there are rows present&#xa;        JComponent c = (JComponent) super.prepareRenderer(renderer, row, column);&#xa;        // Use custom rendering to overcome background color bug in Nimbus&#xa;        if (!isRowSelected(row)) {&#xa;            c.setBackground((row % 2 != 0) ? new Color(254,218,196,50) : Color.WHITE);&#xa;            c.setOpaque(true);&#xa;        }&#xa;        return c;&#xa;    }&#xa;}"/>
                       </AuxValues>
@@ -4269,7 +4269,7 @@
                                       <Component id="text_cost_total" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel37" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="25" max="32767" attributes="0"/>
+                                  <EmptySpace pref="23" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -5153,7 +5153,6 @@
                         <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="c4" green="da" red="fe" type="rgb"/>
                         </Property>
-                        <Property name="selectionMode" type="int" value="0"/>
                         <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
                           <JTableSelectionModel selectionMode="0"/>
                         </Property>
@@ -5317,7 +5316,6 @@
                             <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="c4" green="da" red="fe" type="rgb"/>
                             </Property>
-                            <Property name="selectionMode" type="int" value="0"/>
                             <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
                               <JTableSelectionModel selectionMode="0"/>
                             </Property>
@@ -5489,7 +5487,7 @@
                                   <Component id="jPanel18" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                                   <Component id="text_total" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="2" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>

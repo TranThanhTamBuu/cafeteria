@@ -20,6 +20,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
@@ -50,6 +51,7 @@ import source.Database.Database;
  * @author 84909
  */
 public class GUI extends javax.swing.JFrame {
+    private int btn_cost_idEdit = -1;
     Thread clock = new Thread(new Runnable() {
         @Override
         public void run() {
@@ -96,7 +98,7 @@ public class GUI extends javax.swing.JFrame {
         setMenuEditBarVisible(false);
         setMenuEditableDetail(false);
 
-        setCostEditableDetail(false);
+        setCostEditableDetail(false, false);
         pnl_cost_edit.setVisible(false);
 
         ind_income.setVisible(false);
@@ -128,6 +130,7 @@ public class GUI extends javax.swing.JFrame {
         }
 
         db.ReadAllDishes(this.tbl_menu);
+        db.ReadAllCosts(this.tbl_cost);
 
     }
 
@@ -679,7 +682,7 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
                 .addContainerGap())
         );
         btn_menuLayout.setVerticalGroup(
@@ -737,7 +740,7 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
                 .addContainerGap())
         );
         btn_cashLayout.setVerticalGroup(
@@ -796,7 +799,7 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
                 .addContainerGap())
         );
         btn_costLayout.setVerticalGroup(
@@ -854,7 +857,7 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
                 .addContainerGap())
         );
         btn_financialLayout.setVerticalGroup(
@@ -921,7 +924,7 @@ public class GUI extends javax.swing.JFrame {
         btn_revenue.setLayout(btn_revenueLayout);
         btn_revenueLayout.setHorizontalGroup(
             btn_revenueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
             .addGroup(btn_revenueLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(btn_revenueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1001,7 +1004,7 @@ public class GUI extends javax.swing.JFrame {
         btn_purchase.setLayout(btn_purchaseLayout);
         btn_purchaseLayout.setHorizontalGroup(
             btn_purchaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
             .addGroup(btn_purchaseLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(btn_purchaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1047,8 +1050,8 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(LeftLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btn_revenue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_purchase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btn_revenue, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+                    .addComponent(btn_purchase, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1466,7 +1469,6 @@ public class GUI extends javax.swing.JFrame {
         tbl_menu.setRowHeight(25);
         tbl_menu.setSelectionBackground(new java.awt.Color(254, 218, 196));
         tbl_menu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tbl_menu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbl_menu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbl_menuMouseClicked(evt);
@@ -1733,7 +1735,6 @@ public class GUI extends javax.swing.JFrame {
         tbl_detail.setRowHeight(25);
         tbl_detail.setSelectionBackground(new java.awt.Color(254, 218, 196));
         tbl_detail.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tbl_detail.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbl_detail.getTableHeader().setReorderingAllowed(false);
         sp_detail.setViewportView(tbl_detail);
 
@@ -1872,7 +1873,7 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(btn_menu_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_menu_return, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_menu_save, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE))
+                .addComponent(btn_menu_save, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE))
         );
         pnl_menu_functionLayout.setVerticalGroup(
             pnl_menu_functionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2013,7 +2014,6 @@ public class GUI extends javax.swing.JFrame {
         });
         tbl_financial.setRowHeight(25);
         tbl_financial.setSelectionBackground(new java.awt.Color(254, 218, 196));
-        tbl_financial.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbl_financial.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         sp_financial.setViewportView(tbl_financial);
 
@@ -2181,7 +2181,7 @@ public class GUI extends javax.swing.JFrame {
         btn_profitLayout.setHorizontalGroup(
             btn_profitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_profitLayout.createSequentialGroup()
-                .addGap(0, 35, Short.MAX_VALUE)
+                .addGap(0, 33, Short.MAX_VALUE)
                 .addGroup(btn_profitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel63, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(btn_profitLayout.createSequentialGroup()
@@ -2471,7 +2471,7 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(text_financial_month, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                    .addComponent(text_financial_month, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
                     .addComponent(text_financial_year))
                 .addGap(10, 10, 10)
                 .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2580,6 +2580,9 @@ public class GUI extends javax.swing.JFrame {
         btn_cost_del.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(232, 17, 35), 3, true));
         btn_cost_del.setPreferredSize(new java.awt.Dimension(50, 40));
         btn_cost_del.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_cost_delMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_cost_delMouseEntered(evt);
             }
@@ -2703,7 +2706,11 @@ public class GUI extends javax.swing.JFrame {
         tbl_cost.setRowHeight(25);
         tbl_cost.setSelectionBackground(new java.awt.Color(254, 218, 196));
         tbl_cost.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tbl_cost.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbl_cost.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_costMouseClicked(evt);
+            }
+        });
         sp_cost.setViewportView(tbl_cost);
 
         javax.swing.GroupLayout jPanel31Layout = new javax.swing.GroupLayout(jPanel31);
@@ -2999,7 +3006,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(text_cost_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pnl_cost_edit.setBackground(new java.awt.Color(255, 255, 255));
@@ -3400,7 +3407,6 @@ public class GUI extends javax.swing.JFrame {
         tbl_cash.setRowHeight(25);
         tbl_cash.setSelectionBackground(new java.awt.Color(254, 218, 196));
         tbl_cash.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tbl_cash.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         sp_cash.setViewportView(tbl_cash);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -3464,7 +3470,6 @@ public class GUI extends javax.swing.JFrame {
         });
         tbl_order.setRowHeight(25);
         tbl_order.setSelectionBackground(new java.awt.Color(254, 218, 196));
-        tbl_order.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbl_order.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbl_order.getTableHeader().setReorderingAllowed(false);
         sp_order.setViewportView(tbl_order);
@@ -3586,7 +3591,7 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(text_total)
-                .addGap(0, 2, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel25))
         );
 
@@ -3738,6 +3743,34 @@ public class GUI extends javax.swing.JFrame {
      }
      }
     }//GEN-LAST:event_tbl_menuMouseClicked
+
+    private void tbl_costMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_costMouseClicked
+        // TODO add your handling code here:
+        int rowIdx;
+        if ((rowIdx = tbl_cost.getSelectedRow()) != -1 
+                && !text_cost_date.isEditable() 
+                && !text_cost_description.isEditable() 
+                && !text_cost_quantity.isEditable()
+                && !text_cost_unit.isEditable()
+                && !text_cost_total.isEditable()) {
+            tgl_cost_type.setText((String)tbl_cost.getValueAt(rowIdx, 1));
+            text_cost_date.setText(tbl_cost.getValueAt(rowIdx, 2).toString());
+            text_cost_description.setText((String)tbl_cost.getValueAt(rowIdx, 3));
+            text_cost_quantity.setText(tbl_cost.getValueAt(rowIdx, 4).toString());
+            text_cost_unit.setText(tbl_cost.getValueAt(rowIdx, 5).toString());
+            text_cost_total.setText(tbl_cost.getValueAt(rowIdx, 6).toString().toString());
+        }
+    }//GEN-LAST:event_tbl_costMouseClicked
+
+    private void btn_cost_delMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cost_delMouseClicked
+        int rowIdx;
+        if ((rowIdx = tbl_cost.getSelectedRow()) != -1) {
+            Database db = Database.getInstance();
+            db.DeleteCost(Integer.parseInt(tbl_cost.getValueAt(rowIdx, 0).toString()));
+            db.ReadAllCosts(tbl_cost);
+            setCostEditableDetail(false, true);
+        }
+    }//GEN-LAST:event_btn_cost_delMouseClicked
 
     private void btn_menuMousePressed(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menuMousePressed
         indSet(ind_menu);
@@ -4204,11 +4237,11 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_cost_createMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cost_createMouseClicked
         // function
-
+        this.btn_cost_idEdit = -1;
         // gui
         pnl_cost_add_edit_del.setVisible(false);
         pnl_cost_edit.setVisible(true);
-        setCostEditableDetail(true);
+        setCostEditableDetail(true, true);
     }// GEN-LAST:event_btn_cost_createMouseClicked
 
     private void btn_cost_createMouseEntered(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cost_createMouseEntered
@@ -4232,13 +4265,14 @@ public class GUI extends javax.swing.JFrame {
     }// GEN-LAST:event_btn_cost_delMouseExited
 
     private void btn_cost_editMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cost_editMouseClicked
-        if (tbl_cost.getSelectedRow() != -1) {
+        int rowIdx;
+        if ((rowIdx = tbl_cost.getSelectedRow()) != -1) {
             // function
-
+            this.btn_cost_idEdit = Integer.parseInt(tbl_cost.getValueAt(rowIdx, 0).toString());
             // gui
             pnl_cost_edit.setVisible(true);
             pnl_cost_add_edit_del.setVisible(false);
-            setCostEditableDetail(true);
+            setCostEditableDetail(true, false);
         }
     }// GEN-LAST:event_btn_cost_editMouseClicked
 
@@ -4332,16 +4366,25 @@ public class GUI extends javax.swing.JFrame {
         // function
 
         // gui
-        setCostEditableDetail(false);
+        setCostEditableDetail(false, false);
         pnl_cost_add_edit_del.setVisible(true);
         pnl_cost_edit.setVisible(false);
     }// GEN-LAST:event_btn_cost_cancelMouseClicked
 
     private void btn_cost_saveMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cost_saveMouseClicked
         // function
-
+        Database db = Database.getInstance();
+        if (this.btn_cost_idEdit == -1) {
+            db.WriteCost(tgl_cost_type.getText(), text_cost_date.getText(), text_cost_description.getText(),
+                    Float.parseFloat(text_cost_quantity.getText()), Integer.parseInt(text_cost_unit.getText()), Integer.parseInt(text_cost_total.getText()));
+        } else {
+            db.EditCost(this.btn_cost_idEdit, tgl_cost_type.getText(), text_cost_date.getText(), text_cost_description.getText(),
+                    Float.parseFloat(text_cost_quantity.getText()), Integer.parseInt(text_cost_unit.getText()), Integer.parseInt(text_cost_total.getText()));
+        }
+        db.ReadAllCosts(tbl_cost);
+        this.btn_cost_idEdit = -1;
         // gui
-        setCostEditableDetail(false);
+        setCostEditableDetail(false, false);
         pnl_cost_add_edit_del.setVisible(true);
         pnl_cost_edit.setVisible(false);
     }// GEN-LAST:event_btn_cost_saveMouseClicked
@@ -4650,19 +4693,28 @@ public class GUI extends javax.swing.JFrame {
         clearTable(tbl_detail);
     }
 
-    void setCostEditableDetail(boolean is_cost_edit) {
+    void setCostEditableDetail(boolean is_cost_edit, boolean is_notEdit) {
         text_cost_date.setEditable(is_cost_edit);
         text_cost_quantity.setEditable(is_cost_edit);
         text_cost_total.setEditable(is_cost_edit);
         text_cost_unit.setEditable(is_cost_edit);
         text_cost_description.setEditable(is_cost_edit);
         cost_edit = is_cost_edit;
-
-        if (is_cost_edit) {
+        
+        clearCostDetail();
+        
+        if (is_notEdit) {
             tgl_cost_type.setText("Goods");
         } else {
-            tgl_cost_type.setText("None");
-            clearCostDetail();
+            int rowIdx;
+            if ((rowIdx = tbl_cost.getSelectedRow()) != -1) {
+                tgl_cost_type.setText((String)tbl_cost.getValueAt(rowIdx, 1));
+                text_cost_date.setText(tbl_cost.getValueAt(rowIdx, 2).toString());
+                text_cost_description.setText((String)tbl_cost.getValueAt(rowIdx, 3));
+                text_cost_quantity.setText(tbl_cost.getValueAt(rowIdx, 4).toString());
+                text_cost_unit.setText(tbl_cost.getValueAt(rowIdx, 5).toString());
+                text_cost_total.setText(tbl_cost.getValueAt(rowIdx, 6).toString().toString());
+            }
         }
     }
 
