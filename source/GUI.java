@@ -214,6 +214,7 @@ public class GUI extends javax.swing.JFrame {
         btn_menu_del = new javax.swing.JLabel();
         btn_menu_edit = new javax.swing.JLabel();
         jPanel22 = new javax.swing.JPanel();
+        jPanel23 = new jPanelGradient();
         sp_menu = new javax.swing.JScrollPane();
         tbl_menu = new javax.swing.JTable()
         {
@@ -229,7 +230,6 @@ public class GUI extends javax.swing.JFrame {
                 return c;
             }
         };
-        jPanel23 = new jPanelGradient();
         jPanel24 = new javax.swing.JPanel();
         jPanel25 = new javax.swing.JPanel();
         jPanel26 = new jPanelGradient();
@@ -271,6 +271,7 @@ public class GUI extends javax.swing.JFrame {
         btn_menu_save = new javax.swing.JLabel();
         pn_financial = new javax.swing.JPanel();
         jPanel41 = new javax.swing.JPanel();
+        jPanel42 = new jPanelGradient();
         sp_financial = new javax.swing.JScrollPane();
         tbl_financial = new javax.swing.JTable()
         {
@@ -286,7 +287,6 @@ public class GUI extends javax.swing.JFrame {
                 return c;
             }
         };
-        jPanel42 = new jPanelGradient();
         jPanel46 = new javax.swing.JPanel();
         jPanel47 = new javax.swing.JPanel();
         btn_operate = new javax.swing.JPanel();
@@ -326,6 +326,7 @@ public class GUI extends javax.swing.JFrame {
         btn_cost_del = new javax.swing.JLabel();
         btn_cost_edit = new javax.swing.JLabel();
         jPanel31 = new javax.swing.JPanel();
+        jPanel32 = new jPanelGradient();
         sp_cost = new javax.swing.JScrollPane();
         tbl_cost = new javax.swing.JTable()
         {
@@ -341,7 +342,6 @@ public class GUI extends javax.swing.JFrame {
                 return c;
             }
         };
-        jPanel32 = new jPanelGradient();
         jPanel33 = new javax.swing.JPanel();
         jPanel34 = new javax.swing.JPanel();
         jPanel35 = new jPanelGradient();
@@ -380,6 +380,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         text_cash_search = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
+        jPanel12 = new jPanelGradient();
         sp_cash = new javax.swing.JScrollPane();
         tbl_cash = new javax.swing.JTable()
         {
@@ -394,14 +395,7 @@ public class GUI extends javax.swing.JFrame {
                 }
                 return c;
             }
-
-            @Override
-            public boolean isCellEditable(int row, int column)
-            {
-                return false;//This causes all cells to be not editable
-            }
         };
-        jPanel12 = new jPanelGradient();
         jPanel13 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
@@ -504,6 +498,11 @@ public class GUI extends javax.swing.JFrame {
 
         tbl_payment.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
                 {null, null},
                 {null, null},
                 {null, null}
@@ -1398,16 +1397,30 @@ public class GUI extends javax.swing.JFrame {
         jPanel22.setBackground(new java.awt.Color(255, 255, 255));
         jPanel22.setPreferredSize(new java.awt.Dimension(680, 510));
 
-        sp_menu.setBackground(new java.awt.Color(255, 255, 255));
-        sp_menu.setBorder(null);
-        sp_menu.setForeground(new java.awt.Color(255, 255, 255));
-        sp_menu.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        sp_menu.setPreferredSize(new java.awt.Dimension(630, 483));
-        sp_menu.setVerifyInputWhenFocusTarget(false);
+        jPanel23.setBackground(new java.awt.Color(255, 157, 128));
+        jPanel23.setPreferredSize(new java.awt.Dimension(630, 5));
 
-        tbl_menu.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
+        jPanel23.setLayout(jPanel23Layout);
+        jPanel23Layout.setHorizontalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel23Layout.setVerticalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+
+        sp_menu.setBorder(null);
+        sp_menu.setPreferredSize(new java.awt.Dimension(630, 483));
+
         tbl_menu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -1432,37 +1445,18 @@ public class GUI extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, true, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tbl_menu.setGridColor(new java.awt.Color(240, 240, 240));
-        tbl_menu.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        tbl_menu.setPreferredSize(new java.awt.Dimension(630, 450));
         tbl_menu.setRowHeight(25);
         tbl_menu.setSelectionBackground(new java.awt.Color(254, 218, 196));
         tbl_menu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbl_menu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tbl_menu.setShowGrid(true);
-        tbl_menu.getTableHeader().setReorderingAllowed(false);
         sp_menu.setViewportView(tbl_menu);
-
-        jPanel23.setBackground(new java.awt.Color(255, 157, 128));
-        jPanel23.setPreferredSize(new java.awt.Dimension(630, 5));
-
-        javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
-        jPanel23.setLayout(jPanel23Layout);
-        jPanel23Layout.setHorizontalGroup(
-            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 630, Short.MAX_VALUE)
-        );
-        jPanel23Layout.setVerticalGroup(
-            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 5, Short.MAX_VALUE)
-        );
 
         javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
         jPanel22.setLayout(jPanel22Layout);
@@ -1470,9 +1464,9 @@ public class GUI extends javax.swing.JFrame {
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel22Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sp_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(sp_menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(25, 25, 25))
         );
         jPanel22Layout.setVerticalGroup(
@@ -1946,16 +1940,30 @@ public class GUI extends javax.swing.JFrame {
         jPanel41.setBackground(new java.awt.Color(255, 255, 255));
         jPanel41.setPreferredSize(new java.awt.Dimension(680, 510));
 
-        sp_financial.setBackground(new java.awt.Color(255, 255, 255));
-        sp_financial.setBorder(null);
-        sp_financial.setForeground(new java.awt.Color(255, 255, 255));
-        sp_financial.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        sp_financial.setPreferredSize(new java.awt.Dimension(630, 483));
-        sp_financial.setVerifyInputWhenFocusTarget(false);
+        jPanel42.setBackground(new java.awt.Color(255, 157, 128));
+        jPanel42.setPreferredSize(new java.awt.Dimension(630, 5));
 
-        tbl_financial.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        javax.swing.GroupLayout jPanel42Layout = new javax.swing.GroupLayout(jPanel42);
+        jPanel42.setLayout(jPanel42Layout);
+        jPanel42Layout.setHorizontalGroup(
+            jPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel42Layout.setVerticalGroup(
+            jPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+
+        sp_financial.setBorder(null);
+        sp_financial.setPreferredSize(new java.awt.Dimension(630, 483));
+
         tbl_financial.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -1980,42 +1988,18 @@ public class GUI extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, true, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tbl_financial.setGridColor(new java.awt.Color(240, 240, 240));
-        tbl_financial.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        tbl_financial.setPreferredSize(new java.awt.Dimension(630, 450));
         tbl_financial.setRowHeight(25);
         tbl_financial.setSelectionBackground(new java.awt.Color(254, 218, 196));
         tbl_financial.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbl_financial.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tbl_financial.setShowGrid(true);
-        tbl_financial.getTableHeader().setReorderingAllowed(false);
-        tbl_financial.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_financialMouseClicked(evt);
-            }
-        });
         sp_financial.setViewportView(tbl_financial);
-
-        jPanel42.setBackground(new java.awt.Color(255, 157, 128));
-        jPanel42.setPreferredSize(new java.awt.Dimension(630, 5));
-
-        javax.swing.GroupLayout jPanel42Layout = new javax.swing.GroupLayout(jPanel42);
-        jPanel42.setLayout(jPanel42Layout);
-        jPanel42Layout.setHorizontalGroup(
-            jPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 630, Short.MAX_VALUE)
-        );
-        jPanel42Layout.setVerticalGroup(
-            jPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 5, Short.MAX_VALUE)
-        );
 
         javax.swing.GroupLayout jPanel41Layout = new javax.swing.GroupLayout(jPanel41);
         jPanel41.setLayout(jPanel41Layout);
@@ -2023,15 +2007,14 @@ public class GUI extends javax.swing.JFrame {
             jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel41Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel42, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sp_financial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(91, 91, 91))
+                .addGroup(jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel42, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(sp_financial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(25, 25, 25))
         );
         jPanel41Layout.setVerticalGroup(
             jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel41Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
                 .addComponent(sp_financial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel42, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2646,16 +2629,30 @@ public class GUI extends javax.swing.JFrame {
         jPanel31.setBackground(new java.awt.Color(255, 255, 255));
         jPanel31.setPreferredSize(new java.awt.Dimension(680, 510));
 
-        sp_cost.setBackground(new java.awt.Color(255, 255, 255));
-        sp_cost.setBorder(null);
-        sp_cost.setForeground(new java.awt.Color(255, 255, 255));
-        sp_cost.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        sp_cost.setPreferredSize(new java.awt.Dimension(630, 483));
-        sp_cost.setVerifyInputWhenFocusTarget(false);
+        jPanel32.setBackground(new java.awt.Color(255, 157, 128));
+        jPanel32.setPreferredSize(new java.awt.Dimension(630, 5));
 
-        tbl_cost.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        javax.swing.GroupLayout jPanel32Layout = new javax.swing.GroupLayout(jPanel32);
+        jPanel32.setLayout(jPanel32Layout);
+        jPanel32Layout.setHorizontalGroup(
+            jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel32Layout.setVerticalGroup(
+            jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+
+        sp_cost.setBorder(null);
+        sp_cost.setPreferredSize(new java.awt.Dimension(630, 483));
+
         tbl_cost.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -2676,56 +2673,37 @@ public class GUI extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Type", "Date", "Description", "Quantity", "Unit", "Total Amount"
+                "ID", "Type", "Date", "Description", "Quantity", "Unit", "TotalAmount"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, true, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tbl_cost.setGridColor(new java.awt.Color(240, 240, 240));
-        tbl_cost.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        tbl_cost.setPreferredSize(new java.awt.Dimension(630, 450));
         tbl_cost.setRowHeight(25);
         tbl_cost.setSelectionBackground(new java.awt.Color(254, 218, 196));
         tbl_cost.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbl_cost.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tbl_cost.setShowGrid(true);
-        tbl_cost.getTableHeader().setReorderingAllowed(false);
         sp_cost.setViewportView(tbl_cost);
-
-        jPanel32.setBackground(new java.awt.Color(255, 157, 128));
-        jPanel32.setPreferredSize(new java.awt.Dimension(630, 5));
-
-        javax.swing.GroupLayout jPanel32Layout = new javax.swing.GroupLayout(jPanel32);
-        jPanel32.setLayout(jPanel32Layout);
-        jPanel32Layout.setHorizontalGroup(
-            jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 630, Short.MAX_VALUE)
-        );
-        jPanel32Layout.setVerticalGroup(
-            jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 5, Short.MAX_VALUE)
-        );
 
         javax.swing.GroupLayout jPanel31Layout = new javax.swing.GroupLayout(jPanel31);
         jPanel31.setLayout(jPanel31Layout);
         jPanel31Layout.setHorizontalGroup(
             jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel31Layout.createSequentialGroup()
+            .addGroup(jPanel31Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sp_cost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25))
+                .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(sp_cost, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel32, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel31Layout.setVerticalGroup(
             jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel31Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel31Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addComponent(sp_cost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
@@ -3348,58 +3326,6 @@ public class GUI extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setPreferredSize(new java.awt.Dimension(680, 510));
 
-        sp_cash.setBackground(new java.awt.Color(255, 255, 255));
-        sp_cash.setBorder(null);
-        sp_cash.setForeground(new java.awt.Color(255, 255, 255));
-        sp_cash.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        sp_cash.setPreferredSize(new java.awt.Dimension(630, 483));
-        sp_cash.setVerifyInputWhenFocusTarget(false);
-
-        tbl_cash.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        tbl_cash.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Name", "Category", "Type", "Specification", "Price"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tbl_cash.setGridColor(new java.awt.Color(240, 240, 240));
-        tbl_cash.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        tbl_cash.setPreferredSize(new java.awt.Dimension(600, 450));
-        tbl_cash.setRowHeight(25);
-        tbl_cash.setSelectionBackground(new java.awt.Color(254, 218, 196));
-        tbl_cash.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tbl_cash.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tbl_cash.setShowGrid(true);
-        tbl_cash.getTableHeader().setReorderingAllowed(false);
-        sp_cash.setViewportView(tbl_cash);
-
         jPanel12.setBackground(new java.awt.Color(255, 157, 128));
         jPanel12.setPreferredSize(new java.awt.Dimension(630, 5));
 
@@ -3407,12 +3333,59 @@ public class GUI extends javax.swing.JFrame {
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 630, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 5, Short.MAX_VALUE)
         );
+
+        sp_cash.setBorder(null);
+        sp_cash.setPreferredSize(new java.awt.Dimension(630, 483));
+
+        tbl_cash.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Name", "Category", "Type", "Specification", "Price", "Discount"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, true, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbl_cash.setRowHeight(25);
+        tbl_cash.setSelectionBackground(new java.awt.Color(254, 218, 196));
+        tbl_cash.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbl_cash.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        sp_cash.setViewportView(tbl_cash);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -3420,15 +3393,14 @@ public class GUI extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sp_cash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(sp_cash, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(25, 25, 25))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
                 .addComponent(sp_cash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -4534,14 +4506,6 @@ public class GUI extends javax.swing.JFrame {
         
         // function
     }//GEN-LAST:event_btn_operateMouseClicked
-
-    private void tbl_financialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_financialMouseClicked
-        styleTable(tbl_payment, sp_payment);
-        popup_income_detail.setBounds(this.getX() + 400, this.getY() + 200, 480, 320);
-        popup_income_detail.setVisible(true);
-        popup_income_detail.validate();
-        popup_income_detail.repaint();
-    }//GEN-LAST:event_tbl_financialMouseClicked
 
     private void jLabel45MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel45MouseClicked
         popup_income_detail.setVisible(false);
