@@ -29,6 +29,20 @@ public class Field {
             return idx;
         }
     }
+    
+    public static enum ComboDetail {
+        DishID(2), Quantity(3), DishName(8);     
+
+        int idx;
+
+        ComboDetail(int idx) {
+            this.idx = idx;
+        }
+
+        public int GetIdx() {
+            return idx;
+        }
+    }
 
     public static enum SpecificType {
         ID(1), Name(2);

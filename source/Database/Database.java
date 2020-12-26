@@ -24,8 +24,8 @@ import javax.swing.table.DefaultTableModel;
 //import source.Management.Cost;
 //import source.Payment.Menu;
 //import source.Payment.Order;
-
 public class Database {
+
     public static enum ReadBy {
         DAY, MONTH, YEAR
     }
@@ -103,11 +103,13 @@ public class Database {
         stmt.execute(String.format("USE %s", DB_NAME));
 
         // If already inited, return
-        if (rs == 0)
+        if (rs == 0) {
             return rs;
+        }
 
         ScriptRunner sr = new ScriptRunner(this.conn, false, false);
-        sr.runScript(new BufferedReader(new FileReader("..\\source\\Database\\script.sql")));
+        System.out.println("Working Directory = " + System.getProperty("user.dir"));
+        sr.runScript(new BufferedReader(new FileReader(System.getProperty("user.dir") + "\\cafeteria\\source\\Database\\script.sql")));
 
         stmt.close();
         return rs;
@@ -122,42 +124,40 @@ public class Database {
         }
     }
 
-    public boolean ReadAllDishes(JTable tbl_menu) {
-        String query = "select * from menu mn join category cat on mn.categoryID = cat.id join specifictype sp on sp.id = mn.specifictypeID where mn.type = 'D'";
-        Statement stmt;      
+    public boolean readMenu(JTable tbl_menu) {
+        String query = "select * from menu mn join category cat on mn.categoryID = cat.id join specifictype sp on sp.id = mn.specifictypeID ORDER by mn.type DESC, mn.id";
+        Statement stmt;
         try {
             stmt = this.conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
-            
-            DefaultTableModel tbl_menu_model = (DefaultTableModel) tbl_menu.getModel(); 
+            DefaultTableModel tbl_menu_model = (DefaultTableModel) tbl_menu.getModel();
             tbl_menu_model.setRowCount(0);
             while (rs.next()) {
-                Object[] objs = new Object[] {rs.getInt(Field.Menu.ID.GetIdx()), 
-                                                    rs.getString(Field.Menu.Name.GetIdx()),
-                                                    rs.getString(Field.Menu.CategoryName.GetIdx()),
-                                                    rs.getString(Field.Menu.Type.GetIdx()).equals("D")?"Dish":"Combo",
-                                                    rs.getString(Field.Menu.SpecificName.GetIdx()),
-                                                    rs.getInt(Field.Menu.Price.GetIdx()),
-                                                    rs.getFloat(Field.Menu.Discount.GetIdx())                
-                                                    };
+                Object[] objs = new Object[]{String.valueOf(rs.getInt(Field.Menu.ID.GetIdx())),
+                    rs.getString(Field.Menu.Name.GetIdx()),
+                    rs.getString(Field.Menu.CategoryName.GetIdx()),
+                    rs.getString(Field.Menu.Type.GetIdx()).equals("D") ? "Dish" : "Combo",
+                    rs.getString(Field.Menu.SpecificName.GetIdx()),
+                    String.valueOf(rs.getInt(Field.Menu.Price.GetIdx())),
+                    String.valueOf(rs.getFloat(Field.Menu.Discount.GetIdx()))
+                };
 //                for (Object obj: objs) {
 //                    System.out.println(obj);
 //                }
-                
-                tbl_menu_model.addRow(objs);    
+
+                tbl_menu_model.addRow(objs);
                 System.out.println("Row Count: " + tbl_menu_model.getRowCount());
             }
-            
+
 //            tbl_menu.setModel(tbl_menu_model);
-            
             stmt.close();
             return true;
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             return false;
-        }        
+        }
     }
     
     public boolean ReadAllCosts(JTable tbl_cost) {
@@ -224,16 +224,21 @@ public class Database {
         }
     }
 
-//    public ArrayList<Combo> ReadAllCombos() {
+//    public boolean ReadAllCombos(JTable tbl_menu) {
 //        Statement stmt = null;
 //        Statement stmt1 = null;
-//        ArrayList<Combo> combos = new ArrayList<>();
+//        
 //        try {
 //            stmt = this.conn.createStatement();
 //            stmt1 = this.conn.createStatement();
 //            ResultSet rs = stmt.executeQuery("select * from menu where type = 'C'");
 //
 //            while (rs.next()) {
+//                
+//                
+//                
+//                
+//                
 //                Combo curCb = new Combo(rs.getInt(Field.Menu.ID.GetIdx()), rs.getString(Field.Menu.Name.GetIdx()),
 //                        rs.getString(Field.Menu.SpecificTypeID.GetIdx()), rs.getFloat(Field.Menu.Discount.GetIdx()),
 //                        rs.getInt(Field.Menu.Price.GetIdx()));
@@ -246,54 +251,151 @@ public class Database {
 //                    curCb.addDish(rs1.getInt(Field.Combo.DishID.GetIdx()), rs1.getInt(Field.Combo.Quantity.GetIdx()));
 //                }
 //            }
+//            return true;
 //
 //            stmt.close();
 //            stmt1.close();
 //        } catch (SQLException e) {
 //            // TODO Auto-generated catch block
 //            e.printStackTrace();
-//        }
-//        return combos;
-//    }
-    
-//      public boolean readComboDetail(int comboID, JTable tbl_detail) {
-//          String query = "select * from combo where ";
-//        Statement stmt;      
-//        try {
-//            stmt = this.conn.createStatement();
-//            ResultSet rs = stmt.executeQuery(query);
-//
-//            
-//            DefaultTableModel tbl_menu_model = (DefaultTableModel) tbl_detail.getModel(); 
-//            tbl_menu_model.setRowCount(0);
-//            while (rs.next()) {
-//                Object[] objs = new Object[] {rs.getInt(Field.Menu.ID.GetIdx()), 
-//                                                    rs.getString(Field.Menu.Name.GetIdx()),
-//                                                    rs.getString(Field.Menu.CategoryName.GetIdx()),
-//                                                    rs.getString(Field.Menu.Type.GetIdx()).equals("D")?"Dish":"Combo",
-//                                                    rs.getString(Field.Menu.SpecificName.GetIdx()),
-//                                                    rs.getInt(Field.Menu.Price.GetIdx()),
-//                                                    rs.getFloat(Field.Menu.Discount.GetIdx())                
-//                                                    };
-////                for (Object obj: objs) {
-////                    System.out.println(obj);
-////                }
-//                
-//                tbl_menu_model.addRow(objs);    
-//                System.out.println("Row Count: " + tbl_menu_model.getRowCount());
-//            }
-//            
-////            tbl_menu.setModel(tbl_menu_model);
-//            
-//            stmt.close();
-//            return true;
-//        } catch (SQLException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
 //            return false;
-//        }   
-//      }
-      
+//        }
+//
+//    }
+    public boolean readComboDetail(int comboID, JTable tbl_detail) {
+        String query = String.format("select * from combo cb join menu mn on cb.dishid = mn.id where comboid = %s", comboID);
+        Statement stmt;
+        try {
+            stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            DefaultTableModel tbl_detail_model = (DefaultTableModel) tbl_detail.getModel();
+            tbl_detail_model.setRowCount(0);
+            while (rs.next()) {
+                Object[] objs = new Object[]{String.valueOf(rs.getInt(Field.ComboDetail.DishID.GetIdx())),
+                    rs.getString(Field.ComboDetail.DishName.GetIdx()),
+                    rs.getString(Field.ComboDetail.Quantity.GetIdx())};
+                tbl_detail_model.addRow(objs);
+            }
+
+            int rowCount = tbl_detail_model.getRowCount();
+            for (int i = 0; i < 6 - rowCount; i++) {
+                tbl_detail_model.addRow(new Object[]{"", "", ""});
+            }
+
+            stmt.close();
+            return true;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void createCombo(String name, String cat, String type, String spec, String price, String dis, ArrayList<String> dishesID, ArrayList<String> quantities) {
+        Statement stmt = null, stmt1 = null;
+
+        try {
+            stmt = this.conn.createStatement();
+            stmt1 = this.conn.createStatement();
+
+            // category
+            stmt.executeUpdate(String.format("insert ignore into category values (null, '%s')", cat));
+            ResultSet rs = stmt1.executeQuery(String.format("select id from category where name = '%s'", cat));
+            while (rs.next()) {
+                cat = String.valueOf(rs.getInt(Field.Category.ID.GetIdx()));
+            }
+
+            // specific type
+            stmt.executeUpdate(String.format("insert ignore into specifictype values (null, '%s')", spec));
+            rs = stmt1.executeQuery(String.format("select id from specifictype where name = '%s'", spec));
+            while (rs.next()) {
+                spec = String.valueOf(rs.getInt(Field.SpecificType.ID.GetIdx()));
+            }
+
+            type = type.equals("Dish") ? "D" : "C";
+            stmt.executeUpdate(String.format("insert ignore into menu values (null, '%s', %s, %s, '%s', %s, %s)",
+                    type, cat, spec, name, price, dis));
+
+            rs = stmt.executeQuery("select * from menu order by menu.id desc limit 1");
+            String comboID = "";
+            while (rs.next()) {
+                comboID = String.valueOf(rs.getInt(Field.Menu.ID.GetIdx()));
+                break;
+            }
+
+            // List dishes in combo
+            updateListInCombo(comboID, dishesID, quantities);
+
+            stmt.close();
+            stmt1.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteDish(String id) {
+        Statement stmt = null;
+
+        try {
+            stmt = this.conn.createStatement();            
+           
+            stmt.executeUpdate(String.format("delete from combo where dishID = %s", id));
+            stmt.executeUpdate(String.format("delete from menu where id = %s", id));                       
+
+            stmt.close();           
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteCombo(String id) {
+
+        Statement stmt = null;
+
+        try {
+            stmt = this.conn.createStatement();
+            stmt.executeUpdate(String.format("delete from combo where comboID = %s", id));
+            stmt.executeUpdate(String.format("delete from menu where id = %s", id));
+                              
+            stmt.close();           
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createDish(String name, String cat, String type, String spec, String price, String dis) {
+        Statement stmt = null, stmt1 = null;
+
+        try {
+            stmt = this.conn.createStatement();
+            stmt1 = this.conn.createStatement();
+
+            // category
+            stmt.executeUpdate(String.format("insert ignore into category values (null, '%s')", cat));
+            ResultSet rs = stmt1.executeQuery(String.format("select id from category where name = '%s'", cat));
+            while (rs.next()) {
+                cat = String.valueOf(rs.getInt(Field.Category.ID.GetIdx()));
+            }
+
+            // specific type
+            stmt.executeUpdate(String.format("insert ignore into specifictype values (null, '%s')", spec));
+            rs = stmt1.executeQuery(String.format("select id from specifictype where name = '%s'", spec));
+            while (rs.next()) {
+                spec = String.valueOf(rs.getInt(Field.SpecificType.ID.GetIdx()));
+            }
+
+            type = type.equals("Dish") ? "D" : "C";
+            stmt.executeUpdate(String.format("insert ignore into menu values (null, '%s', %s, %s, '%s', %s, %s)",
+                    type, cat, spec, name, price, dis));
+
+            stmt.close();
+            stmt1.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 //
 //    public ArrayList<Order> ReadOrderBy(ReadBy readBy, LocalDateTime date) {
 //        ArrayList<Order> orders = new ArrayList<Order>();
@@ -477,6 +579,58 @@ public class Database {
 //            e.printStackTrace();
 //        }
 //    }
+    public void updateFood(String id, String name, String cat, String type, String spec, String price, String dis) {
+        Statement stmt = null, stmt1 = null;
+
+        try {
+            stmt = this.conn.createStatement();
+            stmt1 = this.conn.createStatement();
+
+            // category
+            stmt.executeUpdate(String.format("insert ignore into category values (null, '%s')", cat));
+            ResultSet rs = stmt1.executeQuery(String.format("select id from category where name = '%s'", cat));
+            while (rs.next()) {
+                cat = String.valueOf(rs.getInt(Field.Category.ID.GetIdx()));
+            }
+
+            // specific type
+            stmt.executeUpdate(String.format("insert ignore into specifictype values (null, '%s')", spec));
+            rs = stmt1.executeQuery(String.format("select id from specifictype where name = '%s'", spec));
+            while (rs.next()) {
+                spec = String.valueOf(rs.getInt(Field.SpecificType.ID.GetIdx()));
+            }
+
+            type = type.equals("Dish") ? "D" : "C";
+            stmt.executeUpdate(String.format("update menu set type = '%s', categoryid = %s, specifictypeid = %s, name = '%s', price = %s, discount = %s where id = %s",
+                    type, cat, spec, name, price, dis, id));
+
+            stmt.close();
+            stmt1.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateListInCombo(String comboID, ArrayList<String> dishesID, ArrayList<String> quantities) {
+        Statement stmt = null;
+
+        if (dishesID.size() > 0 && quantities.size() > 0) {
+            try {
+                stmt = this.conn.createStatement();
+
+                stmt.executeUpdate(String.format("delete from combo where comboID = %s", comboID));
+                for (int i = 0; i < dishesID.size(); i++) {
+                    stmt.executeUpdate(String.format("insert ignore into combo values (%s, %s, %s)", comboID, dishesID.get(i), quantities.get(i)));
+                }
+
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
 //
 //    public void DeleteCost(int id) {
 //        Statement stmt = null;

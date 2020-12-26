@@ -1,7 +1,5 @@
 package source;
 
-
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -44,40 +42,39 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
+
 import source.Database.Database;
+import java.util.*;
 
 /**
  *
  * @author 84909
  */
 public class GUI extends javax.swing.JFrame {
-    private int btn_cost_idEdit = -1;
-    Thread clock = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            try {
-                while (true) {
+    <<<<<<<
+    Updated upstream
+    private int btn_cost_idEdit = -1;=======
 
-                    Calendar cal = Calendar.getInstance();
-                    SimpleDateFormat format_time = new SimpleDateFormat("hh:mm");
-                    SimpleDateFormat format_date = new SimpleDateFormat("dd/MM/yyyy");
-                    Date date = cal.getTime();
-                    String timeString = format_time.format(date);
-                    String dateString = format_date.format(date);
+    >>>>>>>
+    Stashed changes
+    Thread clock=new Thread(new Runnable(){@Override public void run(){try{while(true){
 
-                    text_time.setText(timeString);
-                    text_date.setText(dateString);
+    Calendar cal=Calendar.getInstance();SimpleDateFormat format_time=new SimpleDateFormat("hh:mm");SimpleDateFormat format_date=new SimpleDateFormat("dd/MM/yyyy");Date date=cal.getTime();String timeString=format_time.format(date);String dateString=format_date.format(date);
 
-                    Thread.sleep(1000); // interval duoc cung cap bang gia tri mili giay
-                }
-            } catch (Exception e) {
-            }
-        }
+    text_time.setText(timeString);text_date.setText(dateString);
+
+    Thread.sleep(1000); // interval duoc cung cap bang gia tri mili giay
+    }}catch(Exception e){}}
 
     });
 
     boolean cost_edit = false;
     boolean clicked_tgl_cost_type = false;
+
+    Database db;
+    boolean inMenuEdit = false;
+    boolean inMenuAdd = false;
+    int curEditRow = 0;
 
     /**
      * Creates new form GUI
@@ -110,7 +107,6 @@ public class GUI extends javax.swing.JFrame {
          * GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().
          * setFullScreenWindow( w ); }
          */
-
         text_cash_search.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -121,7 +117,7 @@ public class GUI extends javax.swing.JFrame {
         });
 
         // Init database
-        Database db = Database.getInstance();
+        db = Database.getInstance();
         try {
             db.InitDatabase();
         } catch (Exception e) {
@@ -129,8 +125,7 @@ public class GUI extends javax.swing.JFrame {
             e.printStackTrace();
         }
 
-        db.ReadAllDishes(this.tbl_menu);
-        db.ReadAllCosts(this.tbl_cost);
+        db.readMenu(this.tbl_menu);
 
     }
 
@@ -264,8 +259,10 @@ public class GUI extends javax.swing.JFrame {
         text_menu_price = new javax.swing.JTextField();
         text_menu_discount = new javax.swing.JTextField();
         jLabel29 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
         sp_detail = new javax.swing.JScrollPane();
-        tbl_detail = new javax.swing.JTable(){
+        tbl_detail = new javax.swing.JTable()
+        {
             @Override
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
                 // Only called if there are rows present
@@ -278,7 +275,6 @@ public class GUI extends javax.swing.JFrame {
                 return c;
             }
         };
-        jLabel31 = new javax.swing.JLabel();
         pnl_menu_function = new javax.swing.JPanel();
         btn_menu_cancel = new javax.swing.JLabel();
         btn_menu_return = new javax.swing.JLabel();
@@ -529,93 +525,20 @@ public class GUI extends javax.swing.JFrame {
                 false, false
             };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tbl_payment.setRowHeight(25);
-        tbl_payment.setSelectionBackground(new java.awt.Color(254, 218, 196));
-        sp_payment.setViewportView(tbl_payment);
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return canEdit[columnIndex];
+    }});tbl_payment.setRowHeight(25);tbl_payment.setSelectionBackground(new java.awt.Color(254,218,196));sp_payment.setViewportView(tbl_payment);
 
-        javax.swing.GroupLayout jPanel43Layout = new javax.swing.GroupLayout(jPanel43);
-        jPanel43.setLayout(jPanel43Layout);
-        jPanel43Layout.setHorizontalGroup(
-            jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel43Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(sp_payment, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel44)
-                        .addGroup(jPanel43Layout.createSequentialGroup()
-                            .addComponent(jLabel41)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel43, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(32, 32, 32)
-                            .addComponent(jLabel46)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel47))
-                        .addGroup(jPanel43Layout.createSequentialGroup()
-                            .addComponent(jLabel42)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel43Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(191, 191, 191))
-        );
-        jPanel43Layout.setVerticalGroup(
-            jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel43Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel41)
-                    .addComponent(jLabel43)
-                    .addComponent(jLabel46)
-                    .addComponent(jLabel47))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel42)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel44)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sp_payment, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+    javax.swing.GroupLayout jPanel43Layout = new javax.swing.GroupLayout(
+            jPanel43);jPanel43.setLayout(jPanel43Layout);jPanel43Layout.setHorizontalGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel43Layout.createSequentialGroup().addContainerGap().addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING,false).addComponent(sp_payment,javax.swing.GroupLayout.Alignment.LEADING,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.PREFERRED_SIZE).addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jLabel44).addGroup(jPanel43Layout.createSequentialGroup().addComponent(jLabel41).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jLabel43,javax.swing.GroupLayout.PREFERRED_SIZE,100,javax.swing.GroupLayout.PREFERRED_SIZE).addGap(32,32,32).addComponent(jLabel46).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jLabel47)).addGroup(jPanel43Layout.createSequentialGroup().addComponent(jLabel42).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jScrollPane2,javax.swing.GroupLayout.PREFERRED_SIZE,407,javax.swing.GroupLayout.PREFERRED_SIZE)))).addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE)).addGroup(javax.swing.GroupLayout.Alignment.TRAILING,jPanel43Layout.createSequentialGroup().addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE).addComponent(jLabel45,javax.swing.GroupLayout.PREFERRED_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.PREFERRED_SIZE).addGap(191,191,191)));jPanel43Layout.setVerticalGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel43Layout.createSequentialGroup().addGap(10,10,10).addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel41).addComponent(jLabel43).addComponent(jLabel46).addComponent(jLabel47)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jLabel42).addComponent(jScrollPane2,javax.swing.GroupLayout.PREFERRED_SIZE,47,javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jLabel44).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(sp_payment,javax.swing.GroupLayout.PREFERRED_SIZE,109,javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jLabel45,javax.swing.GroupLayout.PREFERRED_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap()));
 
-        javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
-        jPanel29.setLayout(jPanel29Layout);
-        jPanel29Layout.setHorizontalGroup(
-            jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel40, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel29Layout.createSequentialGroup()
-                .addComponent(jPanel43, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanel29Layout.setVerticalGroup(
-            jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel29Layout.createSequentialGroup()
-                .addComponent(jPanel40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel43, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+    javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(
+            jPanel29);jPanel29.setLayout(jPanel29Layout);jPanel29Layout.setHorizontalGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jPanel40,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE).addGroup(jPanel29Layout.createSequentialGroup().addComponent(jPanel43,javax.swing.GroupLayout.PREFERRED_SIZE,480,javax.swing.GroupLayout.PREFERRED_SIZE).addGap(0,0,Short.MAX_VALUE)));jPanel29Layout.setVerticalGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel29Layout.createSequentialGroup().addComponent(jPanel40,javax.swing.GroupLayout.PREFERRED_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.PREFERRED_SIZE).addGap(0,0,0).addComponent(jPanel43,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE)));
 
-        javax.swing.GroupLayout popup_income_detailLayout = new javax.swing.GroupLayout(popup_income_detail.getContentPane());
-        popup_income_detail.getContentPane().setLayout(popup_income_detailLayout);
-        popup_income_detailLayout.setHorizontalGroup(
-            popup_income_detailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        popup_income_detailLayout.setVerticalGroup(
-            popup_income_detailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+    javax.swing.GroupLayout popup_income_detailLayout = new javax.swing.GroupLayout(popup_income_detail
+            .getContentPane());popup_income_detail.getContentPane().setLayout(popup_income_detailLayout);popup_income_detailLayout.setHorizontalGroup(popup_income_detailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jPanel29,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE));popup_income_detailLayout.setVerticalGroup(popup_income_detailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jPanel29,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE));
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+    setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setUndecorated(true);
@@ -1342,6 +1265,9 @@ public class GUI extends javax.swing.JFrame {
         btn_menu_del.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(232, 17, 35), 3, true));
         btn_menu_del.setPreferredSize(new java.awt.Dimension(50, 40));
         btn_menu_del.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_menu_delMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_menu_delMouseEntered(evt);
             }
@@ -1462,7 +1388,7 @@ public class GUI extends javax.swing.JFrame {
                 false, false, true, true, true, true, true
             };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
@@ -1707,8 +1633,12 @@ public class GUI extends javax.swing.JFrame {
         jLabel29.setForeground(new java.awt.Color(255, 157, 128));
         jLabel29.setText("Include");
 
+        jLabel31.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel31.setForeground(new java.awt.Color(255, 157, 128));
+        jLabel31.setText("Discount");
+
+        sp_detail.setBorder(null);
         sp_detail.setPreferredSize(new java.awt.Dimension(320, 180));
-        sp_detail.setRequestFocusEnabled(false);
 
         tbl_detail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1722,25 +1652,12 @@ public class GUI extends javax.swing.JFrame {
             new String [] {
                 "ID", "Name", "Quantity"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                true, false, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tbl_detail.setPreferredSize(new java.awt.Dimension(230, 146));
+        ));
         tbl_detail.setRowHeight(25);
         tbl_detail.setSelectionBackground(new java.awt.Color(254, 218, 196));
         tbl_detail.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tbl_detail.getTableHeader().setReorderingAllowed(false);
+        tbl_detail.getTableHeader().setReorderingAllowed(false);       
         sp_detail.setViewportView(tbl_detail);
-
-        jLabel31.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel31.setForeground(new java.awt.Color(255, 157, 128));
-        jLabel31.setText("Discount");
 
         javax.swing.GroupLayout jPanel30Layout = new javax.swing.GroupLayout(jPanel30);
         jPanel30.setLayout(jPanel30Layout);
@@ -1749,7 +1666,6 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanel30Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sp_detail, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel30Layout.createSequentialGroup()
                         .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel27)
@@ -1768,7 +1684,8 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(text_menu_price, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel30Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel29)))
+                        .addComponent(jLabel29))
+                    .addComponent(sp_detail, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel30Layout.setVerticalGroup(
@@ -1798,11 +1715,11 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(text_menu_discount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
-                .addComponent(sp_detail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10))
+                .addComponent(sp_detail, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pnl_menu_function.setBackground(new java.awt.Color(255, 255, 255));
@@ -1837,6 +1754,9 @@ public class GUI extends javax.swing.JFrame {
         btn_menu_return.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 157, 128), 3, true));
         btn_menu_return.setPreferredSize(new java.awt.Dimension(160, 40));
         btn_menu_return.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_menu_returnMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_menu_returnMouseEntered(evt);
             }
@@ -2008,7 +1928,7 @@ public class GUI extends javax.swing.JFrame {
                 false, false, true, true, true, true, true
             };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
@@ -2699,7 +2619,7 @@ public class GUI extends javax.swing.JFrame {
                 false, false, true, true, true, true, true
             };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
@@ -3400,71 +3320,26 @@ public class GUI extends javax.swing.JFrame {
                 false, false, true, true, true, true, true
             };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
-            }
-        });
-        tbl_cash.setRowHeight(25);
-        tbl_cash.setSelectionBackground(new java.awt.Color(254, 218, 196));
-        tbl_cash.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        sp_cash.setViewportView(tbl_cash);
+            }});tbl_cash.setRowHeight(25);tbl_cash.setSelectionBackground(new java.awt.Color(254,218,196));tbl_cash.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);sp_cash.setViewportView(tbl_cash);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(sp_cash, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(25, 25, 25))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(sp_cash, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+    javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(
+            jPanel2);jPanel2.setLayout(jPanel2Layout);jPanel2Layout.setHorizontalGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING,jPanel2Layout.createSequentialGroup().addGap(25,25,25).addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING,false).addComponent(jPanel12,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE).addComponent(sp_cash,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE)).addGap(25,25,25)));jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(jPanel2Layout.createSequentialGroup().addComponent(sp_cash,javax.swing.GroupLayout.PREFERRED_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.PREFERRED_SIZE).addGap(0,0,0).addComponent(jPanel12,javax.swing.GroupLayout.PREFERRED_SIZE,javax.swing.GroupLayout.DEFAULT_SIZE,javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap()));
 
-        jPanel13.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel13.setPreferredSize(new java.awt.Dimension(360, 665));
+    jPanel13.setBackground(new java.awt.Color(255,255,255));jPanel13.setPreferredSize(new java.awt.Dimension(360,665));
 
-        jPanel14.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel14.setPreferredSize(new java.awt.Dimension(335, 100));
+    jPanel14.setBackground(new java.awt.Color(255,255,255));jPanel14.setPreferredSize(new java.awt.Dimension(335,100));
 
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 157, 128));
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("ORDER");
-        jLabel12.setPreferredSize(new java.awt.Dimension(50, 65));
+    jLabel12.setFont(new java.awt.Font("Segoe UI",1,36)); // NOI18N
+    jLabel12.setForeground(new java.awt.Color(255,157,128));jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);jLabel12.setText("ORDER");jLabel12.setPreferredSize(new java.awt.Dimension(50,65));
 
-        sp_order.setPreferredSize(new java.awt.Dimension(320, 258));
-        sp_order.setRequestFocusEnabled(false);
+    sp_order.setPreferredSize(new java.awt.Dimension(320,258));sp_order.setRequestFocusEnabled(false);
 
-        tbl_order.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Name", "Quantity", "Price"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
+    tbl_order.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{{null,null,null},{null,null,null},{null,null,null},{null,null,null},{null,null,null},{null,null,null},{null,null,null},{null,null,null},{null,null,null}},new String[]{"Name","Quantity","Price"}){
+    boolean[] canEdit = new boolean[] { false, false, false };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
@@ -3725,44 +3600,52 @@ public class GUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tbl_menuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_menuMouseClicked
-     // TODO add your handling code here:
-     int rowIdx;
-     if ((rowIdx = tbl_menu.getSelectedRow()) != -1) {
+    private void tbl_menuMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tbl_menuMouseClicked
+        // TODO add your handling code here:
 
-     text_menu_name.setText((String)tbl_menu.getValueAt(rowIdx, 1));
-     text_menu_category.setText((String)tbl_menu.getValueAt(rowIdx, 2));
-     text_menu_type.setText((String)tbl_menu.getValueAt(rowIdx, 3));
-     text_menu_specification.setText((String)tbl_menu.getValueAt(rowIdx, 4));
-     text_menu_price.setText(tbl_menu.getValueAt(rowIdx, 5).toString());
-     text_menu_discount.setText((String)tbl_menu.getValueAt(rowIdx,
-     6).toString());
+        if (!inMenuEdit && !inMenuAdd) {
+            int rowIdx;
+            DefaultTableModel tbl_detail_model = (DefaultTableModel) tbl_detail.getModel();
+            tbl_detail_model.setRowCount(0);
 
-     if (((String)tbl_menu.getValueAt(rowIdx, 3)).equals("Combo")) {
+            if ((rowIdx = tbl_menu.getSelectedRow()) != -1) {
+                curEditRow = rowIdx;
 
-     }
-     }
-    }//GEN-LAST:event_tbl_menuMouseClicked
+                text_menu_name.setText((String) tbl_menu.getValueAt(rowIdx, 1));
+                text_menu_category.setText((String) tbl_menu.getValueAt(rowIdx, 2));
+                text_menu_type.setText((String) tbl_menu.getValueAt(rowIdx, 3));
+                text_menu_specification.setText((String) tbl_menu.getValueAt(rowIdx, 4));
+                text_menu_price.setText((String) tbl_menu.getValueAt(rowIdx, 5));
+                text_menu_discount.setText((String) tbl_menu.getValueAt(rowIdx, 6));
 
-    private void tbl_costMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_costMouseClicked
+                if (((String) tbl_menu.getValueAt(rowIdx, 3)).equals("Combo")) {
+                    db.readComboDetail(Integer.parseInt((String) tbl_menu.getValueAt(rowIdx, 0)), tbl_detail);
+                } else {
+                    for (int i = 0; i < 6; i++) {
+                        tbl_detail_model.addRow(new Object[] { "", "", "" });
+                    }
+                }
+            }
+        }
+
+    }// GEN-LAST:event_tbl_menuMouseClicked
+
+    private void tbl_costMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tbl_costMouseClicked
         // TODO add your handling code here:
         int rowIdx;
-        if ((rowIdx = tbl_cost.getSelectedRow()) != -1 
-                && !text_cost_date.isEditable() 
-                && !text_cost_description.isEditable() 
-                && !text_cost_quantity.isEditable()
-                && !text_cost_unit.isEditable()
-                && !text_cost_total.isEditable()) {
-            tgl_cost_type.setText((String)tbl_cost.getValueAt(rowIdx, 1));
+        if ((rowIdx = tbl_cost.getSelectedRow()) != -1 && !text_cost_date.isEditable()
+                && !text_cost_description.isEditable() && !text_cost_quantity.isEditable()
+                && !text_cost_unit.isEditable() && !text_cost_total.isEditable()) {
+            tgl_cost_type.setText((String) tbl_cost.getValueAt(rowIdx, 1));
             text_cost_date.setText(tbl_cost.getValueAt(rowIdx, 2).toString());
-            text_cost_description.setText((String)tbl_cost.getValueAt(rowIdx, 3));
+            text_cost_description.setText((String) tbl_cost.getValueAt(rowIdx, 3));
             text_cost_quantity.setText(tbl_cost.getValueAt(rowIdx, 4).toString());
             text_cost_unit.setText(tbl_cost.getValueAt(rowIdx, 5).toString());
             text_cost_total.setText(tbl_cost.getValueAt(rowIdx, 6).toString().toString());
         }
-    }//GEN-LAST:event_tbl_costMouseClicked
+    }// GEN-LAST:event_tbl_costMouseClicked
 
-    private void btn_cost_delMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cost_delMouseClicked
+    private void btn_cost_delMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cost_delMouseClicked
         int rowIdx;
         if ((rowIdx = tbl_cost.getSelectedRow()) != -1) {
             Database db = Database.getInstance();
@@ -3770,7 +3653,42 @@ public class GUI extends javax.swing.JFrame {
             db.ReadAllCosts(tbl_cost);
             setCostEditableDetail(false, true);
         }
-    }//GEN-LAST:event_btn_cost_delMouseClicked
+    }// GEN-LAST:event_btn_cost_delMouseClicked
+
+    private void btn_menu_returnMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menu_returnMouseClicked
+        // TODO add your handling code here:
+        // int i;
+        // for (i = tbl_detail.getRowCount()-1; i>=0;i--) {
+        // if (((String)tbl_detail.getValueAt(i, 0)).equals("")) {
+        // tbl_detail.removeRowSelectionInterval(i-1, i-1);
+        // break;
+        // }
+        // }
+
+        int removeIdx;
+        if ((removeIdx = tbl_detail.getSelectedRow()) != -1) {
+            ((DefaultTableModel) tbl_detail.getModel()).removeRow(removeIdx);
+            ((DefaultTableModel) tbl_detail.getModel()).addRow(new Object[] { "", "", "" });
+        }
+
+    }// GEN-LAST:event_btn_menu_returnMouseClicked
+
+    private void btn_menu_delMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menu_delMouseClicked
+        // TODO add your handling code here:
+        int rowIdx;
+        if ((rowIdx = tbl_menu.getSelectedRow()) != -1) {
+            if (((String) tbl_menu.getValueAt(rowIdx, 3)).equals("Combo")) {
+                db.deleteCombo((String) tbl_menu.getValueAt(rowIdx, 0));
+            } else {
+                db.deleteDish((String) tbl_menu.getValueAt(rowIdx, 0));
+            }
+        }
+
+        // Reload
+        clearMenuDetail();
+        db.readMenu(tbl_menu);
+
+    }// GEN-LAST:event_btn_menu_delMouseClicked
 
     private void btn_menuMousePressed(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menuMousePressed
         indSet(ind_menu);
@@ -4163,6 +4081,7 @@ public class GUI extends javax.swing.JFrame {
             setMenuEditBarVisible(true);
             pnl_menu_add_edit_del.setVisible(false);
             setMenuEditableDetail(true);
+            inMenuEdit = true;
         }
     }// GEN-LAST:event_btn_menu_editMouseClicked
 
@@ -4174,20 +4093,103 @@ public class GUI extends javax.swing.JFrame {
         setMenuEditableDetail(false);
         pnl_menu_add_edit_del.setVisible(true);
         setMenuEditBarVisible(false);
+        inMenuEdit = false;
+        inMenuAdd = false;
+
+        // Reload
+        DefaultTableModel tbl_detail_model = (DefaultTableModel) tbl_detail.getModel();
+        tbl_detail_model.setRowCount(0);
+        int rowIdx = curEditRow;
+        tbl_menu.setRowSelectionInterval(rowIdx, rowIdx);
+        text_menu_name.setText((String) tbl_menu.getValueAt(rowIdx, 1));
+        text_menu_category.setText((String) tbl_menu.getValueAt(rowIdx, 2));
+        text_menu_type.setText((String) tbl_menu.getValueAt(rowIdx, 3));
+        text_menu_specification.setText((String) tbl_menu.getValueAt(rowIdx, 4));
+        text_menu_price.setText((String) tbl_menu.getValueAt(rowIdx, 5));
+        text_menu_discount.setText((String) tbl_menu.getValueAt(rowIdx, 6));
+
+        if (((String) tbl_menu.getValueAt(rowIdx, 3)).equals("Combo")) {
+            db.readComboDetail(Integer.parseInt((String) tbl_menu.getValueAt(rowIdx, 0)), tbl_detail);
+        } else {
+            for (int i = 0; i < 6; i++) {
+                tbl_detail_model.addRow(new Object[] { "", "", "" });
+            }
+        }
+
     }// GEN-LAST:event_btn_menu_cancelMouseClicked
 
     private void btn_menu_saveMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menu_saveMouseClicked
         // function
-        // please dont change the order
 
+        if (inMenuEdit) {
+            // Update info
+            db.updateFood((String) tbl_menu.getValueAt(curEditRow, 0), text_menu_name.getText(),
+                    text_menu_category.getText(), text_menu_type.getText(), text_menu_specification.getText(),
+                    text_menu_price.getText(), text_menu_discount.getText());
+
+            if (((String) tbl_menu.getValueAt(curEditRow, 3)).equals("Combo")) {
+                // Get dishes
+                ArrayList<String> dishes = new ArrayList<>();
+                // Get quantities
+                ArrayList<String> quantities = new ArrayList<>();
+
+                for (int i = 0; i < tbl_detail.getRowCount(); i++) {
+                    if (((String) tbl_detail.getValueAt(i, 0)).equals("")) {
+                        break;
+                    }
+                    dishes.add((String) tbl_detail.getValueAt(i, 0));
+                    quantities.add((String) tbl_detail.getValueAt(i, 2));
+
+                }
+                // Update
+                db.updateListInCombo((String) tbl_menu.getValueAt(curEditRow, 0), dishes, quantities);
+
+            } else {
+
+            }
+        } else if (inMenuAdd) {
+            if (text_menu_type.getText().equals("Combo")) {
+                // Get dishes
+                ArrayList<String> dishes = new ArrayList<>();
+                // Get quantities
+                ArrayList<String> quantities = new ArrayList<>();
+
+                for (int i = 0; i < tbl_detail.getRowCount(); i++) {
+                    if (((String) tbl_detail.getValueAt(i, 0)).equals("")) {
+                        break;
+                    }
+                    dishes.add((String) tbl_detail.getValueAt(i, 0));
+                    quantities.add((String) tbl_detail.getValueAt(i, 2));
+
+                }
+
+                db.createCombo(text_menu_name.getText(), text_menu_category.getText(), text_menu_type.getText(),
+                        text_menu_specification.getText(), text_menu_price.getText(), text_menu_discount.getText(),
+                        dishes, quantities);
+            } else {
+                db.createDish(text_menu_name.getText(), text_menu_category.getText(), text_menu_type.getText(),
+                        text_menu_specification.getText(), text_menu_price.getText(), text_menu_discount.getText());
+            }
+
+        }
+
+        // Reload Menu
+        db.readMenu(tbl_menu);
+
+        // please dont change the order
         // gui
         pnl_menu_add_edit_del.setVisible(true);
         setMenuEditBarVisible(false);
         setMenuEditableDetail(false);
+        inMenuEdit = false;
+        inMenuAdd = false;
+
     }// GEN-LAST:event_btn_menu_saveMouseClicked
 
     private void btn_menu_createMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menu_createMouseClicked
         // function
+        inMenuAdd = true;
+        clearMenuDetail();
 
         // gui
         pnl_menu_add_edit_del.setVisible(false);
@@ -4196,8 +4198,9 @@ public class GUI extends javax.swing.JFrame {
     }// GEN-LAST:event_btn_menu_createMouseClicked
 
     private void btn_menu_subtractMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menu_subtractMouseClicked
-        if (Integer.parseInt(text_menu_quantity.getText()) > 1)
+        if (Integer.parseInt(text_menu_quantity.getText()) > 1) {
             text_menu_quantity.setText((String.valueOf(Integer.parseInt(text_menu_quantity.getText()) - 1)));
+        }
     }// GEN-LAST:event_btn_menu_subtractMouseClicked
 
     private void btn_menu_plusMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menu_plusMouseClicked
@@ -4205,12 +4208,52 @@ public class GUI extends javax.swing.JFrame {
     }// GEN-LAST:event_btn_menu_plusMouseClicked
 
     private void btn_menu_addMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menu_addMouseClicked
-        if (tbl_menu.getSelectedRow() != -1) {
+        int rowIdx;
+        if ((rowIdx = tbl_menu.getSelectedRow()) != -1 && (((String) tbl_menu.getValueAt(curEditRow, 3)).equals("Combo")
+                || text_menu_type.getText().equals("Combo"))) {
             // function
+
+            // Check if already added
+            int i;
+            boolean isAdded = false;
+
+            if (((String) tbl_menu.getValueAt(rowIdx, 3)).equals("Combo")) {
+                return;
+            }
+
+            for (i = 0; i < tbl_detail.getRowCount(); i++) {
+                if (((String) tbl_detail.getValueAt(i, 0)).equals(tbl_menu.getValueAt(rowIdx, 0))) {
+                    tbl_detail.setValueAt(String.valueOf(Integer.parseInt((String) tbl_detail.getValueAt(i, 2)) + 1), i,
+                            2);
+                    isAdded = true;
+                    break;
+                }
+            }
+
+            if (!isAdded) {
+                for (i = 0; i < tbl_detail.getRowCount(); i++) {
+                    if (((String) tbl_detail.getValueAt(i, 0)).equals("")) {
+                        break;
+                    }
+                }
+
+                if (i < tbl_detail.getRowCount()) {
+
+                    tbl_detail.setValueAt(tbl_menu.getValueAt(rowIdx, 0), i, 0);
+                    tbl_detail.setValueAt(tbl_menu.getValueAt(rowIdx, 1), i, 1);
+                    tbl_detail.setValueAt(text_menu_quantity.getText(), i, 2);
+                } else {
+                    DefaultTableModel tbl_detail_model = (DefaultTableModel) tbl_detail.getModel();
+
+                    tbl_detail_model.addRow(new Object[] { tbl_menu.getValueAt(rowIdx, 0),
+                            tbl_menu.getValueAt(rowIdx, 1), text_menu_quantity.getText() });
+                }
+            }
 
             // gui
             text_menu_quantity.setText("1");
         }
+
     }// GEN-LAST:event_btn_menu_addMouseClicked
 
     private void text_menu_searchActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_text_menu_searchActionPerformed
@@ -4218,8 +4261,9 @@ public class GUI extends javax.swing.JFrame {
     }// GEN-LAST:event_text_menu_searchActionPerformed
 
     private void btn_cash_subtractMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cash_subtractMouseClicked
-        if (Integer.parseInt(text_cash_quantity.getText()) > 1)
+        if (Integer.parseInt(text_cash_quantity.getText()) > 1) {
             text_cash_quantity.setText((String.valueOf(Integer.parseInt(text_cash_quantity.getText()) - 1)));
+        }
     }// GEN-LAST:event_btn_cash_subtractMouseClicked
 
     private void btn_cash_plusMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cash_plusMouseClicked
@@ -4376,10 +4420,12 @@ public class GUI extends javax.swing.JFrame {
         Database db = Database.getInstance();
         if (this.btn_cost_idEdit == -1) {
             db.WriteCost(tgl_cost_type.getText(), text_cost_date.getText(), text_cost_description.getText(),
-                    Float.parseFloat(text_cost_quantity.getText()), Integer.parseInt(text_cost_unit.getText()), Integer.parseInt(text_cost_total.getText()));
+                    Float.parseFloat(text_cost_quantity.getText()), Integer.parseInt(text_cost_unit.getText()),
+                    Integer.parseInt(text_cost_total.getText()));
         } else {
-            db.EditCost(this.btn_cost_idEdit, tgl_cost_type.getText(), text_cost_date.getText(), text_cost_description.getText(),
-                    Float.parseFloat(text_cost_quantity.getText()), Integer.parseInt(text_cost_unit.getText()), Integer.parseInt(text_cost_total.getText()));
+            db.EditCost(this.btn_cost_idEdit, tgl_cost_type.getText(), text_cost_date.getText(),
+                    text_cost_description.getText(), Float.parseFloat(text_cost_quantity.getText()),
+                    Integer.parseInt(text_cost_unit.getText()), Integer.parseInt(text_cost_total.getText()));
         }
         db.ReadAllCosts(tbl_cost);
         this.btn_cost_idEdit = -1;
@@ -4589,9 +4635,7 @@ public class GUI extends javax.swing.JFrame {
     }// GEN-LAST:event_jLabel45MouseClicked
 
     // private void tbl_menuMouseClicked(java.awt.event.MouseEvent evt) {
-    
     // }
-
     class jPanelGradient extends JPanel {
 
         Color color1, color2;
@@ -4677,9 +4721,9 @@ public class GUI extends javax.swing.JFrame {
         text_menu_type.setEditable(is_menu_edit);
         tbl_detail.setEnabled(is_menu_edit);
 
-        if (!is_menu_edit) {
-            clearMenuDetail();
-        }
+        // if (!is_menu_edit) {
+        // clearMenuDetail();
+        // }
     }
 
     void clearMenuDetail() {
@@ -4700,17 +4744,17 @@ public class GUI extends javax.swing.JFrame {
         text_cost_unit.setEditable(is_cost_edit);
         text_cost_description.setEditable(is_cost_edit);
         cost_edit = is_cost_edit;
-        
+
         clearCostDetail();
-        
+
         if (is_notEdit) {
             tgl_cost_type.setText("Goods");
         } else {
             int rowIdx;
             if ((rowIdx = tbl_cost.getSelectedRow()) != -1) {
-                tgl_cost_type.setText((String)tbl_cost.getValueAt(rowIdx, 1));
+                tgl_cost_type.setText((String) tbl_cost.getValueAt(rowIdx, 1));
                 text_cost_date.setText(tbl_cost.getValueAt(rowIdx, 2).toString());
-                text_cost_description.setText((String)tbl_cost.getValueAt(rowIdx, 3));
+                text_cost_description.setText((String) tbl_cost.getValueAt(rowIdx, 3));
                 text_cost_quantity.setText(tbl_cost.getValueAt(rowIdx, 4).toString());
                 text_cost_unit.setText(tbl_cost.getValueAt(rowIdx, 5).toString());
                 text_cost_total.setText(tbl_cost.getValueAt(rowIdx, 6).toString().toString());
@@ -4743,8 +4787,8 @@ public class GUI extends javax.swing.JFrame {
         if (!isIncome) {
             Object[][] obj = new Object[18][6];
             tbl.setModel(new DefaultTableModel(obj,
-                    new String[] { "ID", "Date", "Description", "Quantity", "Unit", "TotalAmount" }) {
-                boolean[] canEdit = new boolean[] { false, false, false, false, false, false, false };
+                    new String[]{"ID", "Date", "Description", "Quantity", "Unit", "TotalAmount"}) {
+                boolean[] canEdit = new boolean[]{false, false, false, false, false, false, false};
 
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
                     return canEdit[columnIndex];
@@ -4752,14 +4796,14 @@ public class GUI extends javax.swing.JFrame {
             });
         } else {
             Object[][] obj = new Object[18][4];
-            tbl.setModel(new DefaultTableModel(obj, new String[] { "ID", "DateTime", "Note", "TotalAmount" }) {
-                boolean[] canEdit = new boolean[] { false, false, false, false, false, false, false };
+            tbl.setModel(new DefaultTableModel(obj, new String[]{"ID", "DateTime", "Note", "TotalAmount"}) {
+                boolean[] canEdit = new boolean[]{false, false, false, false, false, false, false};
 
-                public boolean isCellEditable(int rowIndex, int columnIndex) {
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
                     return canEdit[columnIndex];
                 }
-            });
-        }
+
+    });}
 
     }
 

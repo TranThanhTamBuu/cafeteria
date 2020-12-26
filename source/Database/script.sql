@@ -3,13 +3,13 @@
 CREATE TABLE Category
 (
 	ID tinyint PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    Name varchar(50)
+    Name varchar(50) UNIQUE
 );
 
 CREATE TABLE SpecificType
 (
 	ID tinyint PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    Name varchar(50)
+    Name varchar(50) UNIQUE
 );
 
 CREATE TABLE Menu
