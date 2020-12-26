@@ -51,12 +51,10 @@ import java.util.*;
  * @author 84909
  */
 public class GUI extends javax.swing.JFrame {
-    <<<<<<<
-    Updated upstream
-    private int btn_cost_idEdit = -1;=======
+    
+    private int btn_cost_idEdit = -1;
 
-    >>>>>>>
-    Stashed changes
+    
     Thread clock=new Thread(new Runnable(){@Override public void run(){try{while(true){
 
     Calendar cal=Calendar.getInstance();SimpleDateFormat format_time=new SimpleDateFormat("hh:mm");SimpleDateFormat format_date=new SimpleDateFormat("dd/MM/yyyy");Date date=cal.getTime();String timeString=format_time.format(date);String dateString=format_date.format(date);
@@ -4209,8 +4207,8 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_menu_addMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menu_addMouseClicked
         int rowIdx;
-        if ((rowIdx = tbl_menu.getSelectedRow()) != -1 && (((String) tbl_menu.getValueAt(curEditRow, 3)).equals("Combo")
-                || text_menu_type.getText().equals("Combo"))) {
+        if ((rowIdx = tbl_menu.getSelectedRow()) != -1 && ((String) tbl_menu.getValueAt(curEditRow, 3)).equals("Combo")
+                && text_menu_type.getText().equals("Combo")) {
             // function
 
             // Check if already added
