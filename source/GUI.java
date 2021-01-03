@@ -124,6 +124,7 @@ public class GUI extends javax.swing.JFrame {
         }
 
         db.readMenu(this.tbl_menu);
+        db.ReadAllCosts(this.tbl_cost);
 
     }
 
