@@ -567,6 +567,66 @@ public class Database {
             return false;
         }
     }
+    
+    public String totalAmountPayment() {
+        String query = "select SUM(TotalAmount) as sumTA from payment";
+        Statement stmt;
+        try {
+            stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            Integer sum = 0;
+            while (rs.next()) {
+                sum = rs.getInt(1);
+            }
+
+            stmt.close();
+            return String.valueOf(sum);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "0";
+        }
+    }
+    
+    public String totalAmountGoodsCost() {
+        String query = "select SUM(TotalAmount) as sumTA from cost where type = 'G'";
+        Statement stmt;
+        try {
+            stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            Integer sum = 0;
+            while (rs.next()) {
+                sum = rs.getInt(1);
+            }
+
+            stmt.close();
+            return String.valueOf(sum);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "0";
+        }
+    }
+    
+    public String totalAmountOperationCost() {
+        String query = "select SUM(TotalAmount) as sumTA from cost where type = 'O'";
+        Statement stmt;
+        try {
+            stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            Integer sum = 0;
+            while (rs.next()) {
+                sum = rs.getInt(1);
+            }
+
+            stmt.close();
+            return String.valueOf(sum);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "0";
+        }
+    }
 
 //    public boolean ReadAllCombos(JTable tbl_menu) {
 //        Statement stmt = null;

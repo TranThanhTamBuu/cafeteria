@@ -3992,6 +3992,9 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_financialMouseEntered(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_financialMouseEntered
         btnHover(btn_financial);
+        text_income.setText(db.totalAmountPayment());
+        text_goods.setText(db.totalAmountGoodsCost());
+        jLabel59.setText(db.totalAmountOperationCost());
     }// GEN-LAST:event_btn_financialMouseEntered
 
     private void btn_financialMouseExited(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_financialMouseExited
