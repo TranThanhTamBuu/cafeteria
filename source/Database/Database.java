@@ -1,19 +1,19 @@
 package source.Database;
 
+import com.mysql.cj.result.LocalDateTimeValueFactory;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.security.Identity;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -124,8 +124,39 @@ public class Database {
         }
     }
 
-    public boolean readMenu(JTable tbl_menu) {
-        String query = "select * from menu mn join category cat on mn.categoryID = cat.id join specifictype sp on sp.id = mn.specifictypeID ORDER by mn.type DESC, mn.id";
+    public boolean searchMenu(JTable tbl_menu, String keyword) {
+        if (keyword.isEmpty()) {
+            readMenu(tbl_menu);
+            return true;
+        }
+
+        String query = "", query1 = "", query2 = "";
+
+        if (keyword.toLowerCase().equals("combo")) {
+            query = "select * from menu mn join category cat on mn.categoryID = cat.id join specifictype sp on sp.id = mn.specifictypeID"
+                    + " where mn.type = 'C'"
+                    + " ORDER by mn.type DESC, mn.id";
+        } else if (keyword.toLowerCase().equals("dish")) {
+            query = "select * from menu mn join category cat on mn.categoryID = cat.id join specifictype sp on sp.id = mn.specifictypeID"
+                    + " where mn.type = 'D'"
+                    + " ORDER by mn.type DESC, mn.id";
+        } else {
+            query = "select * from menu mn join category cat on mn.categoryID = cat.id join specifictype sp on sp.id = mn.specifictypeID"
+                    + " where"
+                    + String.format(" MATCH(mn.name) AGAINST ('%s' IN NATURAL LANGUAGE MODE)", keyword)
+                    + " ORDER by mn.type DESC, mn.id";
+
+            query1 = "select * from menu mn join category cat on mn.categoryID = cat.id join specifictype sp on sp.id = mn.specifictypeID"
+                    + " where"
+                    + String.format(" MATCH(cat.name) AGAINST ('%s' IN NATURAL LANGUAGE MODE)", keyword)
+                    + " ORDER by mn.type DESC, mn.id";
+
+            query2 = "select * from menu mn join category cat on mn.categoryID = cat.id join specifictype sp on sp.id = mn.specifictypeID"
+                    + " where"
+                    + String.format(" MATCH(sp.name) AGAINST ('%s' IN NATURAL LANGUAGE MODE)", keyword)
+                    + " ORDER by mn.type DESC, mn.id";
+        }
+
         Statement stmt;
         try {
             stmt = this.conn.createStatement();
@@ -141,13 +172,42 @@ public class Database {
                     rs.getString(Field.Menu.SpecificName.GetIdx()),
                     String.valueOf(rs.getInt(Field.Menu.Price.GetIdx())),
                     String.valueOf(rs.getFloat(Field.Menu.Discount.GetIdx()))
-                };
-//                for (Object obj: objs) {
-//                    System.out.println(obj);
-//                }
+                };//                
 
                 tbl_menu_model.addRow(objs);
-                System.out.println("Row Count: " + tbl_menu_model.getRowCount());
+            }
+
+            if (!query1.isEmpty()) {
+                rs = stmt.executeQuery(query1);
+
+                while (rs.next()) {
+                    Object[] objs = new Object[]{String.valueOf(rs.getInt(Field.Menu.ID.GetIdx())),
+                        rs.getString(Field.Menu.Name.GetIdx()),
+                        rs.getString(Field.Menu.CategoryName.GetIdx()),
+                        rs.getString(Field.Menu.Type.GetIdx()).equals("D") ? "Dish" : "Combo",
+                        rs.getString(Field.Menu.SpecificName.GetIdx()),
+                        String.valueOf(rs.getInt(Field.Menu.Price.GetIdx())),
+                        String.valueOf(rs.getFloat(Field.Menu.Discount.GetIdx()))
+                    };//                
+
+                    tbl_menu_model.addRow(objs);
+                }
+                
+                //
+                rs = stmt.executeQuery(query2);
+
+                while (rs.next()) {
+                    Object[] objs = new Object[]{String.valueOf(rs.getInt(Field.Menu.ID.GetIdx())),
+                        rs.getString(Field.Menu.Name.GetIdx()),
+                        rs.getString(Field.Menu.CategoryName.GetIdx()),
+                        rs.getString(Field.Menu.Type.GetIdx()).equals("D") ? "Dish" : "Combo",
+                        rs.getString(Field.Menu.SpecificName.GetIdx()),
+                        String.valueOf(rs.getInt(Field.Menu.Price.GetIdx())),
+                        String.valueOf(rs.getFloat(Field.Menu.Discount.GetIdx()))
+                    };//                
+
+                    tbl_menu_model.addRow(objs);
+                }                                
             }
 
 //            tbl_menu.setModel(tbl_menu_model);
@@ -160,59 +220,151 @@ public class Database {
         }
     }
     
-    public boolean ReadAllCosts(JTable tbl_cost) {
-        String query = "select * from cost";
-        Statement stmt;      
+    
+    public boolean charge(JTable tbl_order, String note, String total) {
+        if (((String)tbl_order.getValueAt(0, 0)).isEmpty()) return false;
+        
+        Statement stmt = null;
+        ResultSet rs;
+
+        try {
+            stmt = this.conn.createStatement();
+//            stmt1 = this.conn.createStatement();
+
+            // Payment table
+            
+            LocalDate date = LocalDate.now(); 
+//            String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                        
+            stmt.executeUpdate(String.format("insert into payment values (null, '%s', '%s', '%s')", 
+                    date.toString(),
+                    note,
+                    total
+                    ));
+            
+            // select latest added row
+            rs = stmt.executeQuery("select * from payment order by payment.id desc limit 1");
+            String paymentID = "";
+            while (rs.next()) {
+                paymentID = String.valueOf(rs.getInt(Field.Payment.ID.GetIdx()));
+                break;
+            }
+                        
+            // specific payment
+            String foodID ="";
+            for (int i=0; i < tbl_order.getRowCount();i++) {         
+                if (((String)(tbl_order.getValueAt(i, 0))).isEmpty()) break;
+                rs = stmt.executeQuery(String.format("select id from menu where name = '%s'", (String)tbl_order.getValueAt(i, 0)));
+                while (rs.next()) {
+                    foodID = String.valueOf(rs.getInt(Field.Menu.ID.GetIdx()));
+                    break;
+                }
+                
+                stmt.executeUpdate(String.format("insert into specificpayment values ('%s', '%s', %s)", 
+                        paymentID,
+                        foodID, 
+                        (String)tbl_order.getValueAt(i, 1)));
+                
+                
+            }                                   
+
+            stmt.close();    
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean readMenu(JTable tbl) {
+        String query = "select * from menu mn join category cat on mn.categoryID = cat.id join specifictype sp on sp.id = mn.specifictypeID ORDER by mn.type DESC, mn.id";
+        Statement stmt;
         try {
             stmt = this.conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            
-            DefaultTableModel tbl_cost_model = (DefaultTableModel) tbl_cost.getModel(); 
-            tbl_cost_model.setRowCount(0);
+
+            DefaultTableModel tbl_model = (DefaultTableModel) tbl.getModel();
+            tbl_model.setRowCount(0);
             while (rs.next()) {
-                Object[] objs = new Object[] {rs.getInt(Field.Cost.ID.GetIdx()),
-                        rs.getString(Field.Cost.Type.GetIdx()).equals("G")?"Goods":"Operation",
-                        rs.getObject(Field.Cost.Date.GetIdx(), LocalDate.class),
-                        rs.getString(Field.Cost.Description.GetIdx()), rs.getFloat(Field.Cost.Quantity.GetIdx()),
-                        rs.getInt(Field.Cost.UnitID.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
-                tbl_cost_model.addRow(objs);
+                Object[] objs = new Object[]{String.valueOf(rs.getInt(Field.Menu.ID.GetIdx())),
+                    rs.getString(Field.Menu.Name.GetIdx()),
+                    rs.getString(Field.Menu.CategoryName.GetIdx()),
+                    rs.getString(Field.Menu.Type.GetIdx()).equals("D") ? "Dish" : "Combo",
+                    rs.getString(Field.Menu.SpecificName.GetIdx()),
+                    String.valueOf(rs.getInt(Field.Menu.Price.GetIdx())),
+                    String.valueOf(rs.getFloat(Field.Menu.Discount.GetIdx()))
+                };
+//                for (Object obj: objs) {
+//                    System.out.println(obj);
+//                }
+
+                tbl_model.addRow(objs);
+                System.out.println("Row Count: " + tbl_model.getRowCount());
             }
-            
+
+//            tbl_menu.setModel(tbl_menu_model);
             stmt.close();
             return true;
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             return false;
-        }        
+        }
     }
-    
+
+    public boolean ReadAllCosts(JTable tbl_cost) {
+        String query = "select * from cost";
+        Statement stmt;
+        try {
+            stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            DefaultTableModel tbl_cost_model = (DefaultTableModel) tbl_cost.getModel();
+            tbl_cost_model.setRowCount(0);
+            while (rs.next()) {
+                Object[] objs = new Object[]{rs.getInt(Field.Cost.ID.GetIdx()),
+                    rs.getString(Field.Cost.Type.GetIdx()).equals("G") ? "Goods" : "Operation",
+                    rs.getObject(Field.Cost.Date.GetIdx(), LocalDate.class),
+                    rs.getString(Field.Cost.Description.GetIdx()), rs.getFloat(Field.Cost.Quantity.GetIdx()),
+                    rs.getInt(Field.Cost.UnitID.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
+                tbl_cost_model.addRow(objs);
+            }
+
+            stmt.close();
+            return true;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public void WriteCost(String type, String date, String description, Float quantity,
             Integer unitId, Integer totalAmount) {
         Statement stmt = null;
         try {
             stmt = this.conn.createStatement();
             stmt.executeUpdate(String.format("INSERT INTO Cost VALUES (null, '%s', '%s', '%s', %.2f, %d, %d)",
-                    (type == "Goods")?"G":"O", LocalDate.parse(date), description, quantity, unitId, totalAmount));
+                    (type == "Goods") ? "G" : "O", LocalDate.parse(date), description, quantity, unitId, totalAmount));
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
+
     public void EditCost(int id, String type, String date, String description, Float quantity,
             Integer unitId, Integer totalAmount) {
         Statement stmt = null;
         try {
             stmt = this.conn.createStatement();
-            stmt.executeUpdate(String.format("UPDATE Cost SET Type = '%s', DateCost = '%s', Description = '%s', Quantity = %.2f, UnitID = %d, TotalAmount = %d WHERE ID = %d", 
-                    (type == "Goods")?"G":"O", LocalDate.parse(date), description, quantity, unitId, totalAmount, id));
+            stmt.executeUpdate(String.format("UPDATE Cost SET Type = '%s', DateCost = '%s', Description = '%s', Quantity = %.2f, UnitID = %d, TotalAmount = %d WHERE ID = %d",
+                    (type == "Goods") ? "G" : "O", LocalDate.parse(date), description, quantity, unitId, totalAmount, id));
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
+
     public void DeleteCost(int id) {
         Statement stmt = null;
         try {
@@ -317,6 +469,7 @@ public class Database {
             stmt.executeUpdate(String.format("insert ignore into menu values (null, '%s', %s, %s, '%s', %s, %s)",
                     type, cat, spec, name, price, dis));
 
+            // select latest added row
             rs = stmt.executeQuery("select * from menu order by menu.id desc limit 1");
             String comboID = "";
             while (rs.next()) {
@@ -338,12 +491,12 @@ public class Database {
         Statement stmt = null;
 
         try {
-            stmt = this.conn.createStatement();            
-           
-            stmt.executeUpdate(String.format("delete from combo where dishID = %s", id));
-            stmt.executeUpdate(String.format("delete from menu where id = %s", id));                       
+            stmt = this.conn.createStatement();
 
-            stmt.close();           
+            stmt.executeUpdate(String.format("delete from combo where dishID = %s", id));
+            stmt.executeUpdate(String.format("delete from menu where id = %s", id));
+
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -357,8 +510,8 @@ public class Database {
             stmt = this.conn.createStatement();
             stmt.executeUpdate(String.format("delete from combo where comboID = %s", id));
             stmt.executeUpdate(String.format("delete from menu where id = %s", id));
-                              
-            stmt.close();           
+
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -628,7 +781,6 @@ public class Database {
                 e.printStackTrace();
             }
         }
-
     }
 
 //

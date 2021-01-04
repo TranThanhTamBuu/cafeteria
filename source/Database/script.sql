@@ -2,19 +2,23 @@
 
 CREATE TABLE Category
 (
-	ID tinyint PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    Name varchar(50) UNIQUE
+    ID tinyint PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    Name varchar(50) UNIQUE,
+
+    FULLTEXT(Name)
 );
 
 CREATE TABLE SpecificType
 (
-	ID tinyint PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    Name varchar(50) UNIQUE
+    ID tinyint PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    Name varchar(50) UNIQUE,
+
+    FULLTEXT(Name)
 );
 
 CREATE TABLE Menu
 (
-	ID tinyint PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    ID tinyint PRIMARY KEY NOT NULL AUTO_INCREMENT,
     Type char(1),
     CategoryID tinyint,
     SpecificTypeID tinyint,
@@ -22,25 +26,26 @@ CREATE TABLE Menu
     Price mediumint,
     Discount decimal(2,2),
     
+    FULLTEXT(Name),
     FOREIGN KEY (CategoryID) REFERENCES Category(ID),
     FOREIGN KEY (SpecificTypeID) REFERENCES SpecificType(ID)
 );
 
 CREATE TABLE Combo
 (
-	ComboID tinyint,
+    ComboID tinyint,
     DishID tinyint,
     Quantity tinyint,
     
 
-	PRIMARY KEY (ComboID, DishID),
+    PRIMARY KEY (ComboID, DishID),
     FOREIGN KEY (ComboID) REFERENCES Menu(ID),
     FOREIGN KEY (DishID) REFERENCES Menu(ID)
 );
 
 CREATE TABLE Payment
 (
-	ID int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    ID int PRIMARY KEY NOT NULL AUTO_INCREMENT,
     DatePayment datetime,
     Note varchar(200),
     TotalAmount mediumint
@@ -48,7 +53,7 @@ CREATE TABLE Payment
 
 CREATE TABLE SpecificPayment
 (
-	PaymentID int,
+    PaymentID int,
     FoodID tinyint,
     Quantity tinyint,
     
@@ -59,7 +64,7 @@ CREATE TABLE SpecificPayment
 
 CREATE TABLE Unit
 (
-	ID tinyint PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    ID tinyint PRIMARY KEY NOT NULL AUTO_INCREMENT,
     Name varchar(50)
 );
 
