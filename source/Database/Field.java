@@ -101,7 +101,7 @@ public class Field {
     }
 
     public static enum Cost {
-        ID(1), Type(2), Date(3), Description(4), Quantity(5), UnitID(6), TotalAmount(7);
+        ID(1), Type(2), Date(3), Description(4), Quantity(5), UnitID(6), TotalAmount(7), UnitName(9);
 
         int idx;
 

@@ -65,7 +65,9 @@ CREATE TABLE SpecificPayment
 CREATE TABLE Unit
 (
     ID tinyint PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    Name varchar(50)
+    Name varchar(50) UNIQUE,
+
+    FULLTEXT(Name)
 );
 
 
@@ -157,9 +159,21 @@ INSERT INTO Unit VALUES (null, 'Gram');
 INSERT INTO Unit VALUES (null, 'Salary');
 INSERT INTO Unit VALUES (null, 'Bill');
 
-INSERT INTO Cost VALUES (null, 'G', '2020-11-23', 'Beef', 10.5, 1, 5000000);
+INSERT INTO Cost VALUES (null, 'G', '2020-12-23', 'Beef', 10.5, 1, 5000000);
 INSERT INTO Cost VALUES (null, 'O', '2020-11-23', 'Electricity bill', 1, 4, 1500000);
-INSERT INTO Cost VALUES (null, 'O', '2020-11-23', 'Manager: Tran Thanh Tam', 1, 3, 1500000);
-INSERT INTO Cost VALUES (null, 'G', '2020-11-23', 'Galic', 300, 2, 60000);
-INSERT INTO Cost VALUES (null, 'O', '2020-11-24', 'Water bill', 1, 4, 700000);
-INSERT INTO Cost VALUES (null, 'G', '2020-11-24', 'Cheese', 5.5, 1, 500000);
+INSERT INTO Cost VALUES (null, 'O', '2020-04-23', 'Manager: Tran Thanh Tam', 1, 3, 1500000);
+INSERT INTO Cost VALUES (null, 'G', '2020-04-23', 'Galic', 300, 2, 60000);
+INSERT INTO Cost VALUES (null, 'O', '2020-06-24', 'Water bill', 1, 4, 700000);
+INSERT INTO Cost VALUES (null, 'G', '2020-05-24', 'Cheese', 5.5, 1, 50000);
+INSERT INTO Cost VALUES (null, 'G', '2020-06-23', 'Lemon', 16.5, 1, 200000);
+INSERT INTO Cost VALUES (null, 'G', '2020-07-23', 'Scallion', 500, 2, 100000);
+INSERT INTO Cost VALUES (null, 'G', '2020-08-23', 'Fish', 12.8, 1, 6000000);
+INSERT INTO Cost VALUES (null, 'G', '2020-09-23', 'Rice', 60, 1, 500000);
+INSERT INTO Cost VALUES (null, 'G', '2020-10-23', 'Pork', 10.5, 1, 3000000);
+INSERT INTO Cost VALUES (null, 'G', '2020-11-23', 'Carrot', 5.4, 1, 97000);
+INSERT INTO Cost VALUES (null, 'O', '2020-12-23', 'Internet bill', 1, 4, 1500000);
+INSERT INTO Cost VALUES (null, 'O', '2020-12-23', 'Electricity bill', 1, 4, 1500000);
+INSERT INTO Cost VALUES (null, 'O', '2020-08-24', 'Water bill', 1, 4, 700000);
+INSERT INTO Cost VALUES (null, 'O', '2020-06-23', 'Internet bill', 1, 4, 1500000);
+INSERT INTO Cost VALUES (null, 'O', '2020-10-23', 'Electricity bill', 1, 4, 1500000);
+INSERT INTO Cost VALUES (null, 'O', '2020-10-24', 'Water bill', 1, 4, 700000);

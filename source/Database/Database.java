@@ -111,6 +111,7 @@ public class Database {
         ScriptRunner sr = new ScriptRunner(this.conn, false, false);
         System.out.println("Working Directory = " + System.getProperty("user.dir"));
         sr.runScript(new BufferedReader(new FileReader(System.getProperty("user.dir") + "\\cafeteria\\source\\Database\\script.sql")));
+
         stmt.close();
         return rs;
     }
@@ -313,7 +314,7 @@ public class Database {
     }
 
     public boolean ReadAllCosts(JTable tbl_cost) {
-        String query = "select * from cost order by DateCost DESC, id";
+        String query = "select * from cost c join unit u on c.UnitID = u.id order by c.DateCost DESC, c.id";
         Statement stmt;
         try {
             stmt = this.conn.createStatement();
@@ -326,7 +327,7 @@ public class Database {
                     rs.getString(Field.Cost.Type.GetIdx()).equals("G") ? "Goods" : "Operation",
                     rs.getObject(Field.Cost.Date.GetIdx(), LocalDate.class),
                     rs.getString(Field.Cost.Description.GetIdx()), rs.getFloat(Field.Cost.Quantity.GetIdx()),
-                    rs.getInt(Field.Cost.UnitID.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
+                    rs.getString(Field.Cost.UnitName.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
                 tbl_cost_model.addRow(objs);
             }
 
@@ -340,26 +341,43 @@ public class Database {
     }
 
     public void WriteCost(String type, String date, String description, Float quantity,
-            Integer unitId, Integer totalAmount) {
-        Statement stmt = null;
+            String unit, Integer totalAmount) {
+        Statement stmt = null, stmt1 = null;
         try {
             stmt = this.conn.createStatement();
-            stmt.executeUpdate(String.format("INSERT INTO Cost VALUES (null, '%s', '%s', '%s', %.2f, %d, %d)",
-                    (type == "Goods") ? "G" : "O", LocalDate.parse(date), description, quantity, unitId, totalAmount));
+            stmt1 = this.conn.createStatement();
+            stmt.executeUpdate(String.format("insert ignore into unit values (null, '%s')", unit));
+            ResultSet rs = stmt1.executeQuery(String.format("select id from unit where name = '%s'", unit));
+            while (rs.next()) {
+                unit = String.valueOf(rs.getInt(Field.Category.ID.GetIdx()));
+            }
+            
+            stmt.executeUpdate(String.format("INSERT INTO Cost VALUES (null, '%s', '%s', '%s', %.2f, %s, %d)",
+                    (type == "Goods") ? "G" : "O", LocalDate.parse(date), description, quantity, unit, totalAmount));
             stmt.close();
+            stmt1.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void EditCost(int id, String type, String date, String description, Float quantity,
-            Integer unitId, Integer totalAmount) {
-        Statement stmt = null;
+            String unit, Integer totalAmount) {
+        Statement stmt = null, stmt1 = null;
+        
         try {
             stmt = this.conn.createStatement();
-            stmt.executeUpdate(String.format("UPDATE Cost SET Type = '%s', DateCost = '%s', Description = '%s', Quantity = %.2f, UnitID = %d, TotalAmount = %d WHERE ID = %d",
-                    (type == "Goods") ? "G" : "O", LocalDate.parse(date), description, quantity, unitId, totalAmount, id));
+            stmt1 = this.conn.createStatement();
+            stmt.executeUpdate(String.format("insert ignore into unit values (null, '%s')", unit));
+            ResultSet rs = stmt1.executeQuery(String.format("select id from unit where name = '%s'", unit));
+            while (rs.next()) {
+                unit = String.valueOf(rs.getInt(Field.Category.ID.GetIdx()));
+            }
+            
+            stmt.executeUpdate(String.format("UPDATE Cost SET Type = '%s', DateCost = '%s', Description = '%s', Quantity = %.2f, UnitID = %s, TotalAmount = %d WHERE ID = %d",
+                    (type == "Goods") ? "G" : "O", LocalDate.parse(date), description, quantity, unit, totalAmount, id));
             stmt.close();
+            stmt1.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -402,7 +420,7 @@ public class Database {
     }
     
     public boolean readAllGoodsCosts(JTable tbl) {
-        String query = "select * from cost where type = 'G' order by DateCost DESC, id";
+        String query = "select * from cost c join unit u on c.UnitID = u.id where c.type = 'G' order by c.DateCost DESC, c.id";
         Statement stmt;
         try {
             stmt = this.conn.createStatement();
@@ -414,7 +432,7 @@ public class Database {
                 Object[] objs = new Object[]{rs.getInt(Field.Cost.ID.GetIdx()),
                     rs.getObject(Field.Cost.Date.GetIdx(), LocalDate.class),
                     rs.getString(Field.Cost.Description.GetIdx()), rs.getFloat(Field.Cost.Quantity.GetIdx()),
-                    rs.getInt(Field.Cost.UnitID.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
+                    rs.getString(Field.Cost.UnitName.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
                 tbl_model.addRow(objs);
             }
 
@@ -428,7 +446,7 @@ public class Database {
     }
     
     public boolean readAllOperationCosts(JTable tbl) {
-        String query = "select * from cost where type = 'O' order by DateCost DESC, id";
+        String query = "select * from cost c join unit u on c.UnitID = u.id where c.type = 'O' order by c.DateCost DESC, c.id";
         Statement stmt;
         try {
             stmt = this.conn.createStatement();
@@ -440,7 +458,7 @@ public class Database {
                 Object[] objs = new Object[]{rs.getInt(Field.Cost.ID.GetIdx()),
                     rs.getObject(Field.Cost.Date.GetIdx(), LocalDate.class),
                     rs.getString(Field.Cost.Description.GetIdx()), rs.getFloat(Field.Cost.Quantity.GetIdx()),
-                    rs.getInt(Field.Cost.UnitID.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
+                    rs.getString(Field.Cost.UnitName.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
                 tbl_model.addRow(objs);
             }
 
@@ -488,20 +506,20 @@ public class Database {
     }
     
     public boolean readCostsByDate(JTable tbl, Integer month, Integer year, boolean isGoods) {
-        String query = "select * from cost where type = 'G'";
+        String query = "select * from cost c join unit u on c.UnitID = u.id where c.type = 'G'";
         if (!isGoods) {
-            query = "select * from cost where type = 'O'";
+            query = "select * from cost c join unit u on c.UnitID = u.id where c.type = 'O'";
         }
         if (month > 0 && month <13) {
-            query += String.format(" and MONTH(DateCost)= %d", month);
+            query += String.format(" and MONTH(c.DateCost)= %d", month);
             if (year > 0)
-                query += String.format(" and YEAR(DateCost)= %d", year);
+                query += String.format(" and YEAR(c.DateCost)= %d", year);
         } else {
             if (year > 0)
-                query += String.format(" and YEAR(DateCost)= %d", year);
+                query += String.format(" and YEAR(c.DateCost)= %d", year);
             else return true;
         }
-        query += " order by DateCost DESC, id";
+        query += " order by c.DateCost DESC, c.id";
         Statement stmt;
         try {
             stmt = this.conn.createStatement();
@@ -513,7 +531,7 @@ public class Database {
                 Object[] objs = new Object[]{rs.getInt(Field.Cost.ID.GetIdx()),
                     rs.getObject(Field.Cost.Date.GetIdx(), LocalDate.class),
                     rs.getString(Field.Cost.Description.GetIdx()), rs.getFloat(Field.Cost.Quantity.GetIdx()),
-                    rs.getInt(Field.Cost.UnitID.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
+                    rs.getString(Field.Cost.UnitName.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
                 tbl_model.addRow(objs);
             }
 
@@ -532,15 +550,20 @@ public class Database {
             return true;
         }
 
-        String query = "";
+        String query = "", query1 = "";
 
         if (keyword.toLowerCase().equals("goods")) {
-            query = "select * from cost where type = 'G' order by DateCost DESC";
+            query = "select * from cost c join unit u on c.UnitID = u.id where c.type = 'G' order by c.DateCost DESC, c.id";
         } else if (keyword.toLowerCase().equals("operation")) {
-            query = "select * from cost where type = 'O' order by DateCost DESC";
+            query = "select * from cost c join unit u on c.UnitID = u.id where c.type = 'O' order by c.DateCost DESC, c.id";
         } else {
-            query = "select * from cost where"
-                    + String.format(" MATCH(description) AGAINST ('%s' IN NATURAL LANGUAGE MODE)", keyword) + " ORDER by DateCost DESC, id";
+            query = "select * from cost c join unit u on c.UnitID = u.id where"
+                    + String.format(" MATCH(c.description) AGAINST ('%s' IN NATURAL LANGUAGE MODE)", keyword) 
+                    + " ORDER by c.DateCost DESC, c.id";
+            
+            query1 = "select * from cost c join unit u on c.UnitID = u.id where"
+                    + String.format(" MATCH(u.name) AGAINST ('%s' IN NATURAL LANGUAGE MODE)", keyword)
+                    + " ORDER by c.DateCost DESC, c.id";
         }
 
         Statement stmt;
@@ -555,8 +578,21 @@ public class Database {
                     rs.getString(Field.Cost.Type.GetIdx()).equals("G") ? "Goods" : "Operation",
                     rs.getObject(Field.Cost.Date.GetIdx(), LocalDate.class),
                     rs.getString(Field.Cost.Description.GetIdx()), rs.getFloat(Field.Cost.Quantity.GetIdx()),
-                    rs.getInt(Field.Cost.UnitID.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
+                    rs.getString(Field.Cost.UnitName.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
                 tbl_cost_model.addRow(objs);
+            }
+            
+            if (!query1.isEmpty()) {
+                rs = stmt.executeQuery(query1);
+
+                while (rs.next()) {
+                    Object[] objs = new Object[]{rs.getInt(Field.Cost.ID.GetIdx()),
+                        rs.getString(Field.Cost.Type.GetIdx()).equals("G") ? "Goods" : "Operation",
+                        rs.getObject(Field.Cost.Date.GetIdx(), LocalDate.class),
+                        rs.getString(Field.Cost.Description.GetIdx()), rs.getFloat(Field.Cost.Quantity.GetIdx()),
+                        rs.getString(Field.Cost.UnitName.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};               
+                    tbl_cost_model.addRow(objs);
+                }                               
             }
             
             stmt.close();
@@ -568,8 +604,17 @@ public class Database {
         }
     }
     
-    public String totalAmountPayment() {
+    public String totalAmountPayment(Integer month, Integer year) {
         String query = "select SUM(TotalAmount) as sumTA from payment";
+        if (month > 0 && month <13) {
+            query += String.format(" where MONTH(DatePayment)= '%d'", month);
+            if (year > 0)
+                query += String.format(" and YEAR(DatePayment)= '%d'", year);
+        } else {
+            if (year > 0)
+                query += String.format(" where YEAR(DatePayment)= '%d'", year);
+        }
+        
         Statement stmt;
         try {
             stmt = this.conn.createStatement();
@@ -588,8 +633,13 @@ public class Database {
         }
     }
     
-    public String totalAmountGoodsCost() {
+    public String totalAmountGoodsCost(Integer month, Integer year) {
         String query = "select SUM(TotalAmount) as sumTA from cost where type = 'G'";
+        if (month > 0 && month <13)
+            query += String.format(" and MONTH(DateCost)= %d", month);
+        if (year > 0)
+            query += String.format(" and YEAR(DateCost)= %d", year);
+        
         Statement stmt;
         try {
             stmt = this.conn.createStatement();
@@ -608,8 +658,13 @@ public class Database {
         }
     }
     
-    public String totalAmountOperationCost() {
+    public String totalAmountOperationCost(Integer month, Integer year) {
         String query = "select SUM(TotalAmount) as sumTA from cost where type = 'O'";
+        if (month > 0 && month <13)
+            query += String.format(" and MONTH(DateCost)= %d", month);
+        if (year > 0)
+            query += String.format(" and YEAR(DateCost)= %d", year);
+        
         Statement stmt;
         try {
             stmt = this.conn.createStatement();

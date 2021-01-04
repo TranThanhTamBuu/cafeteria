@@ -3773,7 +3773,13 @@ public class GUI extends javax.swing.JFrame {
         } catch(Exception e) {
             y = -1;
         }
-        
+        String income = db.totalAmountPayment(m, y);
+        String goods = db.totalAmountGoodsCost(m, y);
+        String operation = db.totalAmountOperationCost(m, y);
+        text_income.setText(income);
+        text_goods.setText(goods);
+        jLabel59.setText(operation);
+        jLabel63.setText(String.valueOf(Integer.parseInt(income) - Integer.parseInt(goods) - Integer.parseInt(operation)));
         if (name == "INCOME") {
             if ((m < 1 || m > 12) && y < 0)
                 db.readAllPayment(tbl_financial);
@@ -3992,9 +3998,16 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_financialMouseEntered(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_financialMouseEntered
         btnHover(btn_financial);
-        text_income.setText(db.totalAmountPayment());
-        text_goods.setText(db.totalAmountGoodsCost());
-        jLabel59.setText(db.totalAmountOperationCost());
+        
+        String income = db.totalAmountPayment(-1, -1);
+        String goods = db.totalAmountGoodsCost(-1, -1);
+        String operation = db.totalAmountOperationCost(-1, -1);
+        text_financial_month.setText("");
+        text_financial_year.setText("");
+        text_income.setText(income);
+        text_goods.setText(goods);
+        jLabel59.setText(operation);
+        jLabel63.setText(String.valueOf(Integer.parseInt(income) - Integer.parseInt(goods) - Integer.parseInt(operation)));
     }// GEN-LAST:event_btn_financialMouseEntered
 
     private void btn_financialMouseExited(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_financialMouseExited
@@ -4696,12 +4709,12 @@ public class GUI extends javax.swing.JFrame {
         Database db = Database.getInstance();
         if (this.btn_cost_idEdit == -1) {
             db.WriteCost(tgl_cost_type.getText(), text_cost_date.getText(), text_cost_description.getText(),
-                    Float.parseFloat(text_cost_quantity.getText()), Integer.parseInt(text_cost_unit.getText()),
+                    Float.parseFloat(text_cost_quantity.getText()), text_cost_unit.getText(),
                     Integer.parseInt(text_cost_total.getText()));
         } else {
             db.EditCost(this.btn_cost_idEdit, tgl_cost_type.getText(), text_cost_date.getText(),
                     text_cost_description.getText(), Float.parseFloat(text_cost_quantity.getText()),
-                    Integer.parseInt(text_cost_unit.getText()), Integer.parseInt(text_cost_total.getText()));
+                    text_cost_unit.getText(), Integer.parseInt(text_cost_total.getText()));
         }
         db.ReadAllCosts(tbl_cost);
         this.btn_cost_idEdit = -1;
