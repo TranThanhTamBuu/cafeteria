@@ -79,6 +79,7 @@ CREATE TABLE Cost
     UnitID tinyint,
     TotalAmount mediumint,
     
+    FULLTEXT(Description),
     FOREIGN KEY (UnitID) REFERENCES Unit(ID)
 );
 

@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -110,7 +111,6 @@ public class Database {
         ScriptRunner sr = new ScriptRunner(this.conn, false, false);
         System.out.println("Working Directory = " + System.getProperty("user.dir"));
         sr.runScript(new BufferedReader(new FileReader(System.getProperty("user.dir") + "\\cafeteria\\source\\Database\\script.sql")));
-
         stmt.close();
         return rs;
     }
@@ -145,7 +145,7 @@ public class Database {
                     + " where"
                     + String.format(" MATCH(mn.name) AGAINST ('%s' IN NATURAL LANGUAGE MODE)", keyword)
                     + " ORDER by mn.type DESC, mn.id";
-
+            
             query1 = "select * from menu mn join category cat on mn.categoryID = cat.id join specifictype sp on sp.id = mn.specifictypeID"
                     + " where"
                     + String.format(" MATCH(cat.name) AGAINST ('%s' IN NATURAL LANGUAGE MODE)", keyword)
@@ -313,7 +313,7 @@ public class Database {
     }
 
     public boolean ReadAllCosts(JTable tbl_cost) {
-        String query = "select * from cost";
+        String query = "select * from cost order by DateCost DESC, id";
         Statement stmt;
         try {
             stmt = this.conn.createStatement();
@@ -373,6 +373,198 @@ public class Database {
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+    
+    public boolean readAllPayment(JTable tbl) {
+        String query = "select * from payment order by DatePayment DESC, id";
+        Statement stmt;
+        try {
+            stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            DefaultTableModel tbl_model = (DefaultTableModel) tbl.getModel();
+            tbl_model.setRowCount(0);
+            while (rs.next()) {
+                Object[] objs = new Object[]{rs.getInt(Field.Payment.ID.GetIdx()),
+                    rs.getObject(Field.Payment.DateTime.GetIdx(), LocalDateTime.class),
+                    rs.getString(Field.Payment.Note.GetIdx()), rs.getInt(Field.Payment.TotalAmount.GetIdx())};
+                tbl_model.addRow(objs);
+            }
+
+            stmt.close();
+            return true;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean readAllGoodsCosts(JTable tbl) {
+        String query = "select * from cost where type = 'G' order by DateCost DESC, id";
+        Statement stmt;
+        try {
+            stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            DefaultTableModel tbl_model = (DefaultTableModel) tbl.getModel();
+            tbl_model.setRowCount(0);
+            while (rs.next()) {
+                Object[] objs = new Object[]{rs.getInt(Field.Cost.ID.GetIdx()),
+                    rs.getObject(Field.Cost.Date.GetIdx(), LocalDate.class),
+                    rs.getString(Field.Cost.Description.GetIdx()), rs.getFloat(Field.Cost.Quantity.GetIdx()),
+                    rs.getInt(Field.Cost.UnitID.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
+                tbl_model.addRow(objs);
+            }
+
+            stmt.close();
+            return true;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean readAllOperationCosts(JTable tbl) {
+        String query = "select * from cost where type = 'O' order by DateCost DESC, id";
+        Statement stmt;
+        try {
+            stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            DefaultTableModel tbl_model = (DefaultTableModel) tbl.getModel();
+            tbl_model.setRowCount(0);
+            while (rs.next()) {
+                Object[] objs = new Object[]{rs.getInt(Field.Cost.ID.GetIdx()),
+                    rs.getObject(Field.Cost.Date.GetIdx(), LocalDate.class),
+                    rs.getString(Field.Cost.Description.GetIdx()), rs.getFloat(Field.Cost.Quantity.GetIdx()),
+                    rs.getInt(Field.Cost.UnitID.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
+                tbl_model.addRow(objs);
+            }
+
+            stmt.close();
+            return true;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean readPaymentByDate(JTable tbl, Integer month, Integer year) {
+        String query = "select * from payment where ";
+        if (month > 0 && month <13) {
+            query += String.format("MONTH(DatePayment)= '%d'", month);
+            if (year > 0)
+                query += String.format(" and YEAR(DatePayment)= '%d'", year);
+        } else {
+            if (year > 0)
+                query += String.format("YEAR(DatePayment)= '%d'", year);
+            else return true;
+        }
+        query += " order by DatePayment DESC, id";
+        Statement stmt;
+        try {
+            stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            DefaultTableModel tbl_model = (DefaultTableModel) tbl.getModel();
+            tbl_model.setRowCount(0);
+            while (rs.next()) {
+                Object[] objs = new Object[]{rs.getInt(Field.Payment.ID.GetIdx()),
+                    rs.getObject(Field.Payment.DateTime.GetIdx(), LocalDateTime.class),
+                    rs.getString(Field.Payment.Note.GetIdx()), rs.getInt(Field.Payment.TotalAmount.GetIdx())};
+                tbl_model.addRow(objs);
+            }
+            stmt.close();
+            return true;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean readCostsByDate(JTable tbl, Integer month, Integer year, boolean isGoods) {
+        String query = "select * from cost where type = 'G'";
+        if (!isGoods) {
+            query = "select * from cost where type = 'O'";
+        }
+        if (month > 0 && month <13) {
+            query += String.format(" and MONTH(DateCost)= %d", month);
+            if (year > 0)
+                query += String.format(" and YEAR(DateCost)= %d", year);
+        } else {
+            if (year > 0)
+                query += String.format(" and YEAR(DateCost)= %d", year);
+            else return true;
+        }
+        query += " order by DateCost DESC, id";
+        Statement stmt;
+        try {
+            stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            DefaultTableModel tbl_model = (DefaultTableModel) tbl.getModel();
+            tbl_model.setRowCount(0);
+            while (rs.next()) {
+                Object[] objs = new Object[]{rs.getInt(Field.Cost.ID.GetIdx()),
+                    rs.getObject(Field.Cost.Date.GetIdx(), LocalDate.class),
+                    rs.getString(Field.Cost.Description.GetIdx()), rs.getFloat(Field.Cost.Quantity.GetIdx()),
+                    rs.getInt(Field.Cost.UnitID.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
+                tbl_model.addRow(objs);
+            }
+
+            stmt.close();
+            return true;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean searchCost(JTable tbl_cost, String keyword) {
+        if (keyword.isEmpty()) {
+            ReadAllCosts(tbl_cost);
+            return true;
+        }
+
+        String query = "";
+
+        if (keyword.toLowerCase().equals("goods")) {
+            query = "select * from cost where type = 'G' order by DateCost DESC";
+        } else if (keyword.toLowerCase().equals("operation")) {
+            query = "select * from cost where type = 'O' order by DateCost DESC";
+        } else {
+            query = "select * from cost where"
+                    + String.format(" MATCH(description) AGAINST ('%s' IN NATURAL LANGUAGE MODE)", keyword) + " ORDER by DateCost DESC, id";
+        }
+
+        Statement stmt;
+        try {
+            stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            DefaultTableModel tbl_cost_model = (DefaultTableModel) tbl_cost.getModel();
+            tbl_cost_model.setRowCount(0);
+            while (rs.next()) {
+                Object[] objs = new Object[]{rs.getInt(Field.Cost.ID.GetIdx()),
+                    rs.getString(Field.Cost.Type.GetIdx()).equals("G") ? "Goods" : "Operation",
+                    rs.getObject(Field.Cost.Date.GetIdx(), LocalDate.class),
+                    rs.getString(Field.Cost.Description.GetIdx()), rs.getFloat(Field.Cost.Quantity.GetIdx()),
+                    rs.getInt(Field.Cost.UnitID.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
+                tbl_cost_model.addRow(objs);
+            }
+            
+            stmt.close();
+            return true;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
         }
     }
 

@@ -483,9 +483,9 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="ind_menu" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel1" pref="27" max="32767" attributes="0"/>
+                      <Component id="jLabel1" max="32767" attributes="0"/>
                       <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel2" pref="170" max="32767" attributes="0"/>
+                      <Component id="jLabel2" pref="168" max="32767" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -567,7 +567,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Component id="jLabel4" pref="172" max="32767" attributes="0"/>
+                      <Component id="jLabel4" pref="168" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -656,7 +656,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Component id="jLabel6" pref="172" max="32767" attributes="0"/>
+                      <Component id="jLabel6" pref="168" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -746,7 +746,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Component id="jLabel8" pref="172" max="32767" attributes="0"/>
+                      <Component id="jLabel8" pref="168" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -992,7 +992,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="104" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
@@ -2452,7 +2452,7 @@
                                       <Component id="btn_menu_return" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="btn_menu_save" pref="169" max="32767" attributes="0"/>
+                                  <Component id="btn_menu_save" pref="168" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -3030,7 +3030,7 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="0" pref="35" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="33" max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                       <Component id="jLabel63" min="-2" pref="231" max="-2" attributes="0"/>
                                       <Group type="102" attributes="0">
@@ -3492,7 +3492,7 @@
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="text_financial_month" pref="128" max="32767" attributes="0"/>
+                                  <Component id="text_financial_month" pref="124" max="32767" attributes="0"/>
                                   <Component id="text_financial_year" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
@@ -3577,6 +3577,7 @@
                         </Property>
                       </Properties>
                       <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel39MouseClicked"/>
                         <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel39MouseEntered"/>
                         <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel39MouseExited"/>
                       </Events>
@@ -4124,6 +4125,7 @@
                         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="text_cost_searchFocusGained"/>
                         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="text_cost_searchFocusLost"/>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="text_cost_searchActionPerformed"/>
+                        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="text_cost_searchKeyReleased"/>
                       </Events>
                     </Component>
                   </SubComponents>
@@ -4272,7 +4274,7 @@
                                       <Component id="text_cost_total" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel37" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="25" max="32767" attributes="0"/>
+                                  <EmptySpace pref="23" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -5492,7 +5494,7 @@
                                   <Component id="jPanel18" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                                   <Component id="text_total" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="2" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
