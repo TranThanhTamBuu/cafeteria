@@ -753,14 +753,14 @@ public class GUI extends javax.swing.JFrame {
         jPanel44Layout.setHorizontalGroup(
             jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel48, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+            .addComponent(jPanel48, javax.swing.GroupLayout.PREFERRED_SIZE, 380, Short.MAX_VALUE)
         );
         jPanel44Layout.setVerticalGroup(
             jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel44Layout.createSequentialGroup()
                 .addComponent(jPanel45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel48, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
+                .addComponent(jPanel48, javax.swing.GroupLayout.PREFERRED_SIZE, 145, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout popup_warningLayout = new javax.swing.GroupLayout(popup_warning.getContentPane());
@@ -838,9 +838,9 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(btn_menuLayout.createSequentialGroup()
                 .addComponent(ind_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
                 .addContainerGap())
         );
         btn_menuLayout.setVerticalGroup(
@@ -898,7 +898,7 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
                 .addContainerGap())
         );
         btn_cashLayout.setVerticalGroup(
@@ -957,7 +957,7 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
                 .addContainerGap())
         );
         btn_costLayout.setVerticalGroup(
@@ -1015,7 +1015,7 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
                 .addContainerGap())
         );
         btn_financialLayout.setVerticalGroup(
@@ -1168,7 +1168,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(btn_purchaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(btn_purchaseLayout.createSequentialGroup()
                         .addComponent(jLabel17)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel20))
                     .addComponent(jLabel15)
                     .addGroup(btn_purchaseLayout.createSequentialGroup()
@@ -2035,7 +2035,7 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(btn_menu_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_menu_return, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_menu_save, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE))
+                .addComponent(btn_menu_save, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE))
         );
         pnl_menu_functionLayout.setVerticalGroup(
             pnl_menu_functionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2177,6 +2177,11 @@ public class GUI extends javax.swing.JFrame {
         tbl_financial.setRowHeight(25);
         tbl_financial.setSelectionBackground(new java.awt.Color(254, 218, 196));
         tbl_financial.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbl_financial.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tbl_financialMousePressed(evt);
+            }
+        });
         sp_financial.setViewportView(tbl_financial);
 
         javax.swing.GroupLayout jPanel41Layout = new javax.swing.GroupLayout(jPanel41);
@@ -2343,7 +2348,7 @@ public class GUI extends javax.swing.JFrame {
         btn_profitLayout.setHorizontalGroup(
             btn_profitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_profitLayout.createSequentialGroup()
-                .addGap(0, 35, Short.MAX_VALUE)
+                .addGap(0, 33, Short.MAX_VALUE)
                 .addGroup(btn_profitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel63, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(btn_profitLayout.createSequentialGroup()
@@ -2636,7 +2641,7 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(text_financial_month, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                    .addComponent(text_financial_month, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
                     .addComponent(text_financial_year))
                 .addGap(10, 10, 10)
                 .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3176,7 +3181,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(text_cost_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pnl_cost_edit.setBackground(new java.awt.Color(255, 255, 255));
@@ -3769,7 +3774,7 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(text_total)
-                .addGap(0, 2, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel25))
         );
 
@@ -3969,6 +3974,19 @@ public class GUI extends javax.swing.JFrame {
         // GUI
         popup_warninglShow();
     }//GEN-LAST:event_btn_payment_delMouseClicked
+
+    private void tbl_financialMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_financialMousePressed
+        // TODO add your handling code here:
+        int rowIdx;
+        if(evt.getClickCount() == 2 && text_financial_name.getText() == "INCOME" && (rowIdx = tbl_financial.getSelectedRow()) != -1) {
+            text_payment_id.setText("Payment No." + tbl_financial.getValueAt(rowIdx, 0).toString());
+            text_income_date.setText(String.copyValueOf(tbl_financial.getValueAt(rowIdx, 1).toString().toCharArray(), 0, 10));
+            text_payment_total.setText(tbl_financial.getValueAt(rowIdx, 3).toString());
+            text_payment_note.setText((String) tbl_financial.getValueAt(rowIdx, 2));
+            db.readSpecificPaymentById(tbl_payment, tbl_financial.getValueAt(rowIdx, 0).toString());
+            popup_income_detailShow();
+        }
+    }//GEN-LAST:event_tbl_financialMousePressed
 
     private void text_menu_searchKeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_text_menu_searchKeyTyped
         // TODO add your handling code here:

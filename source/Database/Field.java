@@ -87,7 +87,7 @@ public class Field {
     }
 
     public static enum SpecificPayment {
-        ID(1), FoodID(2), Quantity(3);
+        ID(1), FoodID(2), Quantity(3), FoodName(8),;
 
         int idx;
 

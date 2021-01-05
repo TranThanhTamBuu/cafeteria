@@ -394,6 +394,20 @@ public class Database {
         }
     }
     
+    public void DeletePayment(int id) {
+        Statement stmt = null, stmt1 = null;
+        try {
+            stmt = this.conn.createStatement();
+            stmt1 = this.conn.createStatement();
+            stmt1.executeUpdate(String.format("DELETE FROM SpecificPayment WHERE PaymentID = %d", id));
+            stmt.executeUpdate(String.format("DELETE FROM Payment WHERE ID = %d", id));
+            stmt.close();
+            stmt1.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
     public boolean readAllPayment(JTable tbl) {
         String query = "select * from payment order by DatePayment DESC, id";
         Statement stmt;
@@ -408,6 +422,29 @@ public class Database {
                     rs.getObject(Field.Payment.DateTime.GetIdx(), LocalDateTime.class),
                     rs.getString(Field.Payment.Note.GetIdx()), rs.getInt(Field.Payment.TotalAmount.GetIdx())};
                 tbl_model.addRow(objs);
+            }
+
+            stmt.close();
+            return true;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean readSpecificPaymentById(JTable tbl_payment, String idPayment) {
+        String query = String.format("select * from specificpayment sp join menu mn on sp.FoodID = mn.id where sp.PaymentID = %d", Integer.parseInt(idPayment));
+        Statement stmt;
+        try {
+            stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            DefaultTableModel tbl_payment_model = (DefaultTableModel) tbl_payment.getModel();
+            tbl_payment_model.setRowCount(0);
+            while (rs.next()) {
+                Object[] objs = new Object[]{rs.getString(Field.SpecificPayment.FoodName.GetIdx()), rs.getInt(Field.SpecificPayment.Quantity.GetIdx())};
+                tbl_payment_model.addRow(objs);
             }
 
             stmt.close();
