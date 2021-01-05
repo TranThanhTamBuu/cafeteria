@@ -116,21 +116,21 @@ INSERT INTO Menu VALUES (null, 'D', 1, 3, 'Seafood salad', 120000, 0.0);
 INSERT INTO Menu VALUES (null, 'D', 1, 3, 'Cajun chicken salad', 120000, 0.0);
 INSERT INTO Menu VALUES (null, 'D', 1, 3, 'Cream cheese fruit salad', 120000, 0.0);
 
-INSERT INTO Menu VALUES (null, 'D', 1, 4, 'Saporo', 35000, 0.0);
-INSERT INTO Menu VALUES (null, 'D', 1, 4, 'Heineken', 35000, 0.0);
-INSERT INTO Menu VALUES (null, 'D', 1, 4, 'Soju', 120000, 0.0);
-INSERT INTO Menu VALUES (null, 'D', 1, 4, 'Makgeolli', 160000, 0.0);
+INSERT INTO Menu VALUES (null, 'D', 2, 4, 'Saporo', 35000, 0.0);
+INSERT INTO Menu VALUES (null, 'D', 2, 4, 'Heineken', 35000, 0.0);
+INSERT INTO Menu VALUES (null, 'D', 2, 4, 'Soju', 120000, 0.0);
+INSERT INTO Menu VALUES (null, 'D', 2, 4, 'Makgeolli', 160000, 0.0);
 
-INSERT INTO Menu VALUES (null, 'D', 1, 5, 'Pepsi', 20000, 0.0);
-INSERT INTO Menu VALUES (null, 'D', 1, 5, '100 Plus', 20000, 0.0);
-INSERT INTO Menu VALUES (null, 'D', 1, 5, 'Aquafina', 10000, 0.0);
+INSERT INTO Menu VALUES (null, 'D', 2, 5, 'Pepsi', 20000, 0.0);
+INSERT INTO Menu VALUES (null, 'D', 2, 5, '100 Plus', 20000, 0.0);
+INSERT INTO Menu VALUES (null, 'D', 2, 5, 'Aquafina', 10000, 0.0);
 
 INSERT INTO Menu VALUES (null, 'C', 1, 6, '#CheeseTeam', 4390000, 0.0);
 INSERT INTO Menu VALUES (null, 'C', 1, 6, '#SpicyTeam', 2990000, 0.0);
 INSERT INTO Menu VALUES (null, 'C', 1, 6, '#SweetTeam', 3090000, 0.0);
-INSERT INTO Menu VALUES (null, 'C', 1, 6, 'Traditional 1', 319000, 0.0);
+INSERT INTO Menu VALUES (null, 'C', 3, 6, 'Traditional 1', 319000, 0.0);
 
-INSERT INTO Menu VALUES (null, 'C', 1, 7, 'Traditional 2', 699000, 0.0);
+INSERT INTO Menu VALUES (null, 'C', 3, 7, 'Traditional 2', 699000, 0.0);
 
 INSERT INTO Combo VALUES (25, 6, 1);
 INSERT INTO Combo VALUES (25, 13, 1);
