@@ -4991,6 +4991,7 @@ public class GUI extends javax.swing.JFrame {
 
         // gui
         clearMenuOrder();
+        text_total.setText("0");
     }// GEN-LAST:event_btn_cash_cancelMouseClicked
 
     private void btn_profitMouseExited(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_profitMouseExited
