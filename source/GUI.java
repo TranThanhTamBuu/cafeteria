@@ -138,6 +138,8 @@ public class GUI extends javax.swing.JFrame {
         clearTable(tbl_detail);
         clearTable(tbl_order);
         text_total.setText("0");
+        text_money.setText(String.format("%.1f", db.getTodayRevenue()*1.0/1000));
+        text_orders.setText(String.format("%s", db.getTodayOrders()));
 
         db.ReadAllCosts(this.tbl_cost);
         db.readMenu(this.tbl_menu);
@@ -4979,6 +4981,8 @@ public class GUI extends javax.swing.JFrame {
         // gui
         clearMenuOrder();
         text_total.setText("0");
+        text_money.setText(String.format("%.1f", db.getTodayRevenue()*1.0/1000));
+        text_orders.setText(String.format("%s", db.getTodayOrders()));
     }// GEN-LAST:event_btn_cash_chargeMouseClicked
 
     private void btn_cash_cancelMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cash_cancelMouseClicked

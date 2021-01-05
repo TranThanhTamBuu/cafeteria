@@ -381,6 +381,50 @@ public class Database {
             return false;
         }
     }
+    
+    public int getTodayRevenue() {
+        
+        Statement stmt;
+        try {
+            stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT sum(payment.TotalAmount) from payment");
+            
+            int rev = 0;
+            while (rs.next()) {
+                rev = rs.getInt(1);
+            }
+
+//            tbl_menu.setModel(tbl_menu_model);
+            stmt.close();
+            return rev;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return 0;
+        }
+    }
+    
+    public int getTodayOrders() {
+        
+        Statement stmt;
+        try {
+            stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT count(payment.TotalAmount) from payment");
+            
+            int rev = 0;
+            while (rs.next()) {
+                rev = rs.getInt(1);
+            }
+
+//            tbl_menu.setModel(tbl_menu_model);
+            stmt.close();
+            return rev;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return 0;
+        }
+    }
 
     public boolean readMenu(JTable tbl) {
         String query = "select * from menu mn join category cat on mn.categoryID = cat.id join specifictype sp on sp.id = mn.specifictypeID ORDER by mn.type DESC, mn.id";
