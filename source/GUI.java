@@ -80,6 +80,7 @@ public class GUI extends javax.swing.JFrame {
 
     boolean cost_edit = false;
     boolean clicked_tgl_cost_type = false;
+    int rowPayment = -1;
 
     Database db;
     boolean inMenuEdit = false;
@@ -3962,9 +3963,11 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_warning_continueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_warning_continueMouseClicked
         // function
-        
+        db.DeletePayment(Integer.parseInt(tbl_financial.getValueAt(rowPayment, 0).toString()));
+        db.readAllPayment(tbl_financial);
         // GUI
         popup_warninglHide();
+        popup_income_detailHide();
     }//GEN-LAST:event_btn_warning_continueMouseClicked
 
     private void btn_warning_cancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_warning_cancelMouseClicked
@@ -3981,6 +3984,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         int rowIdx;
         if(evt.getClickCount() == 2 && text_financial_name.getText() == "INCOME" && (rowIdx = tbl_financial.getSelectedRow()) != -1) {
+            rowPayment = rowIdx;
             text_payment_id.setText("Payment No." + tbl_financial.getValueAt(rowIdx, 0).toString());
             text_income_date.setText(String.copyValueOf(tbl_financial.getValueAt(rowIdx, 1).toString().toCharArray(), 0, 10));
             text_payment_total.setText(tbl_financial.getValueAt(rowIdx, 3).toString());
