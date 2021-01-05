@@ -16,8 +16,11 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+import java.util.Comparator;
+//import javax.swing.JTable;
+import javax.swing.*;
+import javax.swing.table.*;
+import java.util.*;
 
 //import source.Food.Combo;
 //import source.Food.Dish;
@@ -146,7 +149,7 @@ public class Database {
                     + " where"
                     + String.format(" MATCH(mn.name) AGAINST ('%s' IN NATURAL LANGUAGE MODE)", keyword)
                     + " ORDER by mn.type DESC, mn.id";
-            
+
             query1 = "select * from menu mn join category cat on mn.categoryID = cat.id join specifictype sp on sp.id = mn.specifictypeID"
                     + " where"
                     + String.format(" MATCH(cat.name) AGAINST ('%s' IN NATURAL LANGUAGE MODE)", keyword)
@@ -193,7 +196,7 @@ public class Database {
 
                     tbl_menu_model.addRow(objs);
                 }
-                
+
                 //
                 rs = stmt.executeQuery(query2);
 
@@ -208,7 +211,11 @@ public class Database {
                     };//                
 
                     tbl_menu_model.addRow(objs);
-                }                                
+                }
+            }
+
+            if (tbl_menu.getRowCount() > 0 && !((String) tbl_menu.getValueAt(0, 0)).isEmpty()) {
+                removeDuplicates(tbl_menu);
             }
 
 //            tbl_menu.setModel(tbl_menu_model);
@@ -220,11 +227,109 @@ public class Database {
             return false;
         }
     }
-    
-    
-    public boolean charge(JTable tbl_order, String note, String total) {
-        if (((String)tbl_order.getValueAt(0, 0)).isEmpty()) return false;
+
+    public void removeDuplicates(JTable tbl) {
+        for (int k = tbl.getRowCount(); k < 18; k++) {
+            ((DefaultTableModel) tbl.getModel()).addRow(new Object[] { "", "", "", "", "", "", "" });
+            System.out.println("After add white row");
+            for (int m = 0; m < tbl.getRowCount(); m++) {
+                System.out.println(tbl.getValueAt(m, 0));
+            }
+        }
         
+        
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(tbl.getModel());
+        tbl.setRowSorter(sorter);
+        List<RowSorter.SortKey> sortKeys = new ArrayList<>();
+
+        int columnIndexToSort = 0;
+        sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.ASCENDING));
+        sorter.setSortKeys(sortKeys);
+
+        sorter.setComparator(0, new Comparator<Object>() {
+
+            @Override
+            public int compare(Object id1, Object id2) {
+                if ((id1.toString()).isEmpty()) {
+                    return 1;
+                }
+                else if ((id2.toString()).isEmpty()) return -1;
+                                
+                else if (Integer.parseInt(id1.toString()) < Integer.parseInt(id2.toString())) {
+                    return -1;
+                } else if (Integer.parseInt(id1.toString()) > Integer.parseInt(id2.toString())) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
+
+        sorter.sort();
+        
+
+        int i = 0;
+        int j = 0;
+        int n = getValidRowCount(tbl);
+        while (i < n - 1) {
+            if (i == 12) {
+                System.out.println("source.Database.Database.removeDuplicates()");
+            }
+            if (!((String) tbl.getValueAt(i, 0)).equals((String) tbl.getValueAt(i + 1, 0))) {
+                copyRow(tbl, i, j);
+                j++;
+            }
+            i++;
+        }
+        copyRow(tbl, n - 1, j++);
+
+        // whiteout redundant rows
+        for (; j < n; j++) {
+            for (int m = 0; m < tbl.getColumnCount(); m++) {
+                tbl.setValueAt("", j, m);
+            }
+        }
+        
+        
+        sorter.setSortable( 0 , false );
+//        tbl.setRowSorter(null);
+        // add white row to full up table
+        System.out.println("before add white row");
+        for (int m = 0; m < tbl.getRowCount(); m++) {
+            System.out.println(tbl.getValueAt(m, 0));
+        }
+        
+    }
+
+    public void copyRow(JTable tbl, int src, int des) {
+        for (int i = 0; i < tbl.getColumnCount(); i++) {
+            tbl.setValueAt(tbl.getValueAt(src, i), des, i);
+        }
+
+    }
+
+    public int getValidRowCount(JTable tbl) {
+        int i;
+        for (i = 0; i < tbl.getRowCount(); i++) {
+            if (((String) tbl.getValueAt(i, 0)).isEmpty()) {
+                break;
+            }
+        }
+
+        return i;
+    }
+
+    public void deleteRow(JTable tbl, int removeIdx) {
+        if (removeIdx != -1 && removeIdx < tbl.getRowCount()) {
+            ((DefaultTableModel) tbl.getModel()).removeRow(removeIdx);
+//            ((DefaultTableModel) tbl.getModel()).addRow(new Object[] { "", "", "", "", "", "", "" });
+        }
+    }
+
+    public boolean charge(JTable tbl_order, String note, String total) {
+        if (((String) tbl_order.getValueAt(0, 0)).isEmpty()) {
+            return false;
+        }
+
         Statement stmt = null;
         ResultSet rs;
 
@@ -233,16 +338,15 @@ public class Database {
 //            stmt1 = this.conn.createStatement();
 
             // Payment table
-            
-            LocalDate date = LocalDate.now(); 
+            LocalDate date = LocalDate.now();
 //            String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(date);
-                        
-            stmt.executeUpdate(String.format("insert into payment values (null, '%s', '%s', '%s')", 
+
+            stmt.executeUpdate(String.format("insert into payment values (null, '%s', '%s', '%s')",
                     date.toString(),
                     note,
                     total
-                    ));
-            
+            ));
+
             // select latest added row
             rs = stmt.executeQuery("select * from payment order by payment.id desc limit 1");
             String paymentID = "";
@@ -250,30 +354,75 @@ public class Database {
                 paymentID = String.valueOf(rs.getInt(Field.Payment.ID.GetIdx()));
                 break;
             }
-                        
+
             // specific payment
-            String foodID ="";
-            for (int i=0; i < tbl_order.getRowCount();i++) {         
-                if (((String)(tbl_order.getValueAt(i, 0))).isEmpty()) break;
-                rs = stmt.executeQuery(String.format("select id from menu where name = '%s'", (String)tbl_order.getValueAt(i, 0)));
+            String foodID = "";
+            for (int i = 0; i < tbl_order.getRowCount(); i++) {
+                if (((String) (tbl_order.getValueAt(i, 0))).isEmpty()) {
+                    break;
+                }
+                rs = stmt.executeQuery(String.format("select id from menu where name = '%s'", (String) tbl_order.getValueAt(i, 0)));
                 while (rs.next()) {
                     foodID = String.valueOf(rs.getInt(Field.Menu.ID.GetIdx()));
                     break;
                 }
-                
-                stmt.executeUpdate(String.format("insert into specificpayment values ('%s', '%s', %s)", 
-                        paymentID,
-                        foodID, 
-                        (String)tbl_order.getValueAt(i, 1)));
-                
-                
-            }                                   
 
-            stmt.close();    
+                stmt.executeUpdate(String.format("insert into specificpayment values ('%s', '%s', %s)",
+                        paymentID,
+                        foodID,
+                        (String) tbl_order.getValueAt(i, 1)));
+
+            }
+
+            stmt.close();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+    
+    public int getTodayRevenue() {
+        
+        Statement stmt;
+        try {
+            stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT sum(payment.TotalAmount) from payment");
+            
+            int rev = 0;
+            while (rs.next()) {
+                rev = rs.getInt(1);
+            }
+
+//            tbl_menu.setModel(tbl_menu_model);
+            stmt.close();
+            return rev;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return 0;
+        }
+    }
+    
+    public int getTodayOrders() {
+        
+        Statement stmt;
+        try {
+            stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT count(payment.TotalAmount) from payment");
+            
+            int rev = 0;
+            while (rs.next()) {
+                rev = rs.getInt(1);
+            }
+
+//            tbl_menu.setModel(tbl_menu_model);
+            stmt.close();
+            return rev;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return 0;
         }
     }
 
@@ -351,7 +500,7 @@ public class Database {
             while (rs.next()) {
                 unit = String.valueOf(rs.getInt(Field.Category.ID.GetIdx()));
             }
-            
+
             stmt.executeUpdate(String.format("INSERT INTO Cost VALUES (null, '%s', '%s', '%s', %.2f, %s, %d)",
                     (type == "Goods") ? "G" : "O", LocalDate.parse(date), description, quantity, unit, totalAmount));
             stmt.close();
@@ -364,7 +513,7 @@ public class Database {
     public void EditCost(int id, String type, String date, String description, Float quantity,
             String unit, Integer totalAmount) {
         Statement stmt = null, stmt1 = null;
-        
+
         try {
             stmt = this.conn.createStatement();
             stmt1 = this.conn.createStatement();
@@ -373,7 +522,7 @@ public class Database {
             while (rs.next()) {
                 unit = String.valueOf(rs.getInt(Field.Category.ID.GetIdx()));
             }
-            
+
             stmt.executeUpdate(String.format("UPDATE Cost SET Type = '%s', DateCost = '%s', Description = '%s', Quantity = %.2f, UnitID = %s, TotalAmount = %d WHERE ID = %d",
                     (type == "Goods") ? "G" : "O", LocalDate.parse(date), description, quantity, unit, totalAmount, id));
             stmt.close();
@@ -455,7 +604,7 @@ public class Database {
             return false;
         }
     }
-    
+
     public boolean readAllGoodsCosts(JTable tbl) {
         String query = "select * from cost c join unit u on c.UnitID = u.id where c.type = 'G' order by c.DateCost DESC, c.id";
         Statement stmt;
@@ -481,7 +630,7 @@ public class Database {
             return false;
         }
     }
-    
+
     public boolean readAllOperationCosts(JTable tbl) {
         String query = "select * from cost c join unit u on c.UnitID = u.id where c.type = 'O' order by c.DateCost DESC, c.id";
         Statement stmt;
@@ -507,17 +656,20 @@ public class Database {
             return false;
         }
     }
-    
+
     public boolean readPaymentByDate(JTable tbl, Integer month, Integer year) {
         String query = "select * from payment where ";
-        if (month > 0 && month <13) {
+        if (month > 0 && month < 13) {
             query += String.format("MONTH(DatePayment)= '%d'", month);
-            if (year > 0)
+            if (year > 0) {
                 query += String.format(" and YEAR(DatePayment)= '%d'", year);
+            }
         } else {
-            if (year > 0)
+            if (year > 0) {
                 query += String.format("YEAR(DatePayment)= '%d'", year);
-            else return true;
+            } else {
+                return true;
+            }
         }
         query += " order by DatePayment DESC, id";
         Statement stmt;
@@ -541,20 +693,23 @@ public class Database {
             return false;
         }
     }
-    
+
     public boolean readCostsByDate(JTable tbl, Integer month, Integer year, boolean isGoods) {
         String query = "select * from cost c join unit u on c.UnitID = u.id where c.type = 'G'";
         if (!isGoods) {
             query = "select * from cost c join unit u on c.UnitID = u.id where c.type = 'O'";
         }
-        if (month > 0 && month <13) {
+        if (month > 0 && month < 13) {
             query += String.format(" and MONTH(c.DateCost)= %d", month);
-            if (year > 0)
+            if (year > 0) {
                 query += String.format(" and YEAR(c.DateCost)= %d", year);
+            }
         } else {
-            if (year > 0)
+            if (year > 0) {
                 query += String.format(" and YEAR(c.DateCost)= %d", year);
-            else return true;
+            } else {
+                return true;
+            }
         }
         query += " order by c.DateCost DESC, c.id";
         Statement stmt;
@@ -580,7 +735,7 @@ public class Database {
             return false;
         }
     }
-    
+
     public boolean searchCost(JTable tbl_cost, String keyword) {
         if (keyword.isEmpty()) {
             ReadAllCosts(tbl_cost);
@@ -595,9 +750,9 @@ public class Database {
             query = "select * from cost c join unit u on c.UnitID = u.id where c.type = 'O' order by c.DateCost DESC, c.id";
         } else {
             query = "select * from cost c join unit u on c.UnitID = u.id where"
-                    + String.format(" MATCH(c.description) AGAINST ('%s' IN NATURAL LANGUAGE MODE)", keyword) 
+                    + String.format(" MATCH(c.description) AGAINST ('%s' IN NATURAL LANGUAGE MODE)", keyword)
                     + " ORDER by c.DateCost DESC, c.id";
-            
+
             query1 = "select * from cost c join unit u on c.UnitID = u.id where"
                     + String.format(" MATCH(u.name) AGAINST ('%s' IN NATURAL LANGUAGE MODE)", keyword)
                     + " ORDER by c.DateCost DESC, c.id";
@@ -618,7 +773,7 @@ public class Database {
                     rs.getString(Field.Cost.UnitName.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
                 tbl_cost_model.addRow(objs);
             }
-            
+
             if (!query1.isEmpty()) {
                 rs = stmt.executeQuery(query1);
 
@@ -627,11 +782,11 @@ public class Database {
                         rs.getString(Field.Cost.Type.GetIdx()).equals("G") ? "Goods" : "Operation",
                         rs.getObject(Field.Cost.Date.GetIdx(), LocalDate.class),
                         rs.getString(Field.Cost.Description.GetIdx()), rs.getFloat(Field.Cost.Quantity.GetIdx()),
-                        rs.getString(Field.Cost.UnitName.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};               
+                        rs.getString(Field.Cost.UnitName.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
                     tbl_cost_model.addRow(objs);
-                }                               
+                }
             }
-            
+
             stmt.close();
             return true;
         } catch (SQLException e) {
@@ -640,18 +795,20 @@ public class Database {
             return false;
         }
     }
-    
+
     public String totalAmountPayment(Integer month, Integer year) {
         String query = "select SUM(TotalAmount) as sumTA from payment";
-        if (month > 0 && month <13) {
+        if (month > 0 && month < 13) {
             query += String.format(" where MONTH(DatePayment)= '%d'", month);
-            if (year > 0)
+            if (year > 0) {
                 query += String.format(" and YEAR(DatePayment)= '%d'", year);
+            }
         } else {
-            if (year > 0)
+            if (year > 0) {
                 query += String.format(" where YEAR(DatePayment)= '%d'", year);
+            }
         }
-        
+
         Statement stmt;
         try {
             stmt = this.conn.createStatement();
@@ -669,14 +826,16 @@ public class Database {
             return "0";
         }
     }
-    
+
     public String totalAmountGoodsCost(Integer month, Integer year) {
         String query = "select SUM(TotalAmount) as sumTA from cost where type = 'G'";
-        if (month > 0 && month <13)
+        if (month > 0 && month < 13) {
             query += String.format(" and MONTH(DateCost)= %d", month);
-        if (year > 0)
+        }
+        if (year > 0) {
             query += String.format(" and YEAR(DateCost)= %d", year);
-        
+        }
+
         Statement stmt;
         try {
             stmt = this.conn.createStatement();
@@ -694,14 +853,16 @@ public class Database {
             return "0";
         }
     }
-    
+
     public String totalAmountOperationCost(Integer month, Integer year) {
         String query = "select SUM(TotalAmount) as sumTA from cost where type = 'O'";
-        if (month > 0 && month <13)
+        if (month > 0 && month < 13) {
             query += String.format(" and MONTH(DateCost)= %d", month);
-        if (year > 0)
+        }
+        if (year > 0) {
             query += String.format(" and YEAR(DateCost)= %d", year);
-        
+        }
+
         Statement stmt;
         try {
             stmt = this.conn.createStatement();
