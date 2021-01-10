@@ -81,7 +81,9 @@ public class GUI extends javax.swing.JFrame {
     boolean cost_edit = false;
     boolean clicked_tgl_cost_type = false;
     int rowPayment = -1;
-
+    String monthFilter = "";
+    String yearFilter = "";
+    
     Database db;
     boolean inMenuEdit = false;
     boolean inMenuAdd = false;
@@ -3916,6 +3918,8 @@ public class GUI extends javax.swing.JFrame {
         String name = text_financial_name.getText();
         String month = text_financial_month.getText();
         String year = text_financial_year.getText();
+        monthFilter = month;
+        yearFilter = year;
         Integer m = -1,y = -1;
         try {
             m = Integer.parseInt(month);
@@ -3964,7 +3968,45 @@ public class GUI extends javax.swing.JFrame {
     private void btn_warning_continueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_warning_continueMouseClicked
         // function
         db.DeletePayment(Integer.parseInt(tbl_financial.getValueAt(rowPayment, 0).toString()));
-        db.readAllPayment(tbl_financial);
+        Integer m = -1,y = -1;
+        try {
+            m = Integer.parseInt(monthFilter);
+        } catch(Exception e) {
+            m = -1;
+        }
+        try {
+            y = Integer.parseInt(yearFilter);
+        } catch(Exception e) {
+            y = -1;
+        }
+        String name = text_financial_name.getText();
+        String income = db.totalAmountPayment(m, y);
+        String goods = db.totalAmountGoodsCost(m, y);
+        String operation = db.totalAmountOperationCost(m, y);
+        text_income.setText(income);
+        text_goods.setText(goods);
+        jLabel59.setText(operation);
+        jLabel63.setText(String.valueOf(Integer.parseInt(income) - Integer.parseInt(goods) - Integer.parseInt(operation)));
+        if (name == "INCOME") {
+            if ((m < 1 || m > 12) && y < 0)
+                db.readAllPayment(tbl_financial);
+            else
+                db.readPaymentByDate(tbl_financial, m, y);
+        } else {
+            if (name == "GOODS COST") {
+                if ((m < 1 || m > 12) && y < 0)
+                    db.readAllGoodsCosts(tbl_financial);
+                else
+                    db.readCostsByDate(tbl_financial, m, y, true);
+            } else {
+                if (name == "OPERATION COST") {
+                    if ((m < 1 || m > 12) && y < 0)
+                        db.readAllOperationCosts(tbl_financial);
+                    else
+                        db.readCostsByDate(tbl_financial, m, y, false);
+                }
+            }
+        }
         // GUI
         popup_warninglHide();
         popup_income_detailHide();
@@ -4155,8 +4197,48 @@ public class GUI extends javax.swing.JFrame {
         pn_cash.setVisible(false);
         pn_cost.setVisible(false);
         pn_financial.setVisible(true);
-
+        
         text_layout_name.setText("FINANCIAL ANALYSIS");
+        
+        Integer m = -1,y = -1;
+        try {
+            m = Integer.parseInt(monthFilter);
+        } catch(Exception e) {
+            m = -1;
+        }
+        try {
+            y = Integer.parseInt(yearFilter);
+        } catch(Exception e) {
+            y = -1;
+        }
+        String name = text_financial_name.getText();
+        String income = db.totalAmountPayment(m, y);
+        String goods = db.totalAmountGoodsCost(m, y);
+        String operation = db.totalAmountOperationCost(m, y);
+        text_income.setText(income);
+        text_goods.setText(goods);
+        jLabel59.setText(operation);
+        jLabel63.setText(String.valueOf(Integer.parseInt(income) - Integer.parseInt(goods) - Integer.parseInt(operation)));
+        if (name == "INCOME") {
+            if ((m < 1 || m > 12) && y < 0)
+                db.readAllPayment(tbl_financial);
+            else
+                db.readPaymentByDate(tbl_financial, m, y);
+        } else {
+            if (name == "GOODS COST") {
+                if ((m < 1 || m > 12) && y < 0)
+                    db.readAllGoodsCosts(tbl_financial);
+                else
+                    db.readCostsByDate(tbl_financial, m, y, true);
+            } else {
+                if (name == "OPERATION COST") {
+                    if ((m < 1 || m > 12) && y < 0)
+                        db.readAllOperationCosts(tbl_financial);
+                    else
+                        db.readCostsByDate(tbl_financial, m, y, false);
+                }
+            }
+        }
     }// GEN-LAST:event_btn_financialMousePressed
 
     private void btn_menuMouseEntered(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menuMouseEntered
@@ -4185,16 +4267,6 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_financialMouseEntered(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_financialMouseEntered
         btnHover(btn_financial);
-        
-        String income = db.totalAmountPayment(-1, -1);
-        String goods = db.totalAmountGoodsCost(-1, -1);
-        String operation = db.totalAmountOperationCost(-1, -1);
-        text_financial_month.setText("");
-        text_financial_year.setText("");
-        text_income.setText(income);
-        text_goods.setText(goods);
-        jLabel59.setText(operation);
-        jLabel63.setText(String.valueOf(Integer.parseInt(income) - Integer.parseInt(goods) - Integer.parseInt(operation)));
     }// GEN-LAST:event_btn_financialMouseEntered
 
     private void btn_financialMouseExited(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_financialMouseExited
@@ -5301,8 +5373,19 @@ public class GUI extends javax.swing.JFrame {
     }
 
     void recreateFinancialTable(JTable tbl, boolean isIncome, boolean isGoods) {
-        text_financial_month.setText("");
-        text_financial_year.setText("");
+        text_financial_month.setText(monthFilter);
+        text_financial_year.setText(yearFilter);
+        Integer m = -1,y = -1;
+        try {
+            m = Integer.parseInt(monthFilter);
+        } catch(Exception e) {
+            m = -1;
+        }
+        try {
+            y = Integer.parseInt(yearFilter);
+        } catch(Exception e) {
+            y = -1;
+        }
         if (!isIncome) {
             Object[][] obj = new Object[18][6];
             tbl.setModel(new DefaultTableModel(obj,
@@ -5314,9 +5397,15 @@ public class GUI extends javax.swing.JFrame {
                 }
             });
             if (!isGoods) {
-                db.readAllOperationCosts(tbl);
+                if ((m < 1 || m > 12) && y < 0)
+                    db.readAllOperationCosts(tbl);
+                else
+                    db.readCostsByDate(tbl, m, y, false);
             } else {
-                db.readAllGoodsCosts(tbl);
+                if ((m < 1 || m > 12) && y < 0)
+                    db.readAllGoodsCosts(tbl);
+                else
+                    db.readCostsByDate(tbl, m, y, true);
             }
         } else {
             Object[][] obj = new Object[18][4];
@@ -5328,7 +5417,10 @@ public class GUI extends javax.swing.JFrame {
                 }
 
             });
-            db.readAllPayment(tbl);
+            if ((m < 1 || m > 12) && y < 0)
+                db.readAllPayment(tbl);
+            else
+                db.readPaymentByDate(tbl, m, y);
         }
 
     }
