@@ -215,7 +215,7 @@ public class GUI extends javax.swing.JFrame {
         jPanel50 = new javax.swing.JPanel();
         text_payment_id2 = new javax.swing.JLabel();
         jPanel51 = new javax.swing.JPanel();
-        btn_warning_continue1 = new javax.swing.JLabel();
+        btn_warning_input_ok = new javax.swing.JLabel();
         jLabel47 = new javax.swing.JLabel();
         jLabel48 = new javax.swing.JLabel();
         Left = new jPanelGradient();
@@ -830,16 +830,16 @@ public class GUI extends javax.swing.JFrame {
         jPanel51.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 5, 5, 5, new java.awt.Color(255, 157, 128)));
         jPanel51.setPreferredSize(new java.awt.Dimension(0, 285));
 
-        btn_warning_continue1.setBackground(new java.awt.Color(19, 155, 91));
-        btn_warning_continue1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        btn_warning_continue1.setForeground(new java.awt.Color(255, 255, 255));
-        btn_warning_continue1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btn_warning_continue1.setText("OK");
-        btn_warning_continue1.setOpaque(true);
-        btn_warning_continue1.setPreferredSize(new java.awt.Dimension(130, 40));
-        btn_warning_continue1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_warning_input_ok.setBackground(new java.awt.Color(19, 155, 91));
+        btn_warning_input_ok.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        btn_warning_input_ok.setForeground(new java.awt.Color(255, 255, 255));
+        btn_warning_input_ok.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btn_warning_input_ok.setText("OK");
+        btn_warning_input_ok.setOpaque(true);
+        btn_warning_input_ok.setPreferredSize(new java.awt.Dimension(130, 40));
+        btn_warning_input_ok.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_warning_continue1MouseClicked(evt);
+                btn_warning_input_okMouseClicked(evt);
             }
         });
 
@@ -864,7 +864,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGap(50, 50, 50))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel51Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btn_warning_continue1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_warning_input_ok, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(120, 120, 120))
         );
         jPanel51Layout.setVerticalGroup(
@@ -875,7 +875,7 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel48)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btn_warning_continue1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_warning_input_ok, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5))
         );
 
@@ -1298,15 +1298,19 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(btn_purchaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(btn_purchaseLayout.createSequentialGroup()
-                        .addComponent(jLabel17)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
-                        .addComponent(jLabel20))
-                    .addComponent(jLabel15)
-                    .addGroup(btn_purchaseLayout.createSequentialGroup()
-                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(text_orders, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(6, 6, 6))
+                        .addComponent(jLabel15)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_purchaseLayout.createSequentialGroup()
+                        .addGroup(btn_purchaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(btn_purchaseLayout.createSequentialGroup()
+                                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(text_orders, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(btn_purchaseLayout.createSequentialGroup()
+                                .addComponent(jLabel17)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
+                                .addComponent(jLabel20)))
+                        .addGap(6, 6, 6))))
         );
         btn_purchaseLayout.setVerticalGroup(
             btn_purchaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4252,9 +4256,9 @@ public class GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tbl_financialMousePressed
 
-    private void btn_warning_continue1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_warning_continue1MouseClicked
+    private void btn_warning_input_okMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_warning_input_okMouseClicked
         popup_warning_inputlHide();
-    }//GEN-LAST:event_btn_warning_continue1MouseClicked
+    }//GEN-LAST:event_btn_warning_input_okMouseClicked
     
     private void text_menu_searchKeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_text_menu_searchKeyTyped
         // TODO add your handling code here:
@@ -5788,7 +5792,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel btn_revenue;
     private javax.swing.JLabel btn_warning_cancel;
     private javax.swing.JLabel btn_warning_continue;
-    private javax.swing.JLabel btn_warning_continue1;
+    private javax.swing.JLabel btn_warning_input_ok;
     private javax.swing.JLabel icon_exit;
     private javax.swing.JPanel ind_cash;
     private javax.swing.JPanel ind_cost;
