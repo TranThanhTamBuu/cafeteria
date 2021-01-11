@@ -5221,6 +5221,7 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_cost_saveMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cost_saveMouseClicked
         // function
+        try {
         Database db = Database.getInstance();
         if (this.btn_cost_idEdit == -1) {
             db.WriteCost(tgl_cost_type.getText(), text_cost_date.getText(), text_cost_description.getText(),
@@ -5233,6 +5234,10 @@ public class GUI extends javax.swing.JFrame {
         }
         db.ReadAllCosts(tbl_cost);
         this.btn_cost_idEdit = -1;
+        } catch (Exception err) {
+            this.popup_warning_inputlShow();
+            return;
+        }
         // gui
         setCostEditableDetail(false, false);
         pnl_cost_add_edit_del.setVisible(true);
