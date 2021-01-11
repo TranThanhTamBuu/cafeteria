@@ -17,6 +17,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -91,8 +94,10 @@ public class GUI extends javax.swing.JFrame {
     boolean menuAcceptDelete = false;
     boolean cashAcceptCancel = false;
     boolean inMenu = false;
+    boolean inCash = false;
     boolean inMenuDelete = false;
-    boolean inCash = false;    
+    boolean inCost = false;    
+    boolean inPayment = false;
     int curEditRow = 0;
 
     /**
@@ -147,7 +152,7 @@ public class GUI extends javax.swing.JFrame {
         clearTable(tbl_detail);
         clearTable(tbl_order);
         text_total.setText("0");
-        text_money.setText(String.format("%s", db.getTodayRevenue()/1000));
+        text_money.setText(currencyFormat(String.format("%s", db.getTodayRevenue()/1000)));
         text_orders.setText(String.format("%s", db.getTodayOrders()));
 
         db.ReadAllCosts(this.tbl_cost);
@@ -541,11 +546,10 @@ public class GUI extends javax.swing.JFrame {
         text_payment_total.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         text_payment_total.setText("1.000.000.000");
 
-        sp_payment.setBorder(null);
+        sp_payment.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
         tbl_payment.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
                 {null, null},
                 {null, null},
                 {null, null}
@@ -626,7 +630,7 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel44)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sp_payment, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sp_payment, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -648,7 +652,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanel29Layout.createSequentialGroup()
                 .addComponent(jPanel40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel43, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE))
+                .addComponent(jPanel43, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout popup_income_detailLayout = new javax.swing.GroupLayout(popup_income_detail.getContentPane());
@@ -663,7 +667,6 @@ public class GUI extends javax.swing.JFrame {
         );
 
         popup_warning.setUndecorated(true);
-        popup_warning.setPreferredSize(new java.awt.Dimension(380, 180));
         popup_warning.setResizable(false);
         popup_warning.setType(java.awt.Window.Type.POPUP);
 
@@ -764,14 +767,14 @@ public class GUI extends javax.swing.JFrame {
         jPanel44Layout.setHorizontalGroup(
             jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel48, javax.swing.GroupLayout.PREFERRED_SIZE, 380, Short.MAX_VALUE)
+            .addComponent(jPanel48, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
         );
         jPanel44Layout.setVerticalGroup(
             jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel44Layout.createSequentialGroup()
                 .addComponent(jPanel45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel48, javax.swing.GroupLayout.PREFERRED_SIZE, 145, Short.MAX_VALUE))
+                .addComponent(jPanel48, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout popup_warningLayout = new javax.swing.GroupLayout(popup_warning.getContentPane());
@@ -849,9 +852,9 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(btn_menuLayout.createSequentialGroup()
                 .addComponent(ind_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                 .addContainerGap())
         );
         btn_menuLayout.setVerticalGroup(
@@ -909,7 +912,7 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
                 .addContainerGap())
         );
         btn_cashLayout.setVerticalGroup(
@@ -968,7 +971,7 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
                 .addContainerGap())
         );
         btn_costLayout.setVerticalGroup(
@@ -1026,7 +1029,7 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
                 .addContainerGap())
         );
         btn_financialLayout.setVerticalGroup(
@@ -1179,7 +1182,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(btn_purchaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(btn_purchaseLayout.createSequentialGroup()
                         .addComponent(jLabel17)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
                         .addComponent(jLabel20))
                     .addComponent(jLabel15)
                     .addGroup(btn_purchaseLayout.createSequentialGroup()
@@ -1597,7 +1600,7 @@ public class GUI extends javax.swing.JFrame {
             .addGap(0, 5, Short.MAX_VALUE)
         );
 
-        sp_menu.setBorder(null);
+        sp_menu.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         sp_menu.setPreferredSize(new java.awt.Dimension(630, 483));
 
         tbl_menu.setModel(new javax.swing.table.DefaultTableModel(
@@ -1631,7 +1634,7 @@ public class GUI extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true, true, true, true, true
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1891,7 +1894,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel31.setForeground(new java.awt.Color(255, 157, 128));
         jLabel31.setText("Discount");
 
-        sp_detail.setBorder(null);
+        sp_detail.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         sp_detail.setPreferredSize(new java.awt.Dimension(320, 180));
 
         tbl_detail.setModel(new javax.swing.table.DefaultTableModel(
@@ -2046,7 +2049,7 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(btn_menu_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_menu_return, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_menu_save, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE))
+                .addComponent(btn_menu_save, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE))
         );
         pnl_menu_functionLayout.setVerticalGroup(
             pnl_menu_functionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2144,7 +2147,7 @@ public class GUI extends javax.swing.JFrame {
             .addGap(0, 5, Short.MAX_VALUE)
         );
 
-        sp_financial.setBorder(null);
+        sp_financial.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         sp_financial.setPreferredSize(new java.awt.Dimension(630, 483));
 
         tbl_financial.setModel(new javax.swing.table.DefaultTableModel(
@@ -2359,7 +2362,7 @@ public class GUI extends javax.swing.JFrame {
         btn_profitLayout.setHorizontalGroup(
             btn_profitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_profitLayout.createSequentialGroup()
-                .addGap(0, 33, Short.MAX_VALUE)
+                .addGap(0, 35, Short.MAX_VALUE)
                 .addGroup(btn_profitLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel63, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(btn_profitLayout.createSequentialGroup()
@@ -2652,7 +2655,7 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(text_financial_month, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                    .addComponent(text_financial_month, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
                     .addComponent(text_financial_year))
                 .addGap(10, 10, 10)
                 .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2843,9 +2846,10 @@ public class GUI extends javax.swing.JFrame {
             .addGap(0, 5, Short.MAX_VALUE)
         );
 
-        sp_cost.setBorder(null);
+        sp_cost.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         sp_cost.setPreferredSize(new java.awt.Dimension(630, 483));
 
+        tbl_cost.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         tbl_cost.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -2877,7 +2881,7 @@ public class GUI extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true, true, true, true, true
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3192,7 +3196,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(text_cost_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pnl_cost_edit.setBackground(new java.awt.Color(255, 255, 255));
@@ -3554,7 +3558,7 @@ public class GUI extends javax.swing.JFrame {
             .addGap(0, 5, Short.MAX_VALUE)
         );
 
-        sp_cash.setBorder(null);
+        sp_cash.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         sp_cash.setPreferredSize(new java.awt.Dimension(630, 483));
 
         tbl_cash.setModel(new javax.swing.table.DefaultTableModel(
@@ -3588,7 +3592,7 @@ public class GUI extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true, true, true, true, true
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3632,6 +3636,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel12.setText("ORDER");
         jLabel12.setPreferredSize(new java.awt.Dimension(50, 65));
 
+        sp_order.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         sp_order.setPreferredSize(new java.awt.Dimension(320, 258));
         sp_order.setRequestFocusEnabled(false);
 
@@ -3785,7 +3790,7 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(text_total)
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 2, Short.MAX_VALUE)
                 .addComponent(jLabel25))
         );
 
@@ -3927,6 +3932,7 @@ public class GUI extends javax.swing.JFrame {
         monthFilter = month;
         yearFilter = year;
         Integer m = -1,y = -1;
+        inCost = false;
         try {
             m = Integer.parseInt(month);
         } catch(Exception e) {
@@ -3945,11 +3951,13 @@ public class GUI extends javax.swing.JFrame {
         jLabel59.setText(operation);
         jLabel63.setText(String.valueOf(Integer.parseInt(income) - Integer.parseInt(goods) - Integer.parseInt(operation)));
         if (name == "INCOME") {
+            inPayment = true;
             if ((m < 1 || m > 12) && y < 0)
                 db.readAllPayment(tbl_financial);
             else
                 db.readPaymentByDate(tbl_financial, m, y);
         } else {
+            inPayment = false;
             if (name == "GOODS COST") {
                 if ((m < 1 || m > 12) && y < 0)
                     db.readAllGoodsCosts(tbl_financial);
@@ -3985,7 +3993,17 @@ public class GUI extends javax.swing.JFrame {
             menuAcceptDelete = true;
             onMenuDelete();
         }
-        else {
+
+        if (inCost) {
+            int rowIdx;
+            if ((rowIdx = tbl_cost.getSelectedRow()) != -1) {
+                Database db = Database.getInstance();
+                db.DeleteCost(Integer.parseInt(tbl_cost.getValueAt(rowIdx, 0).toString()));
+                db.ReadAllCosts(tbl_cost);
+                setCostEditableDetail(false, true);
+            }
+        }
+        if (inPayment){
 
             db.DeletePayment(Integer.parseInt(tbl_financial.getValueAt(rowPayment, 0).toString()));
             Integer m = -1, y = -1;
@@ -4003,10 +4021,11 @@ public class GUI extends javax.swing.JFrame {
             String income = db.totalAmountPayment(m, y);
             String goods = db.totalAmountGoodsCost(m, y);
             String operation = db.totalAmountOperationCost(m, y);
-            text_income.setText(income);
-            text_goods.setText(goods);
-            jLabel59.setText(operation);
-            jLabel63.setText(String.valueOf(Integer.parseInt(income) - Integer.parseInt(goods) - Integer.parseInt(operation)));
+
+            text_income.setText(currencyFormat(income));
+            text_goods.setText(currencyFormat(goods));
+            jLabel59.setText(currencyFormat(operation));
+            jLabel63.setText(currencyFormat(String.valueOf(Integer.parseInt(income) - Integer.parseInt(goods) - Integer.parseInt(operation))));
             if (name == "INCOME") {
                 if ((m < 1 || m > 12) && y < 0) {
                     db.readAllPayment(tbl_financial);
@@ -4056,9 +4075,10 @@ public class GUI extends javax.swing.JFrame {
         int rowIdx;
         if(evt.getClickCount() == 2 && text_financial_name.getText() == "INCOME" && (rowIdx = tbl_financial.getSelectedRow()) != -1) {
             rowPayment = rowIdx;
+            if (tbl_financial.getValueAt(rowIdx, 0).toString() == "") return;
             text_payment_id.setText("Payment No." + tbl_financial.getValueAt(rowIdx, 0).toString());
             text_income_date.setText(String.copyValueOf(tbl_financial.getValueAt(rowIdx, 1).toString().toCharArray(), 0, 10));
-            text_payment_total.setText(tbl_financial.getValueAt(rowIdx, 3).toString());
+            text_payment_total.setText(currencyFormat(tbl_financial.getValueAt(rowIdx, 3).toString()) + " VND");
             text_payment_note.setText((String) tbl_financial.getValueAt(rowIdx, 2));
             db.readSpecificPaymentById(tbl_payment, tbl_financial.getValueAt(rowIdx, 0).toString());
             popup_income_detailShow();
@@ -4138,13 +4158,7 @@ public class GUI extends javax.swing.JFrame {
     }// GEN-LAST:event_tbl_costMouseClicked
 
     private void btn_cost_delMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cost_delMouseClicked
-        int rowIdx;
-        if ((rowIdx = tbl_cost.getSelectedRow()) != -1) {
-            Database db = Database.getInstance();
-            db.DeleteCost(Integer.parseInt(tbl_cost.getValueAt(rowIdx, 0).toString()));
-            db.ReadAllCosts(tbl_cost);
-            setCostEditableDetail(false, true);
-        }
+        popup_warninglShow();
     }// GEN-LAST:event_btn_cost_delMouseClicked
 
     private void btn_menu_returnMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menu_returnMouseClicked
@@ -4199,6 +4213,8 @@ public class GUI extends javax.swing.JFrame {
         pn_menu.setVisible(true);
         pn_cash.setVisible(false);
         pn_cost.setVisible(false);
+        inCost = false;
+        inPayment = false;
         pn_financial.setVisible(false);
 
         text_layout_name.setText("MENU");
@@ -4211,6 +4227,8 @@ public class GUI extends javax.swing.JFrame {
         pn_menu.setVisible(false);
         pn_cash.setVisible(true);
         pn_cost.setVisible(false);
+        inCost = false;
+        inPayment = false;
         pn_financial.setVisible(false);
 
         text_layout_name.setText("CASH COUNTER");
@@ -4223,9 +4241,11 @@ public class GUI extends javax.swing.JFrame {
         pn_menu.setVisible(false);
         pn_cash.setVisible(false);
         pn_cost.setVisible(true);
+        inPayment = false;
         pn_financial.setVisible(false);
 
         text_layout_name.setText("COST MANAGEMENT");
+        inCost = true;
     }// GEN-LAST:event_btn_costMousePressed
 
     private void btn_financialMousePressed(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_financialMousePressed
@@ -4235,6 +4255,7 @@ public class GUI extends javax.swing.JFrame {
         pn_menu.setVisible(false);
         pn_cash.setVisible(false);
         pn_cost.setVisible(false);
+        inCost = false;
         pn_financial.setVisible(true);
         
         text_layout_name.setText("FINANCIAL ANALYSIS");
@@ -4254,16 +4275,18 @@ public class GUI extends javax.swing.JFrame {
         String income = db.totalAmountPayment(m, y);
         String goods = db.totalAmountGoodsCost(m, y);
         String operation = db.totalAmountOperationCost(m, y);
-        text_income.setText(income);
-        text_goods.setText(goods);
-        jLabel59.setText(operation);
-        jLabel63.setText(String.valueOf(Integer.parseInt(income) - Integer.parseInt(goods) - Integer.parseInt(operation)));
+        text_income.setText(currencyFormat(income));
+        text_goods.setText(currencyFormat(goods));
+        jLabel59.setText(currencyFormat(operation));
+        jLabel63.setText(currencyFormat(String.valueOf(Integer.parseInt(income) - Integer.parseInt(goods) - Integer.parseInt(operation))));
         if (name == "INCOME") {
+            inPayment = true;
             if ((m < 1 || m > 12) && y < 0)
                 db.readAllPayment(tbl_financial);
             else
                 db.readPaymentByDate(tbl_financial, m, y);
         } else {
+            inPayment = false;
             if (name == "GOODS COST") {
                 if ((m < 1 || m > 12) && y < 0)
                     db.readAllGoodsCosts(tbl_financial);
@@ -5128,12 +5151,12 @@ public class GUI extends javax.swing.JFrame {
     private void btn_cash_chargeMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cash_chargeMouseClicked
         // function
         // please dont change the order
-        db.charge(tbl_order, text_menu_notes.getText(), String.valueOf(Integer.parseInt(text_total.getText())*1000));
+        db.charge(tbl_order, text_menu_notes.getText(), String.valueOf(Long.valueOf(text_total.getText().replace(".", "")) * 1000));
 
         // gui
         clearMenuOrder();
         text_total.setText("0");
-        text_money.setText(String.format("%s", db.getTodayRevenue()/1000));
+        text_money.setText(currencyFormat(String.format("%s", db.getTodayRevenue()/1000)));
         text_orders.setText(String.format("%s", db.getTodayOrders()));
     }// GEN-LAST:event_btn_cash_chargeMouseClicked
 
@@ -5221,12 +5244,16 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_incomeMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_incomeMouseClicked
         text_financial_name.setText("INCOME");
+        inCost = false;
+        inPayment = true;
         recreateFinancialTable(tbl_financial, true, false);
         // function
     }// GEN-LAST:event_btn_incomeMouseClicked
 
     private void btn_goodsMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_goodsMouseClicked
         text_financial_name.setText("GOODS COST");
+        inCost = false;
+        inPayment = false;
         recreateFinancialTable(tbl_financial, false, true);
 
         // function
@@ -5234,6 +5261,8 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_operateMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_operateMouseClicked
         text_financial_name.setText("OPERATION COST");
+        inCost = false;
+        inPayment = false;
         recreateFinancialTable(tbl_financial, false, false);
 
         // function
@@ -5339,7 +5368,8 @@ public class GUI extends javax.swing.JFrame {
         tbl.getTableHeader().setBackground(new Color(255, 157, 128, 225));
         tbl.getTableHeader().setForeground(Color.WHITE);
         tbl.setGridColor(new Color(240, 240, 240));
-        sp.setBorder(null);
+        tbl.setBorder(null);
+        //sp.setBorder(null);
         sp.setBackground(new Color(255, 157, 128, 225));
     }
 
@@ -5428,7 +5458,7 @@ public class GUI extends javax.swing.JFrame {
             }
         }
 
-        text_total.setText(String.valueOf(sum/1000));
+        text_total.setText(currencyFormat(String.valueOf(sum/1000)));
     }
 
     void recreateFinancialTable(JTable tbl, boolean isIncome, boolean isGoods) {
@@ -5482,6 +5512,10 @@ public class GUI extends javax.swing.JFrame {
                 db.readPaymentByDate(tbl, m, y);
         }
 
+    }
+    
+    public static String currencyFormat(String n) {
+        return NumberFormat.getNumberInstance(Locale.GERMANY).format(new BigInteger(n));
     }
 
     /**
