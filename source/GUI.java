@@ -94,6 +94,8 @@ public class GUI extends javax.swing.JFrame {
     boolean cashAcceptCancel = false;
     boolean inMenu = false;
     boolean inCash = false;
+    boolean inCost = false;
+    boolean inPayment = false;
     int curEditRow = 0;
 
     /**
@@ -3928,6 +3930,7 @@ public class GUI extends javax.swing.JFrame {
         monthFilter = month;
         yearFilter = year;
         Integer m = -1,y = -1;
+        inCost = false;
         try {
             m = Integer.parseInt(month);
         } catch(Exception e) {
@@ -3946,11 +3949,13 @@ public class GUI extends javax.swing.JFrame {
         jLabel59.setText(operation);
         jLabel63.setText(String.valueOf(Integer.parseInt(income) - Integer.parseInt(goods) - Integer.parseInt(operation)));
         if (name == "INCOME") {
+            inPayment = true;
             if ((m < 1 || m > 12) && y < 0)
                 db.readAllPayment(tbl_financial);
             else
                 db.readPaymentByDate(tbl_financial, m, y);
         } else {
+            inPayment = false;
             if (name == "GOODS COST") {
                 if ((m < 1 || m > 12) && y < 0)
                     db.readAllGoodsCosts(tbl_financial);
@@ -3978,11 +3983,21 @@ public class GUI extends javax.swing.JFrame {
             menuAcceptCancel = true;
             clearOnCancel();
         }
-        else if (inCash) {
-            cashAcceptCancel = true;
-            clearOnCancel();
-        }       
         else {
+            if (inCash) {
+                cashAcceptCancel = true;
+                clearOnCancel();
+        }};
+        if (inCost) {
+            int rowIdx;
+            if ((rowIdx = tbl_cost.getSelectedRow()) != -1) {
+                Database db = Database.getInstance();
+                db.DeleteCost(Integer.parseInt(tbl_cost.getValueAt(rowIdx, 0).toString()));
+                db.ReadAllCosts(tbl_cost);
+                setCostEditableDetail(false, true);
+            }
+        }
+        if (inPayment){
 
             db.DeletePayment(Integer.parseInt(tbl_financial.getValueAt(rowPayment, 0).toString()));
             Integer m = -1, y = -1;
@@ -4133,13 +4148,7 @@ public class GUI extends javax.swing.JFrame {
     }// GEN-LAST:event_tbl_costMouseClicked
 
     private void btn_cost_delMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cost_delMouseClicked
-        int rowIdx;
-        if ((rowIdx = tbl_cost.getSelectedRow()) != -1) {
-            Database db = Database.getInstance();
-            db.DeleteCost(Integer.parseInt(tbl_cost.getValueAt(rowIdx, 0).toString()));
-            db.ReadAllCosts(tbl_cost);
-            setCostEditableDetail(false, true);
-        }
+        popup_warninglShow();
     }// GEN-LAST:event_btn_cost_delMouseClicked
 
     private void btn_menu_returnMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menu_returnMouseClicked
@@ -4184,6 +4193,8 @@ public class GUI extends javax.swing.JFrame {
         pn_menu.setVisible(true);
         pn_cash.setVisible(false);
         pn_cost.setVisible(false);
+        inCost = false;
+        inPayment = false;
         pn_financial.setVisible(false);
 
         text_layout_name.setText("MENU");
@@ -4196,6 +4207,8 @@ public class GUI extends javax.swing.JFrame {
         pn_menu.setVisible(false);
         pn_cash.setVisible(true);
         pn_cost.setVisible(false);
+        inCost = false;
+        inPayment = false;
         pn_financial.setVisible(false);
 
         text_layout_name.setText("CASH COUNTER");
@@ -4208,9 +4221,11 @@ public class GUI extends javax.swing.JFrame {
         pn_menu.setVisible(false);
         pn_cash.setVisible(false);
         pn_cost.setVisible(true);
+        inPayment = false;
         pn_financial.setVisible(false);
 
         text_layout_name.setText("COST MANAGEMENT");
+        inCost = true;
     }// GEN-LAST:event_btn_costMousePressed
 
     private void btn_financialMousePressed(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_financialMousePressed
@@ -4220,6 +4235,7 @@ public class GUI extends javax.swing.JFrame {
         pn_menu.setVisible(false);
         pn_cash.setVisible(false);
         pn_cost.setVisible(false);
+        inCost = false;
         pn_financial.setVisible(true);
         
         text_layout_name.setText("FINANCIAL ANALYSIS");
@@ -4244,11 +4260,13 @@ public class GUI extends javax.swing.JFrame {
         jLabel59.setText(currencyFormat(operation));
         jLabel63.setText(currencyFormat(String.valueOf(Integer.parseInt(income) - Integer.parseInt(goods) - Integer.parseInt(operation))));
         if (name == "INCOME") {
+            inPayment = true;
             if ((m < 1 || m > 12) && y < 0)
                 db.readAllPayment(tbl_financial);
             else
                 db.readPaymentByDate(tbl_financial, m, y);
         } else {
+            inPayment = false;
             if (name == "GOODS COST") {
                 if ((m < 1 || m > 12) && y < 0)
                     db.readAllGoodsCosts(tbl_financial);
@@ -5206,12 +5224,16 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_incomeMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_incomeMouseClicked
         text_financial_name.setText("INCOME");
+        inCost = false;
+        inPayment = true;
         recreateFinancialTable(tbl_financial, true, false);
         // function
     }// GEN-LAST:event_btn_incomeMouseClicked
 
     private void btn_goodsMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_goodsMouseClicked
         text_financial_name.setText("GOODS COST");
+        inCost = false;
+        inPayment = false;
         recreateFinancialTable(tbl_financial, false, true);
 
         // function
@@ -5219,6 +5241,8 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_operateMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_operateMouseClicked
         text_financial_name.setText("OPERATION COST");
+        inCost = false;
+        inPayment = false;
         recreateFinancialTable(tbl_financial, false, false);
 
         // function
