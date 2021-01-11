@@ -4052,7 +4052,7 @@ public class GUI extends javax.swing.JFrame {
             rowPayment = rowIdx;
             text_payment_id.setText("Payment No." + tbl_financial.getValueAt(rowIdx, 0).toString());
             text_income_date.setText(String.copyValueOf(tbl_financial.getValueAt(rowIdx, 1).toString().toCharArray(), 0, 10));
-            text_payment_total.setText(tbl_financial.getValueAt(rowIdx, 3).toString());
+            text_payment_total.setText(currencyFormat(tbl_financial.getValueAt(rowIdx, 3).toString()) + " VND");
             text_payment_note.setText((String) tbl_financial.getValueAt(rowIdx, 2));
             db.readSpecificPaymentById(tbl_payment, tbl_financial.getValueAt(rowIdx, 0).toString());
             popup_income_detailShow();
