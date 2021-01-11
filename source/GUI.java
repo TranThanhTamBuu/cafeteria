@@ -87,6 +87,10 @@ public class GUI extends javax.swing.JFrame {
     Database db;
     boolean inMenuEdit = false;
     boolean inMenuAdd = false;
+    boolean menuAcceptCancel = false;
+    boolean cashAcceptCancel = false;
+    boolean inMenu = false;
+    boolean inCash = false;
     int curEditRow = 0;
 
     /**
@@ -141,7 +145,7 @@ public class GUI extends javax.swing.JFrame {
         clearTable(tbl_detail);
         clearTable(tbl_order);
         text_total.setText("0");
-        text_money.setText(String.format("%.1f", db.getTodayRevenue()*1.0/1000));
+        text_money.setText(String.format("%s", db.getTodayRevenue()/1000));
         text_orders.setText(String.format("%s", db.getTodayOrders()));
 
         db.ReadAllCosts(this.tbl_cost);
@@ -3967,49 +3971,64 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_warning_continueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_warning_continueMouseClicked
         // function
-        db.DeletePayment(Integer.parseInt(tbl_financial.getValueAt(rowPayment, 0).toString()));
-        Integer m = -1,y = -1;
-        try {
-            m = Integer.parseInt(monthFilter);
-        } catch(Exception e) {
-            m = -1;
+        if (inMenu) {
+            menuAcceptCancel = true;
+            clearOnCancel();
         }
-        try {
-            y = Integer.parseInt(yearFilter);
-        } catch(Exception e) {
-            y = -1;
-        }
-        String name = text_financial_name.getText();
-        String income = db.totalAmountPayment(m, y);
-        String goods = db.totalAmountGoodsCost(m, y);
-        String operation = db.totalAmountOperationCost(m, y);
-        text_income.setText(income);
-        text_goods.setText(goods);
-        jLabel59.setText(operation);
-        jLabel63.setText(String.valueOf(Integer.parseInt(income) - Integer.parseInt(goods) - Integer.parseInt(operation)));
-        if (name == "INCOME") {
-            if ((m < 1 || m > 12) && y < 0)
-                db.readAllPayment(tbl_financial);
-            else
-                db.readPaymentByDate(tbl_financial, m, y);
-        } else {
-            if (name == "GOODS COST") {
-                if ((m < 1 || m > 12) && y < 0)
-                    db.readAllGoodsCosts(tbl_financial);
-                else
-                    db.readCostsByDate(tbl_financial, m, y, true);
+        else if (inCash) {
+            cashAcceptCancel = true;
+            clearOnCancel();
+        }       
+        else {
+
+            db.DeletePayment(Integer.parseInt(tbl_financial.getValueAt(rowPayment, 0).toString()));
+            Integer m = -1, y = -1;
+            try {
+                m = Integer.parseInt(monthFilter);
+            } catch (Exception e) {
+                m = -1;
+            }
+            try {
+                y = Integer.parseInt(yearFilter);
+            } catch (Exception e) {
+                y = -1;
+            }
+            String name = text_financial_name.getText();
+            String income = db.totalAmountPayment(m, y);
+            String goods = db.totalAmountGoodsCost(m, y);
+            String operation = db.totalAmountOperationCost(m, y);
+            text_income.setText(income);
+            text_goods.setText(goods);
+            jLabel59.setText(operation);
+            jLabel63.setText(String.valueOf(Integer.parseInt(income) - Integer.parseInt(goods) - Integer.parseInt(operation)));
+            if (name == "INCOME") {
+                if ((m < 1 || m > 12) && y < 0) {
+                    db.readAllPayment(tbl_financial);
+                } else {
+                    db.readPaymentByDate(tbl_financial, m, y);
+                }
             } else {
-                if (name == "OPERATION COST") {
-                    if ((m < 1 || m > 12) && y < 0)
-                        db.readAllOperationCosts(tbl_financial);
-                    else
-                        db.readCostsByDate(tbl_financial, m, y, false);
+                if (name == "GOODS COST") {
+                    if ((m < 1 || m > 12) && y < 0) {
+                        db.readAllGoodsCosts(tbl_financial);
+                    } else {
+                        db.readCostsByDate(tbl_financial, m, y, true);
+                    }
+                } else {
+                    if (name == "OPERATION COST") {
+                        if ((m < 1 || m > 12) && y < 0) {
+                            db.readAllOperationCosts(tbl_financial);
+                        } else {
+                            db.readCostsByDate(tbl_financial, m, y, false);
+                        }
+                    }
                 }
             }
-        }
+            popup_income_detailHide();
+        }                
         // GUI
         popup_warninglHide();
-        popup_income_detailHide();
+        
     }//GEN-LAST:event_btn_warning_continueMouseClicked
 
     private void btn_warning_cancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_warning_cancelMouseClicked
@@ -4591,35 +4610,52 @@ public class GUI extends javax.swing.JFrame {
     private void btn_menu_cancelMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menu_cancelMouseClicked
         // function
         // please dont change the order
-
+        inMenu = true;
+        
         // gui
-        setMenuEditableDetail(false);
-        pnl_menu_add_edit_del.setVisible(true);
-        setMenuEditBarVisible(false);
-        inMenuEdit = false;
-        inMenuAdd = false;
-
-        // Reload
-        DefaultTableModel tbl_detail_model = (DefaultTableModel) tbl_detail.getModel();
-        tbl_detail_model.setRowCount(0);
-        int rowIdx = curEditRow;
-        tbl_menu.setRowSelectionInterval(rowIdx, rowIdx);
-        text_menu_name.setText((String) tbl_menu.getValueAt(rowIdx, 1));
-        text_menu_category.setText((String) tbl_menu.getValueAt(rowIdx, 2));
-        text_menu_type.setText((String) tbl_menu.getValueAt(rowIdx, 3));
-        text_menu_specification.setText((String) tbl_menu.getValueAt(rowIdx, 4));
-        text_menu_price.setText((String) tbl_menu.getValueAt(rowIdx, 5));
-        text_menu_discount.setText((String) tbl_menu.getValueAt(rowIdx, 6));
-
-        if (((String) tbl_menu.getValueAt(rowIdx, 3)).equals("Combo")) {
-            db.readComboDetail(Integer.parseInt((String) tbl_menu.getValueAt(rowIdx, 0)), tbl_detail);
-        } else {
-            for (int i = 0; i < 6; i++) {
-                tbl_detail_model.addRow(new Object[] { "", "", "" });
-            }
-        }
-
+        popup_warninglShow();       
+        
     }// GEN-LAST:event_btn_menu_cancelMouseClicked
+    
+    public void clearOnCancel () {
+        if (menuAcceptCancel) {
+            setMenuEditableDetail(false);
+            pnl_menu_add_edit_del.setVisible(true);
+            setMenuEditBarVisible(false);
+            inMenuEdit = false;
+            inMenuAdd = false;
+
+            // Reload
+            DefaultTableModel tbl_detail_model = (DefaultTableModel) tbl_detail.getModel();
+            tbl_detail_model.setRowCount(0);
+            int rowIdx = curEditRow;
+            tbl_menu.setRowSelectionInterval(rowIdx, rowIdx);
+            text_menu_name.setText((String) tbl_menu.getValueAt(rowIdx, 1));
+            text_menu_category.setText((String) tbl_menu.getValueAt(rowIdx, 2));
+            text_menu_type.setText((String) tbl_menu.getValueAt(rowIdx, 3));
+            text_menu_specification.setText((String) tbl_menu.getValueAt(rowIdx, 4));
+            text_menu_price.setText((String) tbl_menu.getValueAt(rowIdx, 5));
+            text_menu_discount.setText((String) tbl_menu.getValueAt(rowIdx, 6));
+
+            if (((String) tbl_menu.getValueAt(rowIdx, 3)).equals("Combo")) {
+                db.readComboDetail(Integer.parseInt((String) tbl_menu.getValueAt(rowIdx, 0)), tbl_detail);
+            } else {
+                for (int i = 0; i < 6; i++) {
+                    tbl_detail_model.addRow(new Object[]{"", "", ""});
+                }
+            }
+            
+            menuAcceptCancel = false;
+            inMenu = false;            
+        }
+        else if (cashAcceptCancel) {
+            clearMenuOrder();
+            text_total.setText("0");
+
+            inCash = false;
+            cashAcceptCancel = false;           
+        }
+    }
 
     private void btn_menu_saveMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menu_saveMouseClicked
         // function
@@ -4957,6 +4993,8 @@ public class GUI extends javax.swing.JFrame {
     private void btn_cost_cancelMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cost_cancelMouseClicked
         // function
 
+        
+        
         // gui
         setCostEditableDetail(false, false);
         pnl_cost_add_edit_del.setVisible(true);
@@ -5075,17 +5113,18 @@ public class GUI extends javax.swing.JFrame {
         // gui
         clearMenuOrder();
         text_total.setText("0");
-        text_money.setText(String.format("%.1f", db.getTodayRevenue()*1.0/1000));
+        text_money.setText(String.format("%s", db.getTodayRevenue()/1000));
         text_orders.setText(String.format("%s", db.getTodayOrders()));
     }// GEN-LAST:event_btn_cash_chargeMouseClicked
 
     private void btn_cash_cancelMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cash_cancelMouseClicked
         // function
         // please dont change the order
-
+        inCash = true;
+        popup_warninglShow();
+                
         // gui
-        clearMenuOrder();
-        text_total.setText("0");
+        
     }// GEN-LAST:event_btn_cash_cancelMouseClicked
 
     private void btn_profitMouseExited(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_profitMouseExited
@@ -5369,7 +5408,7 @@ public class GUI extends javax.swing.JFrame {
             }
         }
 
-        text_total.setText(String.valueOf(sum));
+        text_total.setText(String.valueOf(sum/1000));
     }
 
     void recreateFinancialTable(JTable tbl, boolean isIncome, boolean isGoods) {
