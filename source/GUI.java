@@ -17,6 +17,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -145,7 +148,7 @@ public class GUI extends javax.swing.JFrame {
         clearTable(tbl_detail);
         clearTable(tbl_order);
         text_total.setText("0");
-        text_money.setText(String.format("%s", db.getTodayRevenue()/1000));
+        text_money.setText(currencyFormat(String.format("%s", db.getTodayRevenue()/1000)));
         text_orders.setText(String.format("%s", db.getTodayOrders()));
 
         db.ReadAllCosts(this.tbl_cost);
@@ -3997,10 +4000,11 @@ public class GUI extends javax.swing.JFrame {
             String income = db.totalAmountPayment(m, y);
             String goods = db.totalAmountGoodsCost(m, y);
             String operation = db.totalAmountOperationCost(m, y);
-            text_income.setText(income);
-            text_goods.setText(goods);
-            jLabel59.setText(operation);
-            jLabel63.setText(String.valueOf(Integer.parseInt(income) - Integer.parseInt(goods) - Integer.parseInt(operation)));
+
+            text_income.setText(currencyFormat(income));
+            text_goods.setText(currencyFormat(goods));
+            jLabel59.setText(currencyFormat(operation));
+            jLabel63.setText(currencyFormat(String.valueOf(Integer.parseInt(income) - Integer.parseInt(goods) - Integer.parseInt(operation))));
             if (name == "INCOME") {
                 if ((m < 1 || m > 12) && y < 0) {
                     db.readAllPayment(tbl_financial);
@@ -4234,10 +4238,10 @@ public class GUI extends javax.swing.JFrame {
         String income = db.totalAmountPayment(m, y);
         String goods = db.totalAmountGoodsCost(m, y);
         String operation = db.totalAmountOperationCost(m, y);
-        text_income.setText(income);
-        text_goods.setText(goods);
-        jLabel59.setText(operation);
-        jLabel63.setText(String.valueOf(Integer.parseInt(income) - Integer.parseInt(goods) - Integer.parseInt(operation)));
+        text_income.setText(currencyFormat(income));
+        text_goods.setText(currencyFormat(goods));
+        jLabel59.setText(currencyFormat(operation));
+        jLabel63.setText(currencyFormat(String.valueOf(Integer.parseInt(income) - Integer.parseInt(goods) - Integer.parseInt(operation))));
         if (name == "INCOME") {
             if ((m < 1 || m > 12) && y < 0)
                 db.readAllPayment(tbl_financial);
@@ -5108,12 +5112,12 @@ public class GUI extends javax.swing.JFrame {
     private void btn_cash_chargeMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cash_chargeMouseClicked
         // function
         // please dont change the order
-        db.charge(tbl_order, text_menu_notes.getText(), text_total.getText());
+        db.charge(tbl_order, text_menu_notes.getText(), String.valueOf(Float.valueOf(text_total.getText()) * 1000000));
 
         // gui
         clearMenuOrder();
         text_total.setText("0");
-        text_money.setText(String.format("%s", db.getTodayRevenue()/1000));
+        text_money.setText(currencyFormat(String.format("%s", db.getTodayRevenue()/1000)));
         text_orders.setText(String.format("%s", db.getTodayOrders()));
     }// GEN-LAST:event_btn_cash_chargeMouseClicked
 
@@ -5408,7 +5412,7 @@ public class GUI extends javax.swing.JFrame {
             }
         }
 
-        text_total.setText(String.valueOf(sum/1000));
+        text_total.setText(currencyFormat(String.valueOf(sum/1000)));
     }
 
     void recreateFinancialTable(JTable tbl, boolean isIncome, boolean isGoods) {
@@ -5462,6 +5466,10 @@ public class GUI extends javax.swing.JFrame {
                 db.readPaymentByDate(tbl, m, y);
         }
 
+    }
+    
+    public static String currencyFormat(String n) {
+        return NumberFormat.getNumberInstance(Locale.GERMANY).format(new BigInteger(n));
     }
 
     /**
