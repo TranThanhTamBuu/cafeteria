@@ -5131,7 +5131,7 @@ public class GUI extends javax.swing.JFrame {
     private void btn_cash_chargeMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cash_chargeMouseClicked
         // function
         // please dont change the order
-        db.charge(tbl_order, text_menu_notes.getText(), String.valueOf(Float.valueOf(text_total.getText()) * 1000000));
+        db.charge(tbl_order, text_menu_notes.getText(), String.valueOf(Long.valueOf(text_total.getText().replace(".", "")) * 1000));
 
         // gui
         clearMenuOrder();
