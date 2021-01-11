@@ -88,9 +88,11 @@ public class GUI extends javax.swing.JFrame {
     boolean inMenuEdit = false;
     boolean inMenuAdd = false;
     boolean menuAcceptCancel = false;
+    boolean menuAcceptDelete = false;
     boolean cashAcceptCancel = false;
     boolean inMenu = false;
-    boolean inCash = false;
+    boolean inMenuDelete = false;
+    boolean inCash = false;    
     int curEditRow = 0;
 
     /**
@@ -3971,14 +3973,18 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_warning_continueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_warning_continueMouseClicked
         // function
-        if (inMenu) {
+        if (inMenu) {            
             menuAcceptCancel = true;
             clearOnCancel();
         }
         else if (inCash) {
             cashAcceptCancel = true;
             clearOnCancel();
-        }       
+        }     
+        else if (inMenuDelete) {
+            menuAcceptDelete = true;
+            onMenuDelete();
+        }
         else {
 
             db.DeletePayment(Integer.parseInt(tbl_financial.getValueAt(rowPayment, 0).toString()));
@@ -4033,6 +4039,10 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_warning_cancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_warning_cancelMouseClicked
         // GUI
+        inMenu = false;
+        inCash = false;
+        inMenuDelete = false;
+               
         popup_warninglHide();
     }//GEN-LAST:event_btn_warning_cancelMouseClicked
 
@@ -4157,6 +4167,15 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_menu_delMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menu_delMouseClicked
         // TODO add your handling code here:
+        inMenuDelete = true;
+        popup_warninglShow();
+        
+        
+        
+
+    }// GEN-LAST:event_btn_menu_delMouseClicked
+    
+    public void onMenuDelete() {        
         int rowIdx;
         if ((rowIdx = tbl_menu.getSelectedRow()) != -1) {
             if (((String) tbl_menu.getValueAt(rowIdx, 3)).equals("Combo")) {
@@ -4169,8 +4188,9 @@ public class GUI extends javax.swing.JFrame {
         // Reload
         clearMenuDetail();
         db.readMenu(tbl_menu);
-
-    }// GEN-LAST:event_btn_menu_delMouseClicked
+        menuAcceptDelete = false;
+        inMenuDelete = false;
+    }
 
     private void btn_menuMousePressed(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menuMousePressed
         indSet(ind_menu);
@@ -5108,7 +5128,7 @@ public class GUI extends javax.swing.JFrame {
     private void btn_cash_chargeMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cash_chargeMouseClicked
         // function
         // please dont change the order
-        db.charge(tbl_order, text_menu_notes.getText(), text_total.getText());
+        db.charge(tbl_order, text_menu_notes.getText(), String.valueOf(Integer.parseInt(text_total.getText())*1000));
 
         // gui
         clearMenuOrder();

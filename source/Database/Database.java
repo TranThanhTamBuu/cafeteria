@@ -338,7 +338,7 @@ public class Database {
 //            stmt1 = this.conn.createStatement();
 
             // Payment table
-            LocalDate date = LocalDate.now();
+            LocalDateTime date = LocalDateTime.now();
 //            String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(date);
 
             stmt.executeUpdate(String.format("insert into payment values (null, '%s', '%s', '%s')",
