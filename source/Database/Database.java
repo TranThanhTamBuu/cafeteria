@@ -479,6 +479,10 @@ public class Database {
                     rs.getString(Field.Cost.UnitName.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
                 tbl_cost_model.addRow(objs);
             }
+            
+            for (int k = tbl_cost.getRowCount(); k < 18; k++) {
+                ((DefaultTableModel) tbl_cost.getModel()).addRow(new Object[] { "", "", "", "", "", "", "" });
+            }
 
             stmt.close();
             return true;
@@ -572,6 +576,10 @@ public class Database {
                     rs.getString(Field.Payment.Note.GetIdx()), rs.getInt(Field.Payment.TotalAmount.GetIdx())};
                 tbl_model.addRow(objs);
             }
+            
+            for (int k = tbl.getRowCount(); k < 18; k++) {
+                ((DefaultTableModel) tbl.getModel()).addRow(new Object[] { "", "", "", "" });
+            }
 
             stmt.close();
             return true;
@@ -594,6 +602,10 @@ public class Database {
             while (rs.next()) {
                 Object[] objs = new Object[]{rs.getString(Field.SpecificPayment.FoodName.GetIdx()), rs.getInt(Field.SpecificPayment.Quantity.GetIdx())};
                 tbl_payment_model.addRow(objs);
+            }
+            
+            for (int k = tbl_payment.getRowCount(); k < 3; k++) {
+                ((DefaultTableModel) tbl_payment.getModel()).addRow(new Object[] { "", "" });
             }
 
             stmt.close();
@@ -621,6 +633,10 @@ public class Database {
                     rs.getString(Field.Cost.UnitName.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
                 tbl_model.addRow(objs);
             }
+            
+            for (int k = tbl.getRowCount(); k < 18; k++) {
+                ((DefaultTableModel) tbl.getModel()).addRow(new Object[] { "", "", "", "", "", "" });
+            }
 
             stmt.close();
             return true;
@@ -646,6 +662,10 @@ public class Database {
                     rs.getString(Field.Cost.Description.GetIdx()), rs.getFloat(Field.Cost.Quantity.GetIdx()),
                     rs.getString(Field.Cost.UnitName.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
                 tbl_model.addRow(objs);
+            }
+            
+            for (int k = tbl.getRowCount(); k < 18; k++) {
+                ((DefaultTableModel) tbl.getModel()).addRow(new Object[] { "", "", "", "", "", "" });
             }
 
             stmt.close();
@@ -685,6 +705,11 @@ public class Database {
                     rs.getString(Field.Payment.Note.GetIdx()), rs.getInt(Field.Payment.TotalAmount.GetIdx())};
                 tbl_model.addRow(objs);
             }
+            
+            for (int k = tbl.getRowCount(); k < 18; k++) {
+                ((DefaultTableModel) tbl.getModel()).addRow(new Object[] { "", "", "", "" });
+            }
+            
             stmt.close();
             return true;
         } catch (SQLException e) {
@@ -725,6 +750,10 @@ public class Database {
                     rs.getString(Field.Cost.Description.GetIdx()), rs.getFloat(Field.Cost.Quantity.GetIdx()),
                     rs.getString(Field.Cost.UnitName.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
                 tbl_model.addRow(objs);
+            }
+            
+            for (int k = tbl.getRowCount(); k < 18; k++) {
+                ((DefaultTableModel) tbl.getModel()).addRow(new Object[] { "", "", "", "", "", "" });
             }
 
             stmt.close();
@@ -785,6 +814,10 @@ public class Database {
                         rs.getString(Field.Cost.UnitName.GetIdx()), rs.getInt(Field.Cost.TotalAmount.GetIdx())};
                     tbl_cost_model.addRow(objs);
                 }
+            }
+            
+            for (int k = tbl_cost.getRowCount(); k < 18; k++) {
+                ((DefaultTableModel) tbl_cost.getModel()).addRow(new Object[] { "", "", "", "", "", "", "" });
             }
 
             stmt.close();

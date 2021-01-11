@@ -4050,6 +4050,7 @@ public class GUI extends javax.swing.JFrame {
         int rowIdx;
         if(evt.getClickCount() == 2 && text_financial_name.getText() == "INCOME" && (rowIdx = tbl_financial.getSelectedRow()) != -1) {
             rowPayment = rowIdx;
+            if (tbl_financial.getValueAt(rowIdx, 0).toString() == "") return;
             text_payment_id.setText("Payment No." + tbl_financial.getValueAt(rowIdx, 0).toString());
             text_income_date.setText(String.copyValueOf(tbl_financial.getValueAt(rowIdx, 1).toString().toCharArray(), 0, 10));
             text_payment_total.setText(tbl_financial.getValueAt(rowIdx, 3).toString());
