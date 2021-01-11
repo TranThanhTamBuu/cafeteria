@@ -568,6 +568,7 @@ public class GUI extends javax.swing.JFrame {
         });
         tbl_payment.setRowHeight(25);
         tbl_payment.setSelectionBackground(new java.awt.Color(254, 218, 196));
+        tbl_payment.setSelectionForeground(new java.awt.Color(0, 0, 0));
         sp_payment.setViewportView(tbl_payment);
 
         btn_payment_del.setBackground(new java.awt.Color(232, 17, 35));
@@ -652,7 +653,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanel29Layout.createSequentialGroup()
                 .addComponent(jPanel40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel43, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel43, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout popup_income_detailLayout = new javax.swing.GroupLayout(popup_income_detail.getContentPane());
@@ -1603,6 +1604,7 @@ public class GUI extends javax.swing.JFrame {
         sp_menu.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         sp_menu.setPreferredSize(new java.awt.Dimension(630, 483));
 
+        tbl_menu.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tbl_menu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -1641,8 +1643,10 @@ public class GUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tbl_menu.setPreferredSize(new java.awt.Dimension(630, 575));
         tbl_menu.setRowHeight(25);
         tbl_menu.setSelectionBackground(new java.awt.Color(254, 218, 196));
+        tbl_menu.setSelectionForeground(new java.awt.Color(0, 0, 0));
         tbl_menu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbl_menu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1650,6 +1654,15 @@ public class GUI extends javax.swing.JFrame {
             }
         });
         sp_menu.setViewportView(tbl_menu);
+        if (tbl_menu.getColumnModel().getColumnCount() > 0) {
+            tbl_menu.getColumnModel().getColumn(0).setPreferredWidth(40);
+            tbl_menu.getColumnModel().getColumn(1).setPreferredWidth(230);
+            tbl_menu.getColumnModel().getColumn(2).setPreferredWidth(80);
+            tbl_menu.getColumnModel().getColumn(3).setPreferredWidth(60);
+            tbl_menu.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tbl_menu.getColumnModel().getColumn(5).setPreferredWidth(70);
+            tbl_menu.getColumnModel().getColumn(6).setPreferredWidth(50);
+        }
 
         javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
         jPanel22.setLayout(jPanel22Layout);
@@ -1912,6 +1925,7 @@ public class GUI extends javax.swing.JFrame {
         ));
         tbl_detail.setRowHeight(25);
         tbl_detail.setSelectionBackground(new java.awt.Color(254, 218, 196));
+        tbl_detail.setSelectionForeground(new java.awt.Color(0, 0, 0));
         tbl_detail.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         sp_detail.setViewportView(tbl_detail);
 
@@ -2150,6 +2164,7 @@ public class GUI extends javax.swing.JFrame {
         sp_financial.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         sp_financial.setPreferredSize(new java.awt.Dimension(630, 483));
 
+        tbl_financial.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tbl_financial.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -2190,6 +2205,7 @@ public class GUI extends javax.swing.JFrame {
         });
         tbl_financial.setRowHeight(25);
         tbl_financial.setSelectionBackground(new java.awt.Color(254, 218, 196));
+        tbl_financial.setSelectionForeground(new java.awt.Color(0, 0, 0));
         tbl_financial.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbl_financial.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -2850,6 +2866,7 @@ public class GUI extends javax.swing.JFrame {
         sp_cost.setPreferredSize(new java.awt.Dimension(630, 483));
 
         tbl_cost.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        tbl_cost.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tbl_cost.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -2890,6 +2907,7 @@ public class GUI extends javax.swing.JFrame {
         });
         tbl_cost.setRowHeight(25);
         tbl_cost.setSelectionBackground(new java.awt.Color(254, 218, 196));
+        tbl_cost.setSelectionForeground(new java.awt.Color(0, 0, 0));
         tbl_cost.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbl_cost.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -2897,6 +2915,15 @@ public class GUI extends javax.swing.JFrame {
             }
         });
         sp_cost.setViewportView(tbl_cost);
+        if (tbl_cost.getColumnModel().getColumnCount() > 0) {
+            tbl_cost.getColumnModel().getColumn(0).setPreferredWidth(40);
+            tbl_cost.getColumnModel().getColumn(1).setPreferredWidth(70);
+            tbl_cost.getColumnModel().getColumn(2).setPreferredWidth(80);
+            tbl_cost.getColumnModel().getColumn(3).setPreferredWidth(230);
+            tbl_cost.getColumnModel().getColumn(4).setPreferredWidth(70);
+            tbl_cost.getColumnModel().getColumn(5).setPreferredWidth(70);
+            tbl_cost.getColumnModel().getColumn(6).setPreferredWidth(70);
+        }
 
         javax.swing.GroupLayout jPanel31Layout = new javax.swing.GroupLayout(jPanel31);
         jPanel31.setLayout(jPanel31Layout);
@@ -3561,6 +3588,7 @@ public class GUI extends javax.swing.JFrame {
         sp_cash.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         sp_cash.setPreferredSize(new java.awt.Dimension(630, 483));
 
+        tbl_cash.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tbl_cash.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -3601,8 +3629,18 @@ public class GUI extends javax.swing.JFrame {
         });
         tbl_cash.setRowHeight(25);
         tbl_cash.setSelectionBackground(new java.awt.Color(254, 218, 196));
+        tbl_cash.setSelectionForeground(new java.awt.Color(0, 0, 0));
         tbl_cash.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         sp_cash.setViewportView(tbl_cash);
+        if (tbl_cash.getColumnModel().getColumnCount() > 0) {
+            tbl_cash.getColumnModel().getColumn(0).setPreferredWidth(40);
+            tbl_cash.getColumnModel().getColumn(1).setPreferredWidth(230);
+            tbl_cash.getColumnModel().getColumn(2).setPreferredWidth(80);
+            tbl_cash.getColumnModel().getColumn(3).setPreferredWidth(60);
+            tbl_cash.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tbl_cash.getColumnModel().getColumn(5).setPreferredWidth(70);
+            tbl_cash.getColumnModel().getColumn(6).setPreferredWidth(50);
+        }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -3666,6 +3704,7 @@ public class GUI extends javax.swing.JFrame {
         });
         tbl_order.setRowHeight(25);
         tbl_order.setSelectionBackground(new java.awt.Color(254, 218, 196));
+        tbl_order.setSelectionForeground(new java.awt.Color(0, 0, 0));
         tbl_order.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbl_order.getTableHeader().setReorderingAllowed(false);
         sp_order.setViewportView(tbl_order);
@@ -5485,6 +5524,12 @@ public class GUI extends javax.swing.JFrame {
                     return canEdit[columnIndex];
                 }
             });
+            tbl.getColumnModel().getColumn(0).setPreferredWidth(40);
+            tbl.getColumnModel().getColumn(1).setPreferredWidth(80);
+            tbl.getColumnModel().getColumn(2).setPreferredWidth(230);
+            tbl.getColumnModel().getColumn(3).setPreferredWidth(70);
+            tbl.getColumnModel().getColumn(4).setPreferredWidth(70);
+            tbl.getColumnModel().getColumn(5).setPreferredWidth(70);
             if (!isGoods) {
                 if ((m < 1 || m > 12) && y < 0)
                     db.readAllOperationCosts(tbl);
