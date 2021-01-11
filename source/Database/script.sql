@@ -48,7 +48,7 @@ CREATE TABLE Payment
     ID int PRIMARY KEY NOT NULL AUTO_INCREMENT,
     DatePayment datetime,
     Note varchar(200),
-    TotalAmount mediumint
+    TotalAmount int
 );
 
 CREATE TABLE SpecificPayment
@@ -125,9 +125,9 @@ INSERT INTO Menu VALUES (null, 'D', 2, 5, 'Pepsi', 20000, 0.0);
 INSERT INTO Menu VALUES (null, 'D', 2, 5, '100 Plus', 20000, 0.0);
 INSERT INTO Menu VALUES (null, 'D', 2, 5, 'Aquafina', 10000, 0.0);
 
-INSERT INTO Menu VALUES (null, 'C', 1, 6, '#CheeseTeam', 4390000, 0.0);
-INSERT INTO Menu VALUES (null, 'C', 1, 6, '#SpicyTeam', 2990000, 0.0);
-INSERT INTO Menu VALUES (null, 'C', 1, 6, '#SweetTeam', 3090000, 0.0);
+INSERT INTO Menu VALUES (null, 'C', 1, 6, '#CheeseTeam', 439000, 0.0);
+INSERT INTO Menu VALUES (null, 'C', 1, 6, '#SpicyTeam', 299000, 0.0);
+INSERT INTO Menu VALUES (null, 'C', 1, 6, '#SweetTeam', 309000, 0.0);
 INSERT INTO Menu VALUES (null, 'C', 3, 6, 'Traditional 1', 319000, 0.0);
 
 INSERT INTO Menu VALUES (null, 'C', 3, 7, 'Traditional 2', 699000, 0.0);
