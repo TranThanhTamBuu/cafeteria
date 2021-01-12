@@ -1304,7 +1304,7 @@ public class GUI extends javax.swing.JFrame {
                         .addGroup(btn_purchaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(btn_purchaseLayout.createSequentialGroup()
                                 .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                                 .addComponent(text_orders, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(btn_purchaseLayout.createSequentialGroup()
                                 .addComponent(jLabel17)
@@ -1754,6 +1754,11 @@ public class GUI extends javax.swing.JFrame {
         tbl_menu.setSelectionBackground(new java.awt.Color(254, 218, 196));
         tbl_menu.setSelectionForeground(new java.awt.Color(0, 0, 0));
         tbl_menu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        tbl_menu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_menuMouseClicked(evt);
+            }
+        });
         sp_menu.setViewportView(tbl_menu);
         if (tbl_menu.getColumnModel().getColumnCount() > 0) {
             tbl_menu.getColumnModel().getColumn(0).setPreferredWidth(40);
@@ -4252,6 +4257,35 @@ public class GUI extends javax.swing.JFrame {
     private void btn_warning_input_okMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_warning_input_okMouseClicked
         popup_warning_inputlHide();
     }//GEN-LAST:event_btn_warning_input_okMouseClicked
+
+    private void tbl_menuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_menuMouseClicked
+        // TODO add your handling code here:
+
+        if (!inMenuEdit && !inMenuAdd) {
+            int rowIdx;
+            DefaultTableModel tbl_detail_model = (DefaultTableModel) tbl_detail.getModel();
+            tbl_detail_model.setRowCount(0);
+
+            if ((rowIdx = tbl_menu.getSelectedRow()) != -1) {
+                curEditRow = rowIdx;
+
+                text_menu_name.setText((String) tbl_menu.getValueAt(rowIdx, 1));
+                text_menu_category.setText((String) tbl_menu.getValueAt(rowIdx, 2));
+                text_menu_type.setText((String) tbl_menu.getValueAt(rowIdx, 3));
+                text_menu_specification.setText((String) tbl_menu.getValueAt(rowIdx, 4));
+                text_menu_price.setText((String) tbl_menu.getValueAt(rowIdx, 5));
+                text_menu_discount.setText((String) tbl_menu.getValueAt(rowIdx, 6));
+
+                if (((String) tbl_menu.getValueAt(rowIdx, 3)).equals("Combo")) {
+                    db.readComboDetail(Integer.parseInt((String) tbl_menu.getValueAt(rowIdx, 0)), tbl_detail);
+                } else {
+                    for (int i = 0; i < 6; i++) {
+                        tbl_detail_model.addRow(new Object[] { "", "", "" });
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_tbl_menuMouseClicked
     
     private void text_menu_searchKeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_text_menu_searchKeyTyped
         // TODO add your handling code here:
@@ -4279,36 +4313,7 @@ public class GUI extends javax.swing.JFrame {
             updateTotalCash();
         }
     }// GEN-LAST:event_btn_cash_returnMouseClicked
-
-    private void tbl_menuMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tbl_menuMouseClicked
-        // TODO add your handling code here:
-
-        if (!inMenuEdit && !inMenuAdd) {
-            int rowIdx;
-            DefaultTableModel tbl_detail_model = (DefaultTableModel) tbl_detail.getModel();
-            tbl_detail_model.setRowCount(0);
-
-            if ((rowIdx = tbl_menu.getSelectedRow()) != -1) {
-                curEditRow = rowIdx;
-
-                text_menu_name.setText((String) tbl_menu.getValueAt(rowIdx, 1));
-                text_menu_category.setText((String) tbl_menu.getValueAt(rowIdx, 2));
-                text_menu_type.setText((String) tbl_menu.getValueAt(rowIdx, 3));
-                text_menu_specification.setText((String) tbl_menu.getValueAt(rowIdx, 4));
-                text_menu_price.setText((String) tbl_menu.getValueAt(rowIdx, 5));
-                text_menu_discount.setText((String) tbl_menu.getValueAt(rowIdx, 6));
-
-                if (((String) tbl_menu.getValueAt(rowIdx, 3)).equals("Combo")) {
-                    db.readComboDetail(Integer.parseInt((String) tbl_menu.getValueAt(rowIdx, 0)), tbl_detail);
-                } else {
-                    for (int i = 0; i < 6; i++) {
-                        tbl_detail_model.addRow(new Object[] { "", "", "" });
-                    }
-                }
-            }
-        }
-
-    }// GEN-LAST:event_tbl_menuMouseClicked
+    
 
     private void tbl_costMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tbl_costMouseClicked
         // TODO add your handling code here:
