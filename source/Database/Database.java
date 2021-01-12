@@ -993,7 +993,7 @@ public class Database {
         }
     }
 
-    public void createCombo(String name, String cat, String type, String spec, String price, String dis, ArrayList<String> dishesID, ArrayList<String> quantities) {
+    public void createCombo(String name, String cat, String type, String spec, String price, String dis, ArrayList<String> dishesID, ArrayList<String> quantities) throws SQLException {
         Statement stmt = null, stmt1 = null;
 
         try {
@@ -1033,6 +1033,7 @@ public class Database {
             stmt1.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw(e);
         }
     }
 
@@ -1066,7 +1067,7 @@ public class Database {
         }
     }
 
-    public void createDish(String name, String cat, String type, String spec, String price, String dis) {
+    public void createDish(String name, String cat, String type, String spec, String price, String dis) throws SQLException {
         Statement stmt = null, stmt1 = null;
 
         try {
@@ -1095,6 +1096,7 @@ public class Database {
             stmt1.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw (e);
         }
     }
 
@@ -1281,7 +1283,7 @@ public class Database {
 //            e.printStackTrace();
 //        }
 //    }
-    public void updateFood(String id, String name, String cat, String type, String spec, String price, String dis) {
+    public void updateFood(String id, String name, String cat, String type, String spec, String price, String dis) throws SQLException {
         Statement stmt = null, stmt1 = null;
 
         try {
@@ -1310,10 +1312,11 @@ public class Database {
             stmt1.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw (e);
         }
     }
 
-    public void updateListInCombo(String comboID, ArrayList<String> dishesID, ArrayList<String> quantities) {
+    public void updateListInCombo(String comboID, ArrayList<String> dishesID, ArrayList<String> quantities) throws SQLException {
         Statement stmt = null;
 
         if (dishesID.size() > 0 && quantities.size() > 0) {
@@ -1328,6 +1331,7 @@ public class Database {
                 stmt.close();
             } catch (SQLException e) {
                 e.printStackTrace();
+                throw(e);
             }
         }
     }

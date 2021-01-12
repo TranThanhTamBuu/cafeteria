@@ -2048,6 +2048,9 @@ public class GUI extends javax.swing.JFrame {
         tbl_detail.setSelectionForeground(new java.awt.Color(0, 0, 0));
         tbl_detail.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         sp_detail.setViewportView(tbl_detail);
+        if (tbl_detail.getColumnModel().getColumnCount() > 0) {
+            tbl_detail.getColumnModel().getColumn(1).setPreferredWidth(230);
+        }
 
         javax.swing.GroupLayout jPanel30Layout = new javax.swing.GroupLayout(jPanel30);
         jPanel30.setLayout(jPanel30Layout);
@@ -4884,78 +4887,80 @@ public class GUI extends javax.swing.JFrame {
         boolean legal = false;
         
         if (isMenuInputed()) {
+            try {
+                if (inMenuEdit) {
 
-            if (inMenuEdit) {
+                    // Update info
+                    db.updateFood((String) tbl_menu.getValueAt(curEditRow, 0), text_menu_name.getText(),
+                            text_menu_category.getText(), text_menu_type.getText(), text_menu_specification.getText(),
+                            text_menu_price.getText(), text_menu_discount.getText());
 
-                // Update info
-                db.updateFood((String) tbl_menu.getValueAt(curEditRow, 0), text_menu_name.getText(),
-                        text_menu_category.getText(), text_menu_type.getText(), text_menu_specification.getText(),
-                        text_menu_price.getText(), text_menu_discount.getText());
+                    if (((String) tbl_menu.getValueAt(curEditRow, 3)).equals("Combo")) {
+                        // Get dishes
+                        ArrayList<String> dishes = new ArrayList<>();
+                        // Get quantities
+                        ArrayList<String> quantities = new ArrayList<>();
 
-                if (((String) tbl_menu.getValueAt(curEditRow, 3)).equals("Combo")) {
-                    // Get dishes
-                    ArrayList<String> dishes = new ArrayList<>();
-                    // Get quantities
-                    ArrayList<String> quantities = new ArrayList<>();
+                        for (int i = 0; i < tbl_detail.getRowCount(); i++) {
+                            if (((String) tbl_detail.getValueAt(i, 0)).equals("")) {
+                                break;
+                            }
+                            dishes.add((String) tbl_detail.getValueAt(i, 0));
+                            quantities.add((String) tbl_detail.getValueAt(i, 2));
 
-                    for (int i = 0; i < tbl_detail.getRowCount(); i++) {
-                        if (((String) tbl_detail.getValueAt(i, 0)).equals("")) {
-                            break;
                         }
-                        dishes.add((String) tbl_detail.getValueAt(i, 0));
-                        quantities.add((String) tbl_detail.getValueAt(i, 2));
-
+                        // Update
+                        db.updateListInCombo((String) tbl_menu.getValueAt(curEditRow, 0), dishes, quantities);
                     }
-                    // Update
-                    db.updateListInCombo((String) tbl_menu.getValueAt(curEditRow, 0), dishes, quantities);                    
-                }
-                legal = true;
-            } else if (inMenuAdd) {
-                if (text_menu_type.getText().equals("Combo")) {                                                            
-                    // Get dishes
-                    ArrayList<String> dishes = new ArrayList<>();
-                    // Get quantities
-                    ArrayList<String> quantities = new ArrayList<>();
+                    legal = true;
+                } else if (inMenuAdd) {
+                    if (text_menu_type.getText().equals("Combo")) {
+                        // Get dishes
+                        ArrayList<String> dishes = new ArrayList<>();
+                        // Get quantities
+                        ArrayList<String> quantities = new ArrayList<>();
 
-                    for (int i = 0; i < tbl_detail.getRowCount(); i++) {
-                        if (((String) tbl_detail.getValueAt(i, 0)).equals("")) {
-                            break;
+                        for (int i = 0; i < tbl_detail.getRowCount(); i++) {
+                            if (((String) tbl_detail.getValueAt(i, 0)).equals("")) {
+                                break;
+                            }
+                            dishes.add((String) tbl_detail.getValueAt(i, 0));
+                            quantities.add((String) tbl_detail.getValueAt(i, 2));
+
                         }
-                        dishes.add((String) tbl_detail.getValueAt(i, 0));
-                        quantities.add((String) tbl_detail.getValueAt(i, 2));
 
-                    }
-                    
-                    if (dishes.size() > 0) {
-                        db.createCombo(text_menu_name.getText(), text_menu_category.getText(), text_menu_type.getText(),
-                                text_menu_specification.getText(), text_menu_price.getText(), text_menu_discount.getText(),
-                                dishes, quantities);
+                        if (dishes.size() > 0) {
+                            db.createCombo(text_menu_name.getText(), text_menu_category.getText(), text_menu_type.getText(),
+                                    text_menu_specification.getText(), text_menu_price.getText(), text_menu_discount.getText(),
+                                    dishes, quantities);
+                            legal = true;
+                        }
+
+                    } else if (text_menu_type.getText().equals("Dish")) {
+                        db.createDish(text_menu_name.getText(), text_menu_category.getText(), text_menu_type.getText(),
+                                text_menu_specification.getText(), text_menu_price.getText(), text_menu_discount.getText());
                         legal = true;
                     }
 
-                    
-                } else if (text_menu_type.getText().equals("Dish")){
-                    db.createDish(text_menu_name.getText(), text_menu_category.getText(), text_menu_type.getText(),
-                            text_menu_specification.getText(), text_menu_price.getText(), text_menu_discount.getText());
-                    legal = true;
                 }
 
+                if (legal) {
+                    // Reload Menu
+                    db.readMenu(tbl_menu);
+                    db.readMenu(tbl_cash);
+
+                    // please dont change the order
+                    // gui
+                    pnl_menu_add_edit_del.setVisible(true);
+                    setMenuEditBarVisible(false);
+                    setMenuEditableDetail(false);
+                    inMenuEdit = false;
+                    inMenuAdd = false;
+                    clearMenuDetail();
+                }
+            } catch (Exception e) {                
+                popup_warning_inputlShow();
             }
-
-            if (legal) {
-                // Reload Menu
-                db.readMenu(tbl_menu);
-                db.readMenu(tbl_cash);
-
-                // please dont change the order
-                // gui
-                pnl_menu_add_edit_del.setVisible(true);
-                setMenuEditBarVisible(false);
-                setMenuEditableDetail(false);
-                inMenuEdit = false;
-                inMenuAdd = false;
-                clearMenuDetail();
-            }            
         }
         else {
             popup_warning_inputlShow();
