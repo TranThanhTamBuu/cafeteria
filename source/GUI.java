@@ -4875,74 +4875,97 @@ public class GUI extends javax.swing.JFrame {
         }
     }
 
+    public boolean isMenuInputed() {
+        return !text_menu_name.getText().isEmpty() && !text_menu_category.getText().isEmpty()
+                && !text_menu_type.getText().isEmpty() && !text_menu_specification.getText().isEmpty()
+                && !text_menu_price.getText().isEmpty() && !text_menu_discount.getText().isEmpty();
+    }
+    
     private void btn_menu_saveMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menu_saveMouseClicked
         // function
+        boolean legal = false;
+        
+        if (isMenuInputed()) {
 
-        if (inMenuEdit) {
-            // Update info
-            db.updateFood((String) tbl_menu.getValueAt(curEditRow, 0), text_menu_name.getText(),
-                    text_menu_category.getText(), text_menu_type.getText(), text_menu_specification.getText(),
-                    text_menu_price.getText(), text_menu_discount.getText());
+            if (inMenuEdit) {
 
-            if (((String) tbl_menu.getValueAt(curEditRow, 3)).equals("Combo")) {
-                // Get dishes
-                ArrayList<String> dishes = new ArrayList<>();
-                // Get quantities
-                ArrayList<String> quantities = new ArrayList<>();
+                // Update info
+                db.updateFood((String) tbl_menu.getValueAt(curEditRow, 0), text_menu_name.getText(),
+                        text_menu_category.getText(), text_menu_type.getText(), text_menu_specification.getText(),
+                        text_menu_price.getText(), text_menu_discount.getText());
 
-                for (int i = 0; i < tbl_detail.getRowCount(); i++) {
-                    if (((String) tbl_detail.getValueAt(i, 0)).equals("")) {
-                        break;
+                if (((String) tbl_menu.getValueAt(curEditRow, 3)).equals("Combo")) {
+                    // Get dishes
+                    ArrayList<String> dishes = new ArrayList<>();
+                    // Get quantities
+                    ArrayList<String> quantities = new ArrayList<>();
+
+                    for (int i = 0; i < tbl_detail.getRowCount(); i++) {
+                        if (((String) tbl_detail.getValueAt(i, 0)).equals("")) {
+                            break;
+                        }
+                        dishes.add((String) tbl_detail.getValueAt(i, 0));
+                        quantities.add((String) tbl_detail.getValueAt(i, 2));
+
                     }
-                    dishes.add((String) tbl_detail.getValueAt(i, 0));
-                    quantities.add((String) tbl_detail.getValueAt(i, 2));
-
+                    // Update
+                    db.updateListInCombo((String) tbl_menu.getValueAt(curEditRow, 0), dishes, quantities);                    
                 }
-                // Update
-                db.updateListInCombo((String) tbl_menu.getValueAt(curEditRow, 0), dishes, quantities);
+                legal = true;
+            } else if (inMenuAdd) {
+                if (text_menu_type.getText().equals("Combo")) {                                                            
+                    // Get dishes
+                    ArrayList<String> dishes = new ArrayList<>();
+                    // Get quantities
+                    ArrayList<String> quantities = new ArrayList<>();
 
-            } else {
+                    for (int i = 0; i < tbl_detail.getRowCount(); i++) {
+                        if (((String) tbl_detail.getValueAt(i, 0)).equals("")) {
+                            break;
+                        }
+                        dishes.add((String) tbl_detail.getValueAt(i, 0));
+                        quantities.add((String) tbl_detail.getValueAt(i, 2));
+
+                    }
+                    
+                    if (dishes.size() > 0) {
+                        db.createCombo(text_menu_name.getText(), text_menu_category.getText(), text_menu_type.getText(),
+                                text_menu_specification.getText(), text_menu_price.getText(), text_menu_discount.getText(),
+                                dishes, quantities);
+                        legal = true;
+                    }
+
+                    
+                } else if (text_menu_type.getText().equals("Dish")){
+                    db.createDish(text_menu_name.getText(), text_menu_category.getText(), text_menu_type.getText(),
+                            text_menu_specification.getText(), text_menu_price.getText(), text_menu_discount.getText());
+                    legal = true;
+                }
 
             }
-        } else if (inMenuAdd) {
-            if (text_menu_type.getText().equals("Combo")) {
-                // Get dishes
-                ArrayList<String> dishes = new ArrayList<>();
-                // Get quantities
-                ArrayList<String> quantities = new ArrayList<>();
 
-                for (int i = 0; i < tbl_detail.getRowCount(); i++) {
-                    if (((String) tbl_detail.getValueAt(i, 0)).equals("")) {
-                        break;
-                    }
-                    dishes.add((String) tbl_detail.getValueAt(i, 0));
-                    quantities.add((String) tbl_detail.getValueAt(i, 2));
+            if (legal) {
+                // Reload Menu
+                db.readMenu(tbl_menu);
+                db.readMenu(tbl_cash);
 
-                }
-
-                db.createCombo(text_menu_name.getText(), text_menu_category.getText(), text_menu_type.getText(),
-                        text_menu_specification.getText(), text_menu_price.getText(), text_menu_discount.getText(),
-                        dishes, quantities);
-            } else {
-                db.createDish(text_menu_name.getText(), text_menu_category.getText(), text_menu_type.getText(),
-                        text_menu_specification.getText(), text_menu_price.getText(), text_menu_discount.getText());
-            }
-
+                // please dont change the order
+                // gui
+                pnl_menu_add_edit_del.setVisible(true);
+                setMenuEditBarVisible(false);
+                setMenuEditableDetail(false);
+                inMenuEdit = false;
+                inMenuAdd = false;
+                clearMenuDetail();
+            }            
         }
-
-        // Reload Menu
-        db.readMenu(tbl_menu);
-        db.readMenu(tbl_cash);
-
-        // please dont change the order
-        // gui
-        pnl_menu_add_edit_del.setVisible(true);
-        setMenuEditBarVisible(false);
-        setMenuEditableDetail(false);
-        inMenuEdit = false;
-        inMenuAdd = false;
+        else {
+            popup_warning_inputlShow();
+        }             
 
     }// GEN-LAST:event_btn_menu_saveMouseClicked
+    
+    
 
     private void btn_menu_createMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menu_createMouseClicked
         // function
@@ -4967,7 +4990,7 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_menu_addMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menu_addMouseClicked
         int rowIdx;
-        if ((rowIdx = tbl_menu.getSelectedRow()) != -1 && ((String) tbl_menu.getValueAt(curEditRow, 3)).equals("Combo")
+        if ((rowIdx = tbl_menu.getSelectedRow()) != -1 && ((String) tbl_menu.getValueAt(rowIdx, 3)).equals("Dish")
                 && text_menu_type.getText().equals("Combo")) {
             // function
 
@@ -5327,17 +5350,31 @@ public class GUI extends javax.swing.JFrame {
         text_cost_search.setOpaque(false);
         text_cost_search.setForeground(new Color(255, 157, 128));
     }// GEN-LAST:event_text_cost_searchFocusLost
-
+    
+    public boolean isCashInputed() {
+        if (((String) tbl_order.getValueAt(0, 0)).isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+    
     private void btn_cash_chargeMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cash_chargeMouseClicked
         // function
         // please dont change the order
-        db.charge(tbl_order, text_menu_notes.getText(), String.valueOf(Long.valueOf(text_total.getText().replace(".", "")) * 1000));
+        
+        if (isCashInputed()) {
+            db.charge(tbl_order, text_menu_notes.getText(), String.valueOf(Long.valueOf(text_total.getText().replace(".", "")) * 1000));
 
         // gui
         clearMenuOrder();
         text_total.setText("0");
         text_money.setText(currencyFormat(String.format("%s", db.getTodayRevenue()/1000)));
         text_orders.setText(String.format("%s", db.getTodayOrders()));
+        }
+        else {
+            popup_warning_inputlShow();
+        }
+        
     }// GEN-LAST:event_btn_cash_chargeMouseClicked
 
     private void btn_cash_cancelMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cash_cancelMouseClicked
