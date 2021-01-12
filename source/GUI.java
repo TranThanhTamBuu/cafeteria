@@ -273,7 +273,6 @@ public class GUI extends javax.swing.JFrame {
         btn_menu_del = new javax.swing.JLabel();
         btn_menu_edit = new javax.swing.JLabel();
         jPanel22 = new javax.swing.JPanel();
-        jPanel23 = new jPanelGradient();
         sp_menu = new javax.swing.JScrollPane();
         tbl_menu = new javax.swing.JTable()
         {
@@ -289,6 +288,7 @@ public class GUI extends javax.swing.JFrame {
                 return c;
             }
         };
+        jPanel52 = new jPanelGradient();
         jPanel24 = new javax.swing.JPanel();
         jPanel25 = new javax.swing.JPanel();
         jPanel26 = new jPanelGradient();
@@ -1304,7 +1304,7 @@ public class GUI extends javax.swing.JFrame {
                         .addGroup(btn_purchaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(btn_purchaseLayout.createSequentialGroup()
                                 .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                                 .addComponent(text_orders, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(btn_purchaseLayout.createSequentialGroup()
                                 .addComponent(jLabel17)
@@ -1707,20 +1707,6 @@ public class GUI extends javax.swing.JFrame {
         jPanel22.setBackground(new java.awt.Color(255, 255, 255));
         jPanel22.setPreferredSize(new java.awt.Dimension(680, 510));
 
-        jPanel23.setBackground(new java.awt.Color(255, 157, 128));
-        jPanel23.setPreferredSize(new java.awt.Dimension(630, 5));
-
-        javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
-        jPanel23.setLayout(jPanel23Layout);
-        jPanel23Layout.setHorizontalGroup(
-            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel23Layout.setVerticalGroup(
-            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 5, Short.MAX_VALUE)
-        );
-
         sp_menu.setBackground(new java.awt.Color(255, 255, 255));
         sp_menu.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         sp_menu.setPreferredSize(new java.awt.Dimension(630, 483));
@@ -1764,16 +1750,10 @@ public class GUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tbl_menu.setPreferredSize(new java.awt.Dimension(630, 575));
         tbl_menu.setRowHeight(25);
         tbl_menu.setSelectionBackground(new java.awt.Color(254, 218, 196));
         tbl_menu.setSelectionForeground(new java.awt.Color(0, 0, 0));
-        tbl_menu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tbl_menu.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_menuMouseClicked(evt);
-            }
-        });
+        tbl_menu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         sp_menu.setViewportView(tbl_menu);
         if (tbl_menu.getColumnModel().getColumnCount() > 0) {
             tbl_menu.getColumnModel().getColumn(0).setPreferredWidth(40);
@@ -1785,6 +1765,20 @@ public class GUI extends javax.swing.JFrame {
             tbl_menu.getColumnModel().getColumn(6).setPreferredWidth(50);
         }
 
+        jPanel52.setBackground(new java.awt.Color(255, 157, 128));
+        jPanel52.setPreferredSize(new java.awt.Dimension(630, 5));
+
+        javax.swing.GroupLayout jPanel52Layout = new javax.swing.GroupLayout(jPanel52);
+        jPanel52.setLayout(jPanel52Layout);
+        jPanel52Layout.setHorizontalGroup(
+            jPanel52Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel52Layout.setVerticalGroup(
+            jPanel52Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
         jPanel22.setLayout(jPanel22Layout);
         jPanel22Layout.setHorizontalGroup(
@@ -1792,17 +1786,16 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel22Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel52, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(sp_menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(25, 25, 25))
         );
         jPanel22Layout.setVerticalGroup(
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel22Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
                 .addComponent(sp_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel52, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -5912,7 +5905,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
-    private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
@@ -5944,6 +5936,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel50;
     private javax.swing.JPanel jPanel51;
+    private javax.swing.JPanel jPanel52;
     private javax.swing.JPanel jPanel58;
     private javax.swing.JPanel jPanel59;
     private javax.swing.JPanel jPanel6;
