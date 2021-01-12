@@ -114,6 +114,8 @@ public class GUI extends javax.swing.JFrame {
         styleTable(tbl_cost, sp_cost);
         styleTable(tbl_financial, sp_financial);
         styleTable(tbl_payment, sp_payment);
+        
+//        btn_payment_del.setVisible(false);
 
         setMenuEditBarVisible(false);
         setMenuEditableDetail(false);
@@ -623,7 +625,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel43Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(132, 132, 132)
+                .addGap(118, 118, 118)
                 .addComponent(btn_payment_del, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -1303,7 +1305,7 @@ public class GUI extends javax.swing.JFrame {
                         .addGroup(btn_purchaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(btn_purchaseLayout.createSequentialGroup()
                                 .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                                 .addComponent(text_orders, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(btn_purchaseLayout.createSequentialGroup()
                                 .addComponent(jLabel17)
@@ -3431,7 +3433,7 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(jPanel38, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(pnl_cost_edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel36Layout = new javax.swing.GroupLayout(jPanel36);
@@ -4289,6 +4291,13 @@ public class GUI extends javax.swing.JFrame {
 
     private void tgl_menu_typeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tgl_menu_typeMouseClicked
         clicked_tgl_menu_type = true;
+        if (tgl_menu_type.getText().equals("Combo")){
+            text_menu_price.setEditable(false);
+        }
+        else {
+            clearTable(tbl_detail);
+            text_menu_price.setEditable(true);
+        }
     }//GEN-LAST:event_tgl_menu_typeMouseClicked
 
     private void tgl_menu_typeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tgl_menu_typeMouseEntered
@@ -4988,6 +4997,7 @@ public class GUI extends javax.swing.JFrame {
     private void btn_menu_createMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menu_createMouseClicked
         // function
         inMenuAdd = true;
+        
         clearMenuDetail();
 
         // gui
@@ -5020,37 +5030,42 @@ public class GUI extends javax.swing.JFrame {
                 return;
             }
 
-            for (i = 0; i < tbl_detail.getRowCount(); i++) {
-                if (((String) tbl_detail.getValueAt(i, 0)).equals((String) tbl_menu.getValueAt(rowIdx, 0))) {
-                    tbl_detail.setValueAt(String.valueOf(Integer.parseInt((String) tbl_detail.getValueAt(i, 2)) + 1), i,
-                            2);
-                    isAdded = true;
-                    break;
-                }
-            }
-
-            if (!isAdded) {
+            try {
                 for (i = 0; i < tbl_detail.getRowCount(); i++) {
-                    if (((String) tbl_detail.getValueAt(i, 0)).equals("")) {
+                    if (((String) tbl_detail.getValueAt(i, 0)).equals((String) tbl_menu.getValueAt(rowIdx, 0))) {
+                        tbl_detail.setValueAt(String.valueOf(Integer.parseInt((String) tbl_detail.getValueAt(i, 2)) + Integer.parseInt(text_menu_quantity.getText())), i,
+                                2);
+                        isAdded = true;
                         break;
                     }
                 }
 
-                if (i < tbl_detail.getRowCount()) {
+                if (!isAdded) {
+                    for (i = 0; i < tbl_detail.getRowCount(); i++) {
+                        if (((String) tbl_detail.getValueAt(i, 0)).equals("")) {
+                            break;
+                        }
+                    }
 
-                    tbl_detail.setValueAt((String) tbl_menu.getValueAt(rowIdx, 0), i, 0);
-                    tbl_detail.setValueAt((String) tbl_menu.getValueAt(rowIdx, 1), i, 1);
-                    tbl_detail.setValueAt(text_menu_quantity.getText(), i, 2);
-                } else {
-                    DefaultTableModel tbl_detail_model = (DefaultTableModel) tbl_detail.getModel();
+                    if (i < tbl_detail.getRowCount()) {
 
-                    tbl_detail_model.addRow(new Object[] { (String) tbl_menu.getValueAt(rowIdx, 0),
-                            (String) tbl_menu.getValueAt(rowIdx, 1), text_menu_quantity.getText() });
+                        tbl_detail.setValueAt((String) tbl_menu.getValueAt(rowIdx, 0), i, 0);
+                        tbl_detail.setValueAt((String) tbl_menu.getValueAt(rowIdx, 1), i, 1);
+                        tbl_detail.setValueAt(text_menu_quantity.getText(), i, 2);
+                    } else {
+                        DefaultTableModel tbl_detail_model = (DefaultTableModel) tbl_detail.getModel();
+
+                        tbl_detail_model.addRow(new Object[]{(String) tbl_menu.getValueAt(rowIdx, 0),
+                            (String) tbl_menu.getValueAt(rowIdx, 1), text_menu_quantity.getText()});
+                    }
                 }
+            } catch (Exception e) {
+                popup_warning_inputlShow();
             }
 
             // gui
             text_menu_quantity.setText("1");
+            updateComboPrice();
         }
 
     }// GEN-LAST:event_btn_menu_addMouseClicked
@@ -5078,43 +5093,47 @@ public class GUI extends javax.swing.JFrame {
             int i;
             boolean isAdded = false;
 
-            for (i = 0; i < tbl_order.getRowCount(); i++) {
-                if (((String) tbl_order.getValueAt(i, 0)).equals((String) tbl_cash.getValueAt(rowIdx, 1))) {
-                    tbl_order.setValueAt(String.valueOf(Integer.parseInt((String) tbl_order.getValueAt(i, 1)) + 1), i,
-                            1);
-                    tbl_order.setValueAt(String.valueOf((int) (Integer.parseInt((String) tbl_cash.getValueAt(rowIdx, 5))
-                            * Integer.parseInt((String) tbl_order.getValueAt(i, 1))
-                            * (1 - Float.parseFloat((String) tbl_cash.getValueAt(i, 6))))), i, 2);
-
-                    isAdded = true;
-                    break;
-                }
-            }
-
-            if (!isAdded) {
+            try {
                 for (i = 0; i < tbl_order.getRowCount(); i++) {
-                    if (((String) tbl_order.getValueAt(i, 0)).equals("")) {
+                    if (((String) tbl_order.getValueAt(i, 0)).equals((String) tbl_cash.getValueAt(rowIdx, 1))) {
+                        tbl_order.setValueAt(String.valueOf(Integer.parseInt((String) tbl_order.getValueAt(i, 1)) + Integer.parseInt(text_cash_quantity.getText())), i,
+                                1);
+                        tbl_order.setValueAt(String.valueOf((int) (Integer.parseInt((String) tbl_cash.getValueAt(rowIdx, 5))
+                                * Integer.parseInt((String) tbl_order.getValueAt(i, 1))
+                                * (1 - Float.parseFloat((String) tbl_cash.getValueAt(i, 6))))), i, 2);
+
+                        isAdded = true;
                         break;
                     }
                 }
 
-                if (i < tbl_order.getRowCount()) {
+                if (!isAdded) {
+                    for (i = 0; i < tbl_order.getRowCount(); i++) {
+                        if (((String) tbl_order.getValueAt(i, 0)).equals("")) {
+                            break;
+                        }
+                    }
 
-                    tbl_order.setValueAt((String) tbl_cash.getValueAt(rowIdx, 1), i, 0);
-                    tbl_order.setValueAt(text_cash_quantity.getText(), i, 1);
-                    tbl_order.setValueAt(String.valueOf((int) (Integer.parseInt((String) tbl_cash.getValueAt(rowIdx, 5))
-                            * Integer.parseInt(text_cash_quantity.getText())
-                            * (1 - Float.parseFloat((String) tbl_cash.getValueAt(i, 6))))), i, 2);
+                    if (i < tbl_order.getRowCount()) {
 
-                } else {
-                    DefaultTableModel tbl_order_model = (DefaultTableModel) tbl_order.getModel();
+                        tbl_order.setValueAt((String) tbl_cash.getValueAt(rowIdx, 1), i, 0);
+                        tbl_order.setValueAt(text_cash_quantity.getText(), i, 1);
+                        tbl_order.setValueAt(String.valueOf((int) (Integer.parseInt((String) tbl_cash.getValueAt(rowIdx, 5))
+                                * Integer.parseInt(text_cash_quantity.getText())
+                                * (1 - Float.parseFloat((String) tbl_cash.getValueAt(i, 6))))), i, 2);
 
-                    tbl_order_model.addRow(
-                            new Object[] { (String) tbl_cash.getValueAt(rowIdx, 1), text_cash_quantity.getText(),
+                    } else {
+                        DefaultTableModel tbl_order_model = (DefaultTableModel) tbl_order.getModel();
+
+                        tbl_order_model.addRow(
+                                new Object[]{(String) tbl_cash.getValueAt(rowIdx, 1), text_cash_quantity.getText(),
                                     String.valueOf(Integer.parseInt((String) tbl_cash.getValueAt(rowIdx, 5))
                                             * Integer.parseInt(text_cash_quantity.getText())
-                                            * Float.parseFloat((String) tbl_cash.getValueAt(i, 6))) });
+                                            * Float.parseFloat((String) tbl_cash.getValueAt(i, 6)))});
+                    }
                 }
+            } catch (Exception e) {
+                popup_warning_inputlShow();
             }
             // gui
             text_cash_quantity.setText("1");
@@ -5707,6 +5726,28 @@ public class GUI extends javax.swing.JFrame {
         }
 
         text_total.setText(currencyFormat(String.valueOf(sum/1000)));
+    }
+    
+    void updateComboPrice() {
+        int sum = 0;
+        for (int i = 0; i < tbl_detail.getRowCount(); i++) {
+            if (!((String) tbl_detail.getValueAt(i, 0)).isEmpty()) {
+                int foundIdx = -1;
+                for (int j =0; j < tbl_menu.getRowCount(); j++) {
+                    if (((String)tbl_menu.getValueAt(j, 0)).equals((String)tbl_detail.getValueAt(i, 0))) {
+                        foundIdx = j;
+                        break;
+                    }
+                }
+                
+                if (foundIdx != -1) {
+                    sum += Integer.parseInt((String) tbl_detail.getValueAt(i, 2))*Integer.parseInt((String) tbl_menu.getValueAt(foundIdx, 5));
+                }
+            }
+        }
+
+//        sum = sum - Math.round(sum*Float.parseFloat(text_menu_discount.getText()));
+        text_menu_price.setText(String.valueOf(sum));        
     }
 
     void recreateFinancialTable(JTable tbl, boolean isIncome, boolean isGoods) {
