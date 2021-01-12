@@ -83,6 +83,7 @@ public class GUI extends javax.swing.JFrame {
 
     boolean cost_edit = false;
     boolean clicked_tgl_cost_type = false;
+    boolean clicked_tgl_menu_type = false;
     int rowPayment = -1;
     String monthFilter = "";
     String yearFilter = "";
@@ -304,7 +305,6 @@ public class GUI extends javax.swing.JFrame {
         jLabel28 = new javax.swing.JLabel();
         text_menu_name = new javax.swing.JTextField();
         text_menu_category = new javax.swing.JTextField();
-        text_menu_type = new javax.swing.JTextField();
         text_menu_specification = new javax.swing.JTextField();
         text_menu_price = new javax.swing.JTextField();
         text_menu_discount = new javax.swing.JTextField();
@@ -325,6 +325,7 @@ public class GUI extends javax.swing.JFrame {
                 return c;
             }
         };
+        tgl_menu_type = new javax.swing.JLabel();
         pnl_menu_function = new javax.swing.JPanel();
         btn_menu_cancel = new javax.swing.JLabel();
         btn_menu_return = new javax.swing.JLabel();
@@ -1304,7 +1305,7 @@ public class GUI extends javax.swing.JFrame {
                         .addGroup(btn_purchaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(btn_purchaseLayout.createSequentialGroup()
                                 .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                                 .addComponent(text_orders, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(btn_purchaseLayout.createSequentialGroup()
                                 .addComponent(jLabel17)
@@ -1910,15 +1911,15 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel23.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(255, 157, 128));
-        jLabel23.setText("Name");
+        jLabel23.setText("Type");
 
         jLabel24.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(255, 157, 128));
-        jLabel24.setText("Category");
+        jLabel24.setText("Name");
 
         jLabel26.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(255, 157, 128));
-        jLabel26.setText("Type");
+        jLabel26.setText("Category");
 
         jLabel27.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel27.setForeground(new java.awt.Color(255, 157, 128));
@@ -1955,21 +1956,6 @@ public class GUI extends javax.swing.JFrame {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 text_menu_categoryFocusLost(evt);
-            }
-        });
-
-        text_menu_type.setBackground(new java.awt.Color(255, 248, 243));
-        text_menu_type.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        text_menu_type.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 157, 128)));
-        text_menu_type.setOpaque(false);
-        text_menu_type.setPreferredSize(new java.awt.Dimension(1, 25));
-        text_menu_type.setSelectionColor(new java.awt.Color(254, 218, 196));
-        text_menu_type.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                text_menu_typeFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                text_menu_typeFocusLost(evt);
             }
         });
 
@@ -2052,6 +2038,24 @@ public class GUI extends javax.swing.JFrame {
             tbl_detail.getColumnModel().getColumn(1).setPreferredWidth(230);
         }
 
+        tgl_menu_type.setBackground(new java.awt.Color(255, 157, 128));
+        tgl_menu_type.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        tgl_menu_type.setForeground(new java.awt.Color(255, 157, 128));
+        tgl_menu_type.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tgl_menu_type.setText("Dish");
+        tgl_menu_type.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 157, 128), 1, true));
+        tgl_menu_type.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tgl_menu_typeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tgl_menu_typeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                tgl_menu_typeMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel30Layout = new javax.swing.GroupLayout(jPanel30);
         jPanel30.setLayout(jPanel30Layout);
         jPanel30Layout.setHorizontalGroup(
@@ -2059,44 +2063,48 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanel30Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel30Layout.createSequentialGroup()
-                        .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel27)
-                            .addComponent(jLabel26)
-                            .addComponent(jLabel24)
-                            .addComponent(jLabel23)
-                            .addComponent(jLabel28)
-                            .addComponent(jLabel31))
-                        .addGap(8, 8, 8)
-                        .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(text_menu_discount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(text_menu_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(text_menu_category, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(text_menu_type, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(text_menu_specification, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(text_menu_price, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel30Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel29))
-                    .addComponent(sp_detail, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(sp_detail, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel30Layout.createSequentialGroup()
+                        .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel27)
+                            .addComponent(jLabel24)
+                            .addComponent(jLabel28)
+                            .addComponent(jLabel31)
+                            .addComponent(jLabel26)
+                            .addComponent(jLabel23))
+                        .addGap(8, 8, 8)
+                        .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tgl_menu_type, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(text_menu_discount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(text_menu_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(text_menu_category, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(text_menu_specification, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(text_menu_price, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel30Layout.setVerticalGroup(
             jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel30Layout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(text_menu_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
+                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel30Layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel30Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(tgl_menu_type, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(text_menu_category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(text_menu_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(text_menu_type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
+                    .addComponent(text_menu_category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
                 .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(text_menu_specification, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -2108,7 +2116,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(text_menu_discount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(sp_detail, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3425,7 +3433,7 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(jPanel38, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(pnl_cost_edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel36Layout = new javax.swing.GroupLayout(jPanel36);
@@ -4289,6 +4297,39 @@ public class GUI extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_tbl_menuMouseClicked
+
+    private void tgl_menu_typeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tgl_menu_typeMouseClicked
+        clicked_tgl_menu_type = true;
+    }//GEN-LAST:event_tgl_menu_typeMouseClicked
+
+    private void tgl_menu_typeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tgl_menu_typeMouseEntered
+        if (inMenuEdit || inMenuAdd) {
+            tgl_menu_type.setOpaque(true);
+            tgl_menu_type.setForeground(Color.white);
+            if (tgl_cost_type.getText().equals("Dish")) {
+                tgl_cost_type.setText("Combo");
+            } else {
+                tgl_cost_type.setText("Dish");
+            }
+        }
+    }//GEN-LAST:event_tgl_menu_typeMouseEntered
+
+    private void tgl_menu_typeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tgl_menu_typeMouseExited
+        if (inMenuEdit || inMenuAdd) {
+            tgl_menu_type.setOpaque(false);
+            tgl_menu_type.setForeground(new Color(255, 157, 128));
+            if (!clicked_tgl_cost_type) {
+                if (tgl_menu_type.getText().equals("Dish")) {
+                    tgl_menu_type.setText("Combo");
+                } else {
+                    tgl_menu_type.setText("Dish");
+                }
+            } else {
+                clicked_tgl_menu_type = false;
+            }
+        }
+    }//GEN-LAST:event_tgl_menu_typeMouseExited
+    
     
     private void text_menu_searchKeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_text_menu_searchKeyTyped
         // TODO add your handling code here:
@@ -6012,7 +6053,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextField text_menu_quantity;
     private javax.swing.JTextField text_menu_search;
     private javax.swing.JTextField text_menu_specification;
-    private javax.swing.JTextField text_menu_type;
     private javax.swing.JLabel text_money;
     private javax.swing.JLabel text_orders;
     private javax.swing.JLabel text_payment_id;
@@ -6023,5 +6063,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel text_time;
     private javax.swing.JLabel text_total;
     private javax.swing.JLabel tgl_cost_type;
+    private javax.swing.JLabel tgl_menu_type;
     // End of variables declaration//GEN-END:variables
 }
