@@ -93,9 +93,7 @@ public class GUI extends javax.swing.JFrame {
     boolean inMenuAdd = false;
     boolean menuAcceptCancel = false;
     boolean menuAcceptDelete = false;
-    boolean cashAcceptCancel = false;
-    boolean inMenu = false;
-    boolean inCash = false;
+    boolean cashAcceptCancel = false;   
     boolean inMenuDelete = false;
     boolean inCost = false;    
     boolean inPayment = false;
@@ -4158,15 +4156,8 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_warning_continueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_warning_continueMouseClicked
         // function
-        if (inMenu) {            
-            menuAcceptCancel = true;
-            clearOnCancel();
-        }
-        else if (inCash) {
-            cashAcceptCancel = true;
-            clearOnCancel();
-        }     
-        else if (inMenuDelete) {
+        
+        if (inMenuDelete) {
             menuAcceptDelete = true;
             onMenuDelete();
         }
@@ -4237,9 +4228,7 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_warning_continueMouseClicked
 
     private void btn_warning_cancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_warning_cancelMouseClicked
-        // GUI
-        inMenu = false;
-        inCash = false;
+        // GUI                
         inMenuDelete = false;
                
         popup_warninglHide();
@@ -4869,54 +4858,38 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_menu_cancelMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menu_cancelMouseClicked
         // function
-        // please dont change the order
-        inMenu = true;
-        
+        // please dont change the order        
+        setMenuEditableDetail(false);
+        pnl_menu_add_edit_del.setVisible(true);
+        setMenuEditBarVisible(false);
+        inMenuEdit = false;
+        inMenuAdd = false;
+
+        // Reload
+        DefaultTableModel tbl_detail_model = (DefaultTableModel) tbl_detail.getModel();
+        tbl_detail_model.setRowCount(0);
+        int rowIdx = curEditRow;
+        tbl_menu.setRowSelectionInterval(rowIdx, rowIdx);
+        text_menu_name.setText((String) tbl_menu.getValueAt(rowIdx, 1));
+        text_menu_category.setText((String) tbl_menu.getValueAt(rowIdx, 2));
+        tgl_menu_type.setText((String) tbl_menu.getValueAt(rowIdx, 3));
+
+        text_menu_specification.setText((String) tbl_menu.getValueAt(rowIdx, 4));
+        text_menu_price.setText((String) tbl_menu.getValueAt(rowIdx, 5));
+        text_menu_discount.setText((String) tbl_menu.getValueAt(rowIdx, 6));
+
+        if (((String) tbl_menu.getValueAt(rowIdx, 3)).equals("Combo")) {
+            db.readComboDetail(Integer.parseInt((String) tbl_menu.getValueAt(rowIdx, 0)), tbl_detail);
+        } else {
+            for (int i = 0; i < 6; i++) {
+                tbl_detail_model.addRow(new Object[]{"", "", ""});
+            }
+        }                          
         // gui
-        popup_warninglShow();       
+//        popup_warninglShow();       
         
     }// GEN-LAST:event_btn_menu_cancelMouseClicked
-    
-    public void clearOnCancel () {
-        if (menuAcceptCancel) {
-            setMenuEditableDetail(false);
-            pnl_menu_add_edit_del.setVisible(true);
-            setMenuEditBarVisible(false);
-            inMenuEdit = false;
-            inMenuAdd = false;
-
-            // Reload
-            DefaultTableModel tbl_detail_model = (DefaultTableModel) tbl_detail.getModel();
-            tbl_detail_model.setRowCount(0);
-            int rowIdx = curEditRow;
-            tbl_menu.setRowSelectionInterval(rowIdx, rowIdx);
-            text_menu_name.setText((String) tbl_menu.getValueAt(rowIdx, 1));
-            text_menu_category.setText((String) tbl_menu.getValueAt(rowIdx, 2));
-            tgl_menu_type.setText((String) tbl_menu.getValueAt(rowIdx, 3));
-            
-            text_menu_specification.setText((String) tbl_menu.getValueAt(rowIdx, 4));
-            text_menu_price.setText((String) tbl_menu.getValueAt(rowIdx, 5));
-            text_menu_discount.setText((String) tbl_menu.getValueAt(rowIdx, 6));
-
-            if (((String) tbl_menu.getValueAt(rowIdx, 3)).equals("Combo")) {
-                db.readComboDetail(Integer.parseInt((String) tbl_menu.getValueAt(rowIdx, 0)), tbl_detail);
-            } else {
-                for (int i = 0; i < 6; i++) {
-                    tbl_detail_model.addRow(new Object[]{"", "", ""});
-                }
-            }
-            
-            menuAcceptCancel = false;
-            inMenu = false;            
-        }
-        else if (cashAcceptCancel) {
-            clearMenuOrder();
-            text_total.setText("0");
-
-            inCash = false;
-            cashAcceptCancel = false;           
-        }
-    }
+       
 
     public boolean isMenuInputed() {
         return !text_menu_name.getText().isEmpty() && !text_menu_category.getText().isEmpty()
@@ -5425,8 +5398,8 @@ public class GUI extends javax.swing.JFrame {
     private void btn_cash_cancelMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_cash_cancelMouseClicked
         // function
         // please dont change the order
-        inCash = true;
-        popup_warninglShow();
+        clearMenuOrder();
+        text_total.setText("0");       
                 
         // gui
         
