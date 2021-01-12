@@ -217,7 +217,17 @@ public class Database {
 
             if (tbl_menu.getRowCount() > 0 && !((String) tbl_menu.getValueAt(0, 0)).isEmpty()) {
                 removeDuplicates(tbl_menu);
+            } else {
+                for (int k = 0; k < 18; k++) {
+                    ((DefaultTableModel) tbl_menu.getModel()).addRow(new Object[]{"", "", "", "", "", "", ""});
+                    System.out.println("After add white row");
+                    for (int m = 0; m < tbl_menu.getRowCount(); m++) {
+                        System.out.println(tbl_menu.getValueAt(m, 0));
+                    }
+                }
             }
+            
+            
 
 //            tbl_menu.setModel(tbl_menu_model);
             stmt.close();
