@@ -4306,10 +4306,10 @@ public class GUI extends javax.swing.JFrame {
         if (inMenuEdit || inMenuAdd) {
             tgl_menu_type.setOpaque(true);
             tgl_menu_type.setForeground(Color.white);
-            if (tgl_cost_type.getText().equals("Dish")) {
-                tgl_cost_type.setText("Combo");
+            if (tgl_menu_type.getText().equals("Dish")) {
+                tgl_menu_type.setText("Combo");
             } else {
-                tgl_cost_type.setText("Dish");
+                tgl_menu_type.setText("Dish");
             }
         }
     }//GEN-LAST:event_tgl_menu_typeMouseEntered
@@ -4318,7 +4318,7 @@ public class GUI extends javax.swing.JFrame {
         if (inMenuEdit || inMenuAdd) {
             tgl_menu_type.setOpaque(false);
             tgl_menu_type.setForeground(new Color(255, 157, 128));
-            if (!clicked_tgl_cost_type) {
+            if (!clicked_tgl_menu_type) {
                 if (tgl_menu_type.getText().equals("Dish")) {
                     tgl_menu_type.setText("Combo");
                 } else {
@@ -5675,7 +5675,7 @@ public class GUI extends javax.swing.JFrame {
         text_menu_price.setText("");
         text_menu_quantity.setText("1");
         text_menu_specification.setText("");
-        tgl_menu_type.setText("");
+        tgl_menu_type.setText("Dish");
         clearTable(tbl_detail);
     }
 
