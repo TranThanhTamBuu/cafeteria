@@ -4282,7 +4282,7 @@ public class GUI extends javax.swing.JFrame {
 
                 text_menu_name.setText((String) tbl_menu.getValueAt(rowIdx, 1));
                 text_menu_category.setText((String) tbl_menu.getValueAt(rowIdx, 2));
-                text_menu_type.setText((String) tbl_menu.getValueAt(rowIdx, 3));
+                tgl_menu_type.setText((String) tbl_menu.getValueAt(rowIdx, 3));
                 text_menu_specification.setText((String) tbl_menu.getValueAt(rowIdx, 4));
                 text_menu_price.setText((String) tbl_menu.getValueAt(rowIdx, 5));
                 text_menu_discount.setText((String) tbl_menu.getValueAt(rowIdx, 6));
@@ -4738,17 +4738,17 @@ public class GUI extends javax.swing.JFrame {
         text_menu_category.repaint();
     }// GEN-LAST:event_text_menu_categoryFocusLost
 
-    private void text_menu_typeFocusGained(java.awt.event.FocusEvent evt) {// GEN-FIRST:event_text_menu_typeFocusGained
-        text_menu_type.setOpaque(true);
-        text_menu_type.validate();
-        text_menu_type.repaint();
-    }// GEN-LAST:event_text_menu_typeFocusGained
-
-    private void text_menu_typeFocusLost(java.awt.event.FocusEvent evt) {// GEN-FIRST:event_text_menu_typeFocusLost
-        text_menu_type.setOpaque(false);
-        text_menu_type.validate();
-        text_menu_type.repaint();
-    }// GEN-LAST:event_text_menu_typeFocusLost
+//    private void text_menu_typeFocusGained(java.awt.event.FocusEvent evt) {// GEN-FIRST:event_text_menu_typeFocusGained
+//        text_menu_type.setOpaque(true);
+//        text_menu_type.validate();
+//        text_menu_type.repaint();
+//    }// GEN-LAST:event_text_menu_typeFocusGained
+//
+//    private void text_menu_typeFocusLost(java.awt.event.FocusEvent evt) {// GEN-FIRST:event_text_menu_typeFocusLost
+//        text_menu_type.setOpaque(false);
+//        text_menu_type.validate();
+//        text_menu_type.repaint();
+//    }// GEN-LAST:event_text_menu_typeFocusLost
 
     private void text_menu_specificationFocusGained(java.awt.event.FocusEvent evt) {// GEN-FIRST:event_text_menu_specificationFocusGained
         text_menu_specification.setOpaque(true);
@@ -4892,7 +4892,8 @@ public class GUI extends javax.swing.JFrame {
             tbl_menu.setRowSelectionInterval(rowIdx, rowIdx);
             text_menu_name.setText((String) tbl_menu.getValueAt(rowIdx, 1));
             text_menu_category.setText((String) tbl_menu.getValueAt(rowIdx, 2));
-            text_menu_type.setText((String) tbl_menu.getValueAt(rowIdx, 3));
+            tgl_menu_type.setText((String) tbl_menu.getValueAt(rowIdx, 3));
+            
             text_menu_specification.setText((String) tbl_menu.getValueAt(rowIdx, 4));
             text_menu_price.setText((String) tbl_menu.getValueAt(rowIdx, 5));
             text_menu_discount.setText((String) tbl_menu.getValueAt(rowIdx, 6));
@@ -4919,7 +4920,7 @@ public class GUI extends javax.swing.JFrame {
 
     public boolean isMenuInputed() {
         return !text_menu_name.getText().isEmpty() && !text_menu_category.getText().isEmpty()
-                && !text_menu_type.getText().isEmpty() && !text_menu_specification.getText().isEmpty()
+                && !tgl_menu_type.getText().isEmpty() && !text_menu_specification.getText().isEmpty()
                 && !text_menu_price.getText().isEmpty() && !text_menu_discount.getText().isEmpty();
     }
     
@@ -4933,7 +4934,7 @@ public class GUI extends javax.swing.JFrame {
 
                     // Update info
                     db.updateFood((String) tbl_menu.getValueAt(curEditRow, 0), text_menu_name.getText(),
-                            text_menu_category.getText(), text_menu_type.getText(), text_menu_specification.getText(),
+                            text_menu_category.getText(), tgl_menu_type.getText(), text_menu_specification.getText(),
                             text_menu_price.getText(), text_menu_discount.getText());
 
                     if (((String) tbl_menu.getValueAt(curEditRow, 3)).equals("Combo")) {
@@ -4955,7 +4956,7 @@ public class GUI extends javax.swing.JFrame {
                     }
                     legal = true;
                 } else if (inMenuAdd) {
-                    if (text_menu_type.getText().equals("Combo")) {
+                    if (tgl_menu_type.getText().equals("Combo")) {
                         // Get dishes
                         ArrayList<String> dishes = new ArrayList<>();
                         // Get quantities
@@ -4971,14 +4972,14 @@ public class GUI extends javax.swing.JFrame {
                         }
 
                         if (dishes.size() > 0) {
-                            db.createCombo(text_menu_name.getText(), text_menu_category.getText(), text_menu_type.getText(),
+                            db.createCombo(text_menu_name.getText(), text_menu_category.getText(), tgl_menu_type.getText(),
                                     text_menu_specification.getText(), text_menu_price.getText(), text_menu_discount.getText(),
                                     dishes, quantities);
                             legal = true;
                         }
 
-                    } else if (text_menu_type.getText().equals("Dish")) {
-                        db.createDish(text_menu_name.getText(), text_menu_category.getText(), text_menu_type.getText(),
+                    } else if (tgl_menu_type.getText().equals("Dish")) {
+                        db.createDish(text_menu_name.getText(), text_menu_category.getText(), tgl_menu_type.getText(),
                                 text_menu_specification.getText(), text_menu_price.getText(), text_menu_discount.getText());
                         legal = true;
                     }
@@ -5035,7 +5036,7 @@ public class GUI extends javax.swing.JFrame {
     private void btn_menu_addMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_menu_addMouseClicked
         int rowIdx;
         if ((rowIdx = tbl_menu.getSelectedRow()) != -1 && ((String) tbl_menu.getValueAt(rowIdx, 3)).equals("Dish")
-                && text_menu_type.getText().equals("Combo")) {
+                && tgl_menu_type.getText().equals("Combo")) {
             // function
 
             // Check if already added
@@ -5659,7 +5660,7 @@ public class GUI extends javax.swing.JFrame {
         text_menu_price.setEditable(is_menu_edit);
         text_menu_quantity.setEditable(is_menu_edit);
         text_menu_specification.setEditable(is_menu_edit);
-        text_menu_type.setEditable(is_menu_edit);
+//        text_menu_type.setEditable(is_menu_edit);
         tbl_detail.setEnabled(is_menu_edit);
 
         // if (!is_menu_edit) {
@@ -5674,7 +5675,7 @@ public class GUI extends javax.swing.JFrame {
         text_menu_price.setText("");
         text_menu_quantity.setText("1");
         text_menu_specification.setText("");
-        text_menu_type.setText("");
+        tgl_menu_type.setText("");
         clearTable(tbl_detail);
     }
 
